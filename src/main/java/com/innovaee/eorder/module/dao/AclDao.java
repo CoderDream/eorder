@@ -18,4 +18,9 @@ public class AclDao extends BaseDao {
 		acl.setRoleName(rolename);
 		return (List<Acl>) super.getHibernateTemplate().findByExample(acl);
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Acl> findAllAcls() {
+		return (List<Acl>) super.getHibernateTemplate().find("FROM Acl");
+	}
 }

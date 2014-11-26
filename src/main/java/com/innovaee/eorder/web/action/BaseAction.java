@@ -5,7 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class BaseAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Action Result Value
 	 */
@@ -18,5 +18,5 @@ public class BaseAction extends ActionSupport {
 	public void setResultValue(String resultValue) {
 		this.resultValue = resultValue;
 	}
-	
+
 }

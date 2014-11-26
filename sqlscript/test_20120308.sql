@@ -39,6 +39,12 @@ INSERT INTO `acl` VALUES ('ROLE_normaldoFileUpload', 'ROLE_normal', 'doFileUploa
 INSERT INTO `acl` VALUES ('ROLE_normaldoFileUploadTransaction', 'ROLE_normal', 'doReportFileUploadTransaction');
 INSERT INTO `acl` VALUES ('ROLE_normaldoReportEntity', 'ROLE_normal', 'doReportEntity');
 
+INSERT INTO `acl` VALUES ('ROLE_admindoFunction', 'ROLE_admin', 'doFunction');
+INSERT INTO `acl` VALUES ('ROLE_admindoUser', 'ROLE_admin', 'doUser');
+INSERT INTO `acl` VALUES ('ROLE_admindoRole', 'ROLE_admin', 'doRole');
+INSERT INTO `acl` VALUES ('ROLE_admindoUserRole', 'ROLE_admin', 'doUserRole');
+INSERT INTO `acl` VALUES ('ROLE_admindoFunctionRole', 'ROLE_admin', 'doFunctionRole');
+
 -- ----------------------------
 -- Table structure for `function`
 -- ----------------------------
@@ -66,6 +72,13 @@ INSERT INTO `function` VALUES ('doReportEntity', 'doReportEntity', 'Report Entit
 INSERT INTO `function` VALUES ('doFileUpload', 'doFileUpload', 'File Upload', '/reportentity/doFileUpload.action', 'doReportEntity', '010100', '1');
 INSERT INTO `function` VALUES ('doReportFileUploadTransaction', 'doFileUploadTransaction', 'File Upload Transaction', '/reportentity/doFileUploadTransaction.action', 'doReportEntity', '010200', '1');
 INSERT INTO `function` VALUES ('doSystemSettings', 'doSystemSettings', 'System Settings', '/admin/doSystemSettings.action', 'doAdministration', '020500', '1');
+
+INSERT INTO `function` VALUES ('doFunction', 'doFunction', 'Function Management', '/function/doFunction.action', 'doAdministration', '020600', '1');
+INSERT INTO `function` VALUES ('doRole', 'doRole', 'Role Management', '/role/doRole.action', 'doAdministration', '020700', '1');
+INSERT INTO `function` VALUES ('doUser', 'doUser', 'User Management', '/user/doUser.action', 'doAdministration', '020800', '1');
+INSERT INTO `function` VALUES ('doFunctionRole', 'doFunctionRole', 'Function Role Management', '/functionrole/doFunctionRole.action', 'doAdministration', '020900', '1');
+INSERT INTO `function` VALUES ('doUserRole', 'doUserRole', 'User Role ', '/userrole/doUserRole.action', 'doAdministration', '021000', '1');
+
 
 -- ----------------------------
 -- Table structure for `role`

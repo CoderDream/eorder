@@ -49,6 +49,13 @@ public class User extends BaseEntity {
 	@Column(name = "USER_ANSWER3")
 	private String userAnswer3;
 
+	public User() {
+	}
+
+	public User(String userName) {
+		this.userName = userName;
+	}
+
 	public String getUserName() {
 		return userName;
 	}

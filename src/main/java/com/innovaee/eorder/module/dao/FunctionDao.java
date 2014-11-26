@@ -17,8 +17,24 @@ public class FunctionDao extends BaseDao {
 		return (List<Function>) super.getHibernateTemplate().find("FROM Function");
 	}
 
+	public void saveFunction(Function function) {
+		save(function);
+	}
+
+	public void updateFunction(Function function) {
+		update(function);
+	}
+
+	public void removeFunction(Function function) {
+		super.getHibernateTemplate().delete(function);
+	}
+
 	@SuppressWarnings("unchecked")
-	public List<Function> findFunctionsByFunctionName(String functionName) {
-		return (List<Function>) super.getHibernateTemplate().find("FROM Function f WHERE f.functionName=?", functionName);
+	public Function findFunctionsByFunctionName(String functionName) {
+		List<Function> list = (List<Function>) super.getHibernateTemplate().find("FROM Function f WHERE f.functionName=?", functionName);
+		if (null != list && 0 < list.size()) {
+			return list.get(0);
+		}
+		return null;
 	}
 }

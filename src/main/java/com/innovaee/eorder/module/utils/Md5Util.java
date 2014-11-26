@@ -41,8 +41,8 @@ public class Md5Util {
 
 	public static void main(String[] args) {
 		// Md5Util util = new Md5Util();
-		// String src = "admin{admin}";
-		String src = "12345{admin}";
+		String src = "admin{admin}";
+		// String src = "12345{admin}";
 		// ceb4f32325eda6142bd65215f4c0f371
 		// ceb4f32325eda6142bd65215f4c0f371
 		// ceb4f32325eda6142bd65215f4c0f371

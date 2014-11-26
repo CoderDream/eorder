@@ -19,8 +19,28 @@ public class FunctionService extends BaseService {
 		return (List<Function>) functionDao.findAllFunctions();
 	}
 
-	public List<Function> findFunctionsByFunctionName(String functionName) {
-		return (List<Function>) functionDao.findFunctionsByFunctionName(functionName);
+	public Function findFunctionsByFunctionName(String functionName) {
+		return (Function) functionDao.findFunctionsByFunctionName(functionName);
+	}
+
+	public void saveFunction(Function function) {
+		functionDao.saveFunction(function);
+	}
+
+	public void updateFunction(Function function) {
+		functionDao.updateFunction(function);
+	}
+
+	public void removeFunction(String functionName) {
+		functionDao.removeFunction(new Function(functionName));
+	}
+
+	public void removeFunctions(String[] functionName) {
+		int length = functionName.length;
+		for (int i = 0; i < length; i++) {
+			functionDao.removeFunction(new Function(functionName[i]));
+		}
+
 	}
 
 }

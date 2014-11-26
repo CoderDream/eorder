@@ -34,6 +34,25 @@ public class Function extends BaseEntity {
 	@Column(name = "FUNCTION_ENABLE")
 	private Boolean functionEnable;
 
+	public Function() {
+	}
+
+	public Function(String functionName) {
+		this.functionName = functionName;
+	}
+
+	public Function(String functionName, String functionDesc, String functionDisplay, String functionPath, String functionParent,
+			String functionOrder, Boolean functionEnable) {
+		super();
+		this.functionName = functionName;
+		this.functionDesc = functionDesc;
+		this.functionDisplay = functionDisplay;
+		this.functionPath = functionPath;
+		this.functionParent = functionParent;
+		this.functionOrder = functionOrder;
+		this.functionEnable = functionEnable;
+	}
+
 	public String getFunctionName() {
 		return functionName;
 	}

@@ -26,11 +26,20 @@ public class FunctionServiceTest extends BaseSpringTestCase {
 	@Test
 	public void findFunctionsByFunctionName() {
 		String functionName = "doSystemSettings";
-		List<Function> allFunctions = functionService.findFunctionsByFunctionName(functionName);
-		Assert.assertNotNull(allFunctions);
-		for (Function function : allFunctions) {
-			System.out.println(function);
-		}
+		Function function = functionService.findFunctionsByFunctionName(functionName);
+		Assert.assertNotNull(function);
+	}
+
+	@Test
+	public void saveFunction() {
+		Function function = new Function("abcd", "abcd", "abcd", "abcd", "abcd", "abcd", false);
+		functionService.saveFunction(function);
+	}
+
+	@Test
+	public void updateFunction() {
+		Function function = new Function("abcd", "abcdxxx", "abcd", "abcd", "abcd", "abcd", false);
+		functionService.updateFunction(function);
 	}
 
 }
