@@ -26,6 +26,20 @@ public class UserRole extends BaseEntity {
 	@Column(name = "role_name")
 	private String roleName;
 
+	public UserRole() {
+	}
+
+	public UserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
+	public UserRole(String userRole, String userName, String roleName) {
+		super();
+		this.userRole = userRole;
+		this.userName = userName;
+		this.roleName = roleName;
+	}
+
 	public String getUserRole() {
 		return userRole;
 	}
@@ -49,4 +63,10 @@ public class UserRole extends BaseEntity {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
+
+	@Override
+	public String toString() {
+		return "UserRole [userRole=" + userRole + ", userName=" + userName + ", roleName=" + roleName + "]";
+	}
+
 }

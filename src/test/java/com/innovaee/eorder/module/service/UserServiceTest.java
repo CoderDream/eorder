@@ -33,7 +33,7 @@ public class UserServiceTest extends BaseSpringTestCase {
 		String md5Password = Md5Util.getMD5Str(password + "{" + userName + "}");
 		User user = userService.getUserByPassword(userName, md5Password);
 		Assert.assertNotNull(user);
-		Assert.assertNotNull("aaa@qq.com", user.getUserEmail());
+		Assert.assertEquals("aaa@qq.com", user.getUserEmail());
 	}
 
 }

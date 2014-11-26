@@ -24,12 +24,16 @@ public class UserService extends BaseService {
 		return (User) userDao.findUsersByUserName(userName);
 	}
 
-	public void saveUser(User user) {
-		userDao.saveUser(user);
+	public User saveUser(User user) {
+		return userDao.saveUser(user);
 	}
 
 	public void updateUser(User user) {
 		userDao.updateUser(user);
+	}
+
+	public void removeUser(User user) {
+		userDao.removeUser(user);
 	}
 
 	public void removeUser(String userName) {

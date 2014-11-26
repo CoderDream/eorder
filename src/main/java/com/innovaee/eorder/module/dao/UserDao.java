@@ -41,8 +41,8 @@ public class UserDao extends BaseDao {
 		return (0 == password.compareTo(user.getUserPassword())) ? user : null;
 	}
 
-	public void saveUser(User user) {
-		save(user);
+	public User saveUser(User user) {
+		return (User) save(user);
 	}
 
 	public void updateUser(User user) {

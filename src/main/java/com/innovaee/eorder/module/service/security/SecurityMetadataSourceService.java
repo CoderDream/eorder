@@ -57,11 +57,11 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 	}
 
 	public List<UserRole> getUserRoles(String username) {
-		return userRoleDao.findUserRole(username);
+		return userRoleDao.findUserRolesByUsername(username);
 	}
 
-	public List<Acl> getAcl(String rolename) {
-		return aclDao.findAcl(rolename);
+	public List<Acl> findAclsByRoleName(String rolename) {
+		return aclDao.findAclsByRoleName(rolename);
 	}
 
 	public List<UserFunctionVo> getUserFunctions(String username) {
@@ -77,7 +77,7 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 			// Role
 			Role role = (Role) roleDao.get(userRole.getRoleName());
 
-			Iterator<Acl> itAcl = securityMetadataSourceService.getAcl(userRole.getRoleName()).iterator();
+			Iterator<Acl> itAcl = securityMetadataSourceService.findAclsByRoleName(userRole.getRoleName()).iterator();
 			while (itAcl.hasNext()) {
 				Acl acl = itAcl.next();
 
