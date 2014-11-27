@@ -75,7 +75,7 @@ public class UserRoleServiceTest extends BaseSpringTestCase {
 
 		UserRole userRole = userRoleService.saveUserRole(role, user);
 		Assert.assertNotNull(userRole);
-		Assert.assertEquals(roleName + userName, userRole.getUserRole());
+		Assert.assertEquals(roleName + userName, userRole.getUserRoleName());
 		Assert.assertEquals(userName, userRole.getUserName());
 		Assert.assertEquals(roleName, userRole.getRoleName());
 	}

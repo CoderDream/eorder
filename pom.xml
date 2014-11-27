@@ -49,7 +49,6 @@
 			<scope>compile</scope>
 		</dependency>
 
-
 		<!-- struts -->
 		<dependency>
 			<groupId>org.apache.struts</groupId>
@@ -190,5 +189,15 @@
 	</dependencies>
 	<build>
 		<finalName>eorder</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.4.2</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

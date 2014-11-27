@@ -15,6 +15,6 @@ http://www.springframework.org/schema/aop   http://www.springframework.org/schem
 	<bean id="functionService" class="com.innovaee.eorder.module.service.FunctionService" parent="baseService" />
 	<bean id="userService" class="com.innovaee.eorder.module.service.UserService" parent="baseService" />
 	<bean id="roleService" class="com.innovaee.eorder.module.service.RoleService" parent="baseService" />
-	<bean id="aclService" class="com.innovaee.eorder.module.service.AclService" parent="baseService" />
+	<bean id="roleFunctionService" class="com.innovaee.eorder.module.service.RoleFunctionService" parent="baseService" />
 	<bean id="userRoleService" class="com.innovaee.eorder.module.service.UserRoleService" parent="baseService" />
 </beans>

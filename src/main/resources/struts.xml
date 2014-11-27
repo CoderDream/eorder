@@ -59,7 +59,7 @@
 
 
 	<include file="com/innovaee/eorder/web/action/admin/function/struts.xml" />
-	<include file="com/innovaee/eorder/web/action/admin/functionrole/struts.xml" />
+	<include file="com/innovaee/eorder/web/action/admin/rolefunction/struts.xml" />
 	<include file="com/innovaee/eorder/web/action/admin/user/struts.xml" />
 	<include file="com/innovaee/eorder/web/action/admin/role/struts.xml" />
 	<include file="com/innovaee/eorder/web/action/admin/userrole/struts.xml" />

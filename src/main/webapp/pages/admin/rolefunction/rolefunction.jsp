@@ -33,8 +33,8 @@ table tbody tr td {
 </style>
 </head>
 <script type="text/javascript">
-	function loadRoles() {
-		//alert('call loadRoles');
+	function loadFunctions() {
+		//alert('call loadFunctions');
 		var t = document.getElementById("role");
 		//alert("t: " + t);
 		//alert("t: " + t.options[t.selectedIndex].value);
@@ -64,8 +64,8 @@ table tbody tr td {
 		targetForm.submit();
 	}
 	
-	function updateRoles() {
-		//alert('call loadRoles');
+	function updateFunctions() {
+		//alert('call loadFunctions');
 		//var t = document.getElementById("role");
 		//alert("t: " + t);
 		//alert("t: " + t.options[t.selectedIndex].value);
@@ -88,8 +88,8 @@ table tbody tr td {
 		
 		//alert(pageNow.value);
 		
-		var myRolesOptions = document.getElementById("myRoles").options;
-		var leftRolesOptions = document.getElementById("leftRoles").options;
+		var myFunctionsOptions = document.getElementById("myFunctions").options;
+		var leftFunctionsOptions = document.getElementById("leftFunctions").options;
 		
 		//var cnbook = document.getElementByName("cnbook");
 		//alert("cnbook: " + cnbook);
@@ -97,19 +97,19 @@ table tbody tr td {
 
 		//var cnbookFlag = "";
 		var myList = new Array();
-		for (var i = 0; i < myRolesOptions.length; i++) {
+		for (var i = 0; i < myFunctionsOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
-			//alert(myRolesOptions[i].value);
-			myList.push(myRolesOptions[i].value);
+			//alert(myFunctionsOptions[i].value);
+			myList.push(myFunctionsOptions[i].value);
 		}
 		var leftList = new Array();
-		for (var i = 0; i < leftRolesOptions.length; i++) {
+		for (var i = 0; i < leftFunctionsOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
-			//alert(leftRolesOptions[i].value);
-			leftList.push(leftRolesOptions[i].value);
+			//alert(leftFunctionsOptions[i].value);
+			leftList.push(leftFunctionsOptions[i].value);
 		}
-		document.getElementById("myRolesArray").value = myList;
-		document.getElementById("leftRolesArray").value = leftList;	
+		document.getElementById("myFunctionsArray").value = myList;
+		document.getElementById("leftFunctionsArray").value = leftList;	
 		
 		//获取该页面中的第一个表单元素
 		var targetForm = document.forms[0];
@@ -124,8 +124,8 @@ table tbody tr td {
 	<div width="1020" style="height: 604px; background-color: #FFFFFF">
 		<s:form id="roleForm" action="#" method="post" theme="simple">
 			<s:hidden id="roleName" name="roleName"/>
-			<s:hidden id="myRolesArray" name="myRolesArray"/>
-			<s:hidden id="leftRolesArray" name="leftRolesArray"/>
+			<s:hidden id="myFunctionsArray" name="myFunctionsArray"/>
+			<s:hidden id="leftFunctionsArray" name="leftFunctionsArray"/>
 			<table cellspacing="0">
 				<tr>
 					<td><s:select 
@@ -136,25 +136,25 @@ table tbody tr td {
 							listKey="roleName"
 							listValue="roleDesc" 
 							value="roleName"
-							onchange="javascript:loadRoles();" 
+							onchange="javascript:loadFunctions();" 
 							multiple="ture" 
 							size="10"/>
 					</td>
 					<td><s:optiontransferselect 
 							label="拥有的功能" 
-							name="myRoles" 
-							list="myRoles" 
-							listKey="roleName" 
-							listValue="roleDisplay" 
-							doubleName="leftRoles" 
-							doubleList="leftRoles" 
-							doubleListKey="roleName"  
-							doubleListValue="roleDisplay"
+							name="myFunctions" 
+							list="myFunctions" 
+							listKey="functionName" 
+							listValue="functionDisplay" 
+							doubleName="leftFunctions" 
+							doubleList="leftFunctions" 
+							doubleListKey="functionName"  
+							doubleListValue="functionDisplay"
 							/></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="button" value="更新角色功能关系" onclick="updateRoles();"/></td></tr>
+					<td><input type="button" value="更新角色功能关系" onclick="updateFunctions();"/></td></tr>
 			</table>
 		</s:form>
 	</div>

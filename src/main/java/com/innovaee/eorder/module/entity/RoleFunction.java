@@ -8,44 +8,44 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ACL")
-public class Acl extends BaseEntity {
+@Table(name = "ROLE_FUNCTION")
+public class RoleFunction extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Serializable getPK() {
-		return roleFunction;
+		return roleFunctionName;
 	}
 
 	@Id
-	@Column(name = "role_function")
-	private String roleFunction;
+	@Column(name = "role_function_name")
+	private String roleFunctionName;
 	@Column(name = "role_name")
 	private String roleName;
 	@Column(name = "function_name")
 	private String functionName;
 
-	public Acl() {
+	public RoleFunction() {
 	}
 
-	public Acl(String roleFunction) {
-		this.roleFunction = roleFunction;
+	public RoleFunction(String roleFunctionName) {
+		this.roleFunctionName = roleFunctionName;
 	}
 
-	public Acl(String roleFunction, String roleName, String functionName) {
+	public RoleFunction(String roleFunctionName, String roleName, String functionName) {
 		super();
-		this.roleFunction = roleFunction;
+		this.roleFunctionName = roleFunctionName;
 		this.roleName = roleName;
 		this.functionName = functionName;
 	}
 
-	public String getRoleFunction() {
-		return roleFunction;
+	public String getRoleFunctionName() {
+		return roleFunctionName;
 	}
 
-	public void setRoleFunction(String roleFunction) {
-		this.roleFunction = roleFunction;
+	public void setRoleFunctionName(String roleFunctionName) {
+		this.roleFunctionName = roleFunctionName;
 	}
 
 	public String getRoleName() {
@@ -66,7 +66,7 @@ public class Acl extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "Acl [roleFunction=" + roleFunction + ", roleName=" + roleName + ", functionName=" + functionName + "]";
+		return "RoleFunction [roleFunctionName=" + roleFunctionName + ", roleName=" + roleName + ", functionName=" + functionName + "]";
 	}
 
 }

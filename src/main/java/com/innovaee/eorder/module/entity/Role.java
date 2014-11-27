@@ -32,6 +32,13 @@ public class Role extends BaseEntity {
 		this.roleName = roleName;
 	}
 
+	public Role(String roleName, String roleDesc, Boolean roleEnable) {
+		super();
+		this.roleName = roleName;
+		this.roleDesc = roleDesc;
+		this.roleEnable = roleEnable;
+	}
+
 	public String getRoleName() {
 		return roleName;
 	}

@@ -15,12 +15,12 @@ public class UserRole extends BaseEntity {
 
 	@Override
 	public Serializable getPK() {
-		return userRole;
+		return userRoleName;
 	}
 
 	@Id
-	@Column(name = "user_role")
-	private String userRole;
+	@Column(name = "user_role_name")
+	private String userRoleName;
 	@Column(name = "user_name")
 	private String userName;
 	@Column(name = "role_name")
@@ -29,23 +29,23 @@ public class UserRole extends BaseEntity {
 	public UserRole() {
 	}
 
-	public UserRole(String userRole) {
-		this.userRole = userRole;
+	public UserRole(String userRoleName) {
+		this.userRoleName = userRoleName;
 	}
 
-	public UserRole(String userRole, String userName, String roleName) {
+	public UserRole(String userRoleName, String userName, String roleName) {
 		super();
-		this.userRole = userRole;
+		this.userRoleName = userRoleName;
 		this.userName = userName;
 		this.roleName = roleName;
 	}
 
-	public String getUserRole() {
-		return userRole;
+	public String getUserRoleName() {
+		return userRoleName;
 	}
 
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
+	public void setUserRoleName(String userRoleName) {
+		this.userRoleName = userRoleName;
 	}
 
 	public String getUserName() {
@@ -66,7 +66,7 @@ public class UserRole extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "UserRole [userRole=" + userRole + ", userName=" + userName + ", roleName=" + roleName + "]";
+		return "UserRole [userRoleName=" + userRoleName + ", userName=" + userName + ", roleName=" + roleName + "]";
 	}
 
 }

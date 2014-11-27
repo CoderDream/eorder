@@ -15,12 +15,12 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
-import com.innovaee.eorder.module.dao.AclDao;
+import com.innovaee.eorder.module.dao.RoleFunctionDao;
 import com.innovaee.eorder.module.dao.FunctionDao;
 import com.innovaee.eorder.module.dao.RoleDao;
 import com.innovaee.eorder.module.dao.UserDao;
 import com.innovaee.eorder.module.dao.UserRoleDao;
-import com.innovaee.eorder.module.entity.Acl;
+import com.innovaee.eorder.module.entity.RoleFunction;
 import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.entity.User;
@@ -45,7 +45,7 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 	private UserRoleDao userRoleDao;
 
 	@Resource
-	private AclDao aclDao;
+	private RoleFunctionDao roleFunctionDao;
 
 	@Resource
 	private SecurityMetadataSourceService securityMetadataSourceService;
@@ -60,8 +60,8 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 		return userRoleDao.findUserRolesByUsername(username);
 	}
 
-	public List<Acl> findAclsByRoleName(String rolename) {
-		return aclDao.findAclsByRoleName(rolename);
+	public List<RoleFunction> findRoleFunctionsByRoleName(String rolename) {
+		return roleFunctionDao.findRoleFunctionsByRoleName(rolename);
 	}
 
 	public List<UserFunctionVo> getUserFunctions(String username) {
@@ -77,12 +77,12 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 			// Role
 			Role role = (Role) roleDao.get(userRole.getRoleName());
 
-			Iterator<Acl> itAcl = securityMetadataSourceService.findAclsByRoleName(userRole.getRoleName()).iterator();
-			while (itAcl.hasNext()) {
-				Acl acl = itAcl.next();
+			Iterator<RoleFunction> itRoleFunction = securityMetadataSourceService.findRoleFunctionsByRoleName(userRole.getRoleName()).iterator();
+			while (itRoleFunction.hasNext()) {
+				RoleFunction roleFunction = itRoleFunction.next();
 
 				// Function
-				Function function = (Function) functionDao.get(acl.getFunctionName());
+				Function function = (Function) functionDao.get(roleFunction.getFunctionName());
 
 				UserFunctionVo userFunctionVo = new UserFunctionVo();
 

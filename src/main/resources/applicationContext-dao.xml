@@ -12,7 +12,7 @@ http://www.springframework.org/schema/aop   http://www.springframework.org/schem
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="aclDao" class="com.innovaee.eorder.module.dao.AclDao" parent="baseDAO" />
+	<bean id="roleFunctionDao" class="com.innovaee.eorder.module.dao.RoleFunctionDao" parent="baseDAO" />
 	<bean id="functionDao" class="com.innovaee.eorder.module.dao.FunctionDao"
 		parent="baseDAO" />
 	<bean id="roleDao" class="com.innovaee.eorder.module.dao.RoleDao" parent="baseDAO" />
