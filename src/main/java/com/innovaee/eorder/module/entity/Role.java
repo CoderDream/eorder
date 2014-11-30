@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ROLE")
+@Table(name = "role")
 public class Role extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 

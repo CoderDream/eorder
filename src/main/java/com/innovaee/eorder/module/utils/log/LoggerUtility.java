@@ -5,14 +5,15 @@ import java.util.Stack;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
-import org.junit.Assert;
+
+//import org.junit.Assert;
 
 public class LoggerUtility {
 	private static Logger logger = Logger.getLogger(LoggerUtility.class);
 	private static final String MDCKey = "MDCKey";
 	private static LoggerUtility instance = new LoggerUtility();
 
-	private LoggerUtility() {
+	public LoggerUtility() {
 	}
 
 	public static LoggerUtility getInstance() {
@@ -31,7 +32,7 @@ public class LoggerUtility {
 	public void startBizProcess(String bizName, String MDCValue) {
 		@SuppressWarnings("unchecked")
 		Stack<InvokeInfo> invokeInfoStack = (Stack<InvokeInfo>) MDC.get(LoggerUtility.class.getSimpleName());
-		Assert.assertNull(invokeInfoStack);
+		// Assert.assertNull(invokeInfoStack);
 
 		invokeInfoStack = new Stack<InvokeInfo>();
 		InvokeInfo invokeInfo = new InvokeInfo();
@@ -60,10 +61,10 @@ public class LoggerUtility {
 		try {
 			@SuppressWarnings("unchecked")
 			Stack<InvokeInfo> invokeInfoStack = (Stack<InvokeInfo>) MDC.get(LoggerUtility.class.getSimpleName());
-			Assert.assertNotNull(invokeInfoStack);
+			// Assert.assertNotNull(invokeInfoStack);
 
 			InvokeInfo invokeInfo = invokeInfoStack.pop();
-			Assert.assertNotNull(invokeInfo);
+			// Assert.assertNotNull(invokeInfo);
 
 			Date now = new Date();
 			logger.fatal("");
@@ -86,10 +87,10 @@ public class LoggerUtility {
 		if (null == invokeInfoStack) {
 			return;
 		}
-		Assert.assertNotNull(invokeInfoStack);
+		// Assert.assertNotNull(invokeInfoStack);
 
 		InvokeInfo invokeInfoParent = invokeInfoStack.peek();
-		Assert.assertNotNull(invokeInfoParent);
+		// Assert.assertNotNull(invokeInfoParent);
 
 		int level = invokeInfoStack.size();
 		InvokeInfo invokeInfo = new InvokeInfo();
@@ -108,12 +109,12 @@ public class LoggerUtility {
 		if (null == invokeInfoStack) {
 			return;
 		}
-		Assert.assertNotNull(invokeInfoStack);
+		// Assert.assertNotNull(invokeInfoStack);
 
 		InvokeInfo invokeInfo = invokeInfoStack.pop();
-		Assert.assertNotNull(invokeInfo);
+		// Assert.assertNotNull(invokeInfo);
 
-		Assert.assertEquals(invokeInfo.getInvokerName(), methodName);
+		// Assert.assertEquals(invokeInfo.getInvokerName(), methodName);
 
 		logger.fatal(String.format("[End   Local API Invoked][-][lvl:%-2d]-----%s(), elapsed time: %d", invokeInfo.getLevel(), methodName,
 				new Date().getTime() - invokeInfo.getDate().getTime()));
