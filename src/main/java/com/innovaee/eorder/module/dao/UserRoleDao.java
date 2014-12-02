@@ -14,7 +14,8 @@ public class UserRoleDao extends BaseDao {
 
 	@SuppressWarnings("unchecked")
 	public List<UserRole> findAllUserRoles() {
-		return (List<UserRole>) super.getHibernateTemplate().find("FROM UserRole");
+		return (List<UserRole>) super.getHibernateTemplate().find(
+				"FROM UserRole");
 	}
 
 	public UserRole saveUserRole(UserRole userRole) {
@@ -30,25 +31,28 @@ public class UserRoleDao extends BaseDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public UserRole findUserRoleByUserRole(String userRole) {
-		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate().find("FROM UserRole f WHERE f.userRole=?", userRole);
-		if (null != list && 0 < list.size()) {
-			return list.get(0);
-		}
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<UserRole> findUserRolesByRoleName(String roleName) {
-		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate().find("FROM UserRole f WHERE f.roleName=?", roleName);
+	public List<UserRole> findUserRolesByRoleId(Integer roleId) {
+		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate()
+				.find("FROM UserRole f WHERE f.roleId=?", roleId);
 		return list;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<UserRole> findUserRolesByUsername(String username) {
-		UserRole userRole = new UserRole();
-		userRole.setUserName(username);
-		return (List<UserRole>) super.getHibernateTemplate().findByExample(userRole);
+	public List<UserRole> findUserRolesByUserId(Integer userId) {
+		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate()
+				.find("FROM UserRole ur WHERE ur.userId=?", userId);
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public UserRole findUserRoleByIds(Integer userId, Integer roleId) {
+		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate()
+				.find("FROM UserRole ur WHERE ur.userId=? and ur.roleId=?",
+						userId, roleId);
+		if (null != list && 0 < list.size()) {
+			return list.get(0);
+		}
+		return null;
 	}
 
 }

@@ -23,8 +23,8 @@ public class RoleAction extends BaseAction {
 
 	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
 
-	private String roleName;
-	private String[] roleNames;
+	private String roleId;
+	private String[] roleIds;
 	private Role role = new Role();
 	private List<Role> roles = new ArrayList<Role>();
 
@@ -48,7 +48,7 @@ public class RoleAction extends BaseAction {
 	}
 
 	public String doLoad() {
-		role = roleService.findRolesByRoleName(roleName);
+		role = roleService.loadRole(Integer.parseInt(roleId));
 		return SUCCESS;
 	}
 
@@ -60,7 +60,8 @@ public class RoleAction extends BaseAction {
 
 	public String doStore() {
 		// dao.storeBook(role);
-		// Role role2 = new Role("abcd", "abcd", "abcd", "abcd", "abcd", "abcd", false);
+		// Role role2 = new Role("abcd", "abcd", "abcd", "abcd", "abcd", "abcd",
+		// false);
 		roleService.saveRole(role);
 		// String result = roleService.storeRole(role);
 		// System.out.println("store result: " + result);
@@ -69,7 +70,8 @@ public class RoleAction extends BaseAction {
 
 	public String doUpdate() {
 		// dao.storeBook(role);
-		// Role role2 = new Role("abcd", "abcd", "abcd", "abcd", "abcd", "abcd", false);
+		// Role role2 = new Role("abcd", "abcd", "abcd", "abcd", "abcd", "abcd",
+		// false);
 		roleService.updateRole(role);
 		// String result = roleService.storeRole(role);
 		// System.out.println("store result: " + result);
@@ -77,10 +79,10 @@ public class RoleAction extends BaseAction {
 	}
 
 	public String doRemove() {
-		if (null != roleName) {
-			roleService.removeRole(roleName);
+		if (null != roleId) {
+			roleService.removeRole(Integer.parseInt(roleId));
 		} else {
-			roleService.removeRoles(roleNames);
+			roleService.removeRoles(roleIds);
 		}
 		return SUCCESS;
 	}
@@ -171,20 +173,20 @@ public class RoleAction extends BaseAction {
 		this.roleService = roleService;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public String getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 
-	public String[] getRoleNames() {
-		return roleNames;
+	public String[] getRoleIds() {
+		return roleIds;
 	}
 
-	public void setRoleNames(String[] roleNames) {
-		this.roleNames = roleNames;
+	public void setRoleIds(String[] roleIds) {
+		this.roleIds = roleIds;
 	}
 
 	public Role getRole() {

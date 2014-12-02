@@ -8,11 +8,13 @@ public class RoleLinkVo extends BaseVo {
 	private static final long serialVersionUID = 1L;
 
 	private String order; // menu item order number;
+	private Integer id; // menu name
 	private String name; // menu name
-	private String displayName; // the display name of the menu
+	private String functionName; // the display name of the menu
 	private String link; // linkage address
 	private String flag; // level1 menu is 1, level2 menu is 2
-	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>(); // level2 menus list
+	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>(); // level2 menus
+																	// list
 
 	public String getOrder() {
 		return order;
@@ -30,12 +32,12 @@ public class RoleLinkVo extends BaseVo {
 		this.name = name;
 	}
 
-	public String getDisplayName() {
-		return displayName;
+	public String getFunctionName() {
+		return functionName;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	public void setFunctionName(String functionName) {
+		this.functionName = functionName;
 	}
 
 	public String getLink() {
@@ -61,4 +63,13 @@ public class RoleLinkVo extends BaseVo {
 	public void setList(List<RoleLinkVo> list) {
 		this.list = list;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 }

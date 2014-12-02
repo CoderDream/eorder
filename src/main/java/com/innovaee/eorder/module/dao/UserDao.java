@@ -18,8 +18,9 @@ public class UserDao extends BaseDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public User findUsersByUserName(String userName) {
-		List<User> list = (List<User>) super.getHibernateTemplate().find("FROM User f WHERE f.userName=?", userName);
+	public User findUsersByUserName(String username) {
+		List<User> list = (List<User>) super.getHibernateTemplate().find(
+				"FROM User u WHERE u.username=?", username);
 		if (null != list && 0 < list.size()) {
 			return list.get(0);
 		}
@@ -38,7 +39,7 @@ public class UserDao extends BaseDao {
 			return null;
 		}
 
-		return (0 == password.compareTo(user.getUserPassword())) ? user : null;
+		return (0 == password.compareTo(user.getPassword())) ? user : null;
 	}
 
 	public User saveUser(User user) {

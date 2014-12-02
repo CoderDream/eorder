@@ -14,15 +14,12 @@ public class RoleFunctionDao extends BaseDao {
 
 	@SuppressWarnings("unchecked")
 	public List<RoleFunction> findAllRoleFunctions() {
-		return (List<RoleFunction>) super.getHibernateTemplate().find("FROM RoleFunction");
+		return (List<RoleFunction>) super.getHibernateTemplate().find(
+				"FROM RoleFunction");
 	}
 
 	public RoleFunction saveRoleFunction(RoleFunction roleFunction) {
-		return (RoleFunction)save(roleFunction);
-	}
-
-	public void updateRoleFunction(RoleFunction roleFunction) {
-		update(roleFunction);
+		return (RoleFunction) save(roleFunction);
 	}
 
 	public void removeRoleFunction(RoleFunction roleFunction) {
@@ -30,23 +27,23 @@ public class RoleFunctionDao extends BaseDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public RoleFunction findRoleFunctionByRoleFunctionName(String roleFunctionName) {
-		List<RoleFunction> list = (List<RoleFunction>) super.getHibernateTemplate().find("FROM RoleFunction f WHERE f.roleFunctionName=?", roleFunctionName);
+	public List<RoleFunction> findRoleFunctionsByRoleId(Integer roleId) {
+		List<RoleFunction> list = (List<RoleFunction>) super
+				.getHibernateTemplate().find(
+						"FROM RoleFunction rf WHERE rf.roleId=?", roleId);
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public RoleFunction findRoleFunctionByIds(Integer roleId, Integer functionId) {
+		List<RoleFunction> list = (List<RoleFunction>) super
+				.getHibernateTemplate()
+				.find("FROM RoleFunction rf WHERE rf.roleId=? and rf.functionId=?",
+						roleId, functionId);
 		if (null != list && 0 < list.size()) {
 			return list.get(0);
 		}
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<RoleFunction> findRoleFunctionsByRoleName(String roleName) {
-		List<RoleFunction> list = (List<RoleFunction>) super.getHibernateTemplate().find("FROM RoleFunction f WHERE f.roleName=?", roleName);
-		return list;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<RoleFunction> findRoleFunctionsByFunctionName(String functionName) {
-		List<RoleFunction> list = (List<RoleFunction>) super.getHibernateTemplate().find("FROM RoleFunction f WHERE f.functionName=?", functionName);
-		return list;
-	}
 }

@@ -35,4 +35,11 @@ public class UserFunctionVo extends BaseVo {
 	public void setFunction(Function function) {
 		this.function = function;
 	}
+
+	@Override
+	public String toString() {
+		return "UserFunctionVo [user=" + user + ", role=" + role
+				+ ", function=" + function + "]";
+	}
+
 }

@@ -43,7 +43,8 @@ public class UserDetailsVo extends BaseVo implements UserDetails {
 
 		for (UserFunctionVo ufv : userFunctions) {
 			if (!StringUtils.isEmpty(ufv.getFunction().getFunctionPath())) {
-				GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(ufv.getFunction().getFunctionPath());
+				GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(
+						ufv.getFunction().getFunctionPath());
 				grantedAuthorities.add(grantedAuthority);
 			}
 		}
@@ -52,11 +53,11 @@ public class UserDetailsVo extends BaseVo implements UserDetails {
 	}
 
 	public String getPassword() {
-		return user.getUserPassword();
+		return user.getPassword();
 	}
 
 	public String getUsername() {
-		return user.getUserName();
+		return user.getUsername();
 	}
 
 	public boolean isAccountNonExpired() {
@@ -72,7 +73,7 @@ public class UserDetailsVo extends BaseVo implements UserDetails {
 	}
 
 	public boolean isEnabled() {
-		return user.getUserEnable();
+		return user.getUserStatus();
 	}
 
 	public Set<String> getRolesName() {

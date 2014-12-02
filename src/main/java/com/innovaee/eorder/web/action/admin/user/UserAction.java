@@ -24,8 +24,8 @@ public class UserAction extends BaseAction {
 
 	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
 
-	private String userName;
-	private String[] userNames;
+	private String userId;
+	private String[] userIds;
 	private User user = new User();
 	private List<User> users = new ArrayList<User>();
 
@@ -49,7 +49,7 @@ public class UserAction extends BaseAction {
 	}
 
 	public String doLoad() {
-		user = userService.findUsersByUserName(userName);
+		user = userService.loadUser(Integer.parseInt(userId));
 		return SUCCESS;
 	}
 
@@ -60,29 +60,29 @@ public class UserAction extends BaseAction {
 	}
 
 	public String doStore() {
-		String userName = user.getUserName();
-		String password = user.getUserPassword();
-		String md5Password = Md5Util.getMD5Str(password + "{" + userName + "}");
-		user.setUserPassword(md5Password);
+		String userId = user.getUsername();
+		String password = user.getPassword();
+		String md5Password = Md5Util.getMD5Str(password + "{" + userId + "}");
+		user.setPassword(md5Password);
 
 		userService.saveUser(user);
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		String userName = user.getUserName();
-		String password = user.getUserPassword();
-		String md5Password = Md5Util.getMD5Str(password + "{" + userName + "}");
-		user.setUserPassword(md5Password);
+		String userId = user.getUsername();
+		String password = user.getPassword();
+		String md5Password = Md5Util.getMD5Str(password + "{" + userId + "}");
+		user.setPassword(md5Password);
 		userService.updateUser(user);
 		return SUCCESS;
 	}
 
 	public String doRemove() {
-		if (null != userName) {
-			userService.removeUser(userName);
+		if (null != userId) {
+			userService.removeUser(Integer.parseInt(userId));
 		} else {
-			userService.removeUsers(userNames);
+			userService.removeUsers(userIds);
 		}
 		return SUCCESS;
 	}
@@ -173,20 +173,20 @@ public class UserAction extends BaseAction {
 		this.userService = userService;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String[] getUserNames() {
-		return userNames;
+	public String[] getUserIds() {
+		return userIds;
 	}
 
-	public void setUserNames(String[] userNames) {
-		this.userNames = userNames;
+	public void setUserIds(String[] userIds) {
+		this.userIds = userIds;
 	}
 
 	public User getUser() {

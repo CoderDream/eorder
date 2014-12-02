@@ -28,9 +28,11 @@ import com.innovaee.eorder.module.entity.UserRole;
 import com.innovaee.eorder.module.service.BaseService;
 import com.innovaee.eorder.module.vo.UserFunctionVo;
 
-public class SecurityMetadataSourceService extends BaseService implements FilterInvocationSecurityMetadataSource {
+public class SecurityMetadataSourceService extends BaseService implements
+		FilterInvocationSecurityMetadataSource {
 
-	private static final Logger logger = Logger.getLogger(SecurityMetadataSourceService.class);
+	private static final Logger logger = Logger
+			.getLogger(SecurityMetadataSourceService.class);
 
 	@Resource
 	private UserDao userDao;
@@ -57,32 +59,36 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 	}
 
 	public List<UserRole> getUserRoles(String username) {
-		return userRoleDao.findUserRolesByUsername(username);
+		User user = userDao.findUsersByUserName(username);
+		return userRoleDao.findUserRolesByUserId(user.getUserId());
 	}
 
-	public List<RoleFunction> findRoleFunctionsByRoleName(String rolename) {
-		return roleFunctionDao.findRoleFunctionsByRoleName(rolename);
+	public List<RoleFunction> findRoleFunctionsByRoleId(Integer roleId) {
+		return roleFunctionDao.findRoleFunctionsByRoleId(roleId);
 	}
 
 	public List<UserFunctionVo> getUserFunctions(String username) {
 		List<UserFunctionVo> userFunctions = new ArrayList<UserFunctionVo>();
 
 		// User
-		User user = (User) userDao.get(username);
+		User user = (User) userDao.findUsersByUserName(username);
 
-		Iterator<UserRole> itUserRole = securityMetadataSourceService.getUserRoles(username).iterator();
+		Iterator<UserRole> itUserRole = securityMetadataSourceService
+				.getUserRoles(username).iterator();
 		while (itUserRole.hasNext()) {
 			UserRole userRole = itUserRole.next();
 
 			// Role
-			Role role = (Role) roleDao.get(userRole.getRoleName());
+			Role role = (Role) roleDao.get(userRole.getRoleId());
 
-			Iterator<RoleFunction> itRoleFunction = securityMetadataSourceService.findRoleFunctionsByRoleName(userRole.getRoleName()).iterator();
+			Iterator<RoleFunction> itRoleFunction = securityMetadataSourceService
+					.findRoleFunctionsByRoleId(userRole.getRoleId()).iterator();
 			while (itRoleFunction.hasNext()) {
 				RoleFunction roleFunction = itRoleFunction.next();
 
 				// Function
-				Function function = (Function) functionDao.get(roleFunction.getFunctionName());
+				Function function = (Function) functionDao.get(roleFunction
+						.getFunctionId());
 
 				UserFunctionVo userFunctionVo = new UserFunctionVo();
 
@@ -98,7 +104,8 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 		return userFunctions;
 	}
 
-	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
+	public Collection<ConfigAttribute> getAttributes(Object object)
+			throws IllegalArgumentException {
 		String requestUrl = ((FilterInvocation) object).getRequestUrl();
 		Collection<ConfigAttribute> calist = new ArrayList<ConfigAttribute>();
 		calist.add(new SecurityConfig(requestUrl));
@@ -122,7 +129,8 @@ public class SecurityMetadataSourceService extends BaseService implements Filter
 	}
 
 	public boolean supports(Class<?> clazz) {
-		logger.debug("SecurityMetadataSourceService.supports(Class<?> clazz), supported class is: " + clazz.getName());
+		logger.debug("SecurityMetadataSourceService.supports(Class<?> clazz), supported class is: "
+				+ clazz.getName());
 		return true;
 	}
 }

@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="com.innovaee.eorder.module.entity.Function"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path;
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -41,12 +44,16 @@ table tbody tr td {
 				</tr>
 				<s:iterator value="roles">
 					<tr>
-						<td><input type="checkbox" name="roleName" value='<s:property value="roleName" />' /></td>
+						<td><input type="checkbox" name="roleId"
+							value='<s:property value="roleId" />' /></td>
 						<td><s:property value="roleName" /></td>
 						<td><s:property value="roleDesc" /></td>
-						<td><s:property value="roleEnable" /></td>
-						<td><a href='<s:url action="doEdit"><s:param name="roleName" value="roleName" /></s:url>'> 修改 </a> &nbsp; <a
-							href='<s:url action="doRemove"><s:param name="roleName" value="roleName" /></s:url>'> 删除 </a></td>
+						<td><s:property value="roleStatus" /></td>
+						<td><a
+							href='<s:url action="doEdit"><s:param name="roleId" value="roleId" /></s:url>'>
+								修改 </a> &nbsp; <a
+							href='<s:url action="doRemove"><s:param name="roleId" value="roleId" /></s:url>'>
+								删除 </a></td>
 					</tr>
 				</s:iterator>
 			</table>

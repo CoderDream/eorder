@@ -26,7 +26,7 @@ public class AuthenticationServiceTest extends BaseSpringTestCase {
 	public void getUserInfo() {
 		String username = "admin";
 		User user = authenticationService.getUserInfo(username);
-		System.out.println(user.getUserEmail());
+		System.out.println(user.getCellphone());
 	}
 
 	@Test
@@ -35,7 +35,8 @@ public class AuthenticationServiceTest extends BaseSpringTestCase {
 		String src = "admin{admin}";
 		String password = Md5Util.getMD5Str(src);
 
-		boolean result = authenticationService.checkUserPassword(username, password);
+		boolean result = authenticationService.checkUserPassword(username,
+				password);
 		Assert.assertEquals(true, result);
 	}
 
@@ -43,7 +44,8 @@ public class AuthenticationServiceTest extends BaseSpringTestCase {
 	public void loadUserByUsername_01() {
 		String username = "admin";
 
-		UserDetailsVo userDetails = (UserDetailsVo) authenticationService.loadUserByUsername(username);
+		UserDetailsVo userDetails = (UserDetailsVo) authenticationService
+				.loadUserByUsername(username);
 		Assert.assertNotNull(userDetails);
 
 		List<UserFunctionVo> userFunctions = userDetails.getUserFunctions();
@@ -73,7 +75,8 @@ public class AuthenticationServiceTest extends BaseSpringTestCase {
 	public void loadUserByUsername_02() {
 		String username = "test";
 
-		UserDetailsVo userDetails = (UserDetailsVo) authenticationService.loadUserByUsername(username);
+		UserDetailsVo userDetails = (UserDetailsVo) authenticationService
+				.loadUserByUsername(username);
 		Assert.assertNotNull(userDetails);
 
 		Collection<GrantedAuthority> c = userDetails.getAuthorities();

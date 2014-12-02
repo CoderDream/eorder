@@ -16,7 +16,7 @@ public class RoleService extends BaseService {
 		return (List<Role>) roleDao.findAllRoles();
 	}
 
-	public Role get(String roleId) {
+	public Role loadRole(Integer roleId) {
 		return (Role) roleDao.get(roleId);
 	}
 
@@ -24,23 +24,22 @@ public class RoleService extends BaseService {
 		return (Role) roleDao.findRolesByRoleName(roleName);
 	}
 
-	public void saveRole(Role role) {
-		roleDao.saveRole(role);
+	public Role saveRole(Role role) {
+		return roleDao.saveRole(role);
 	}
 
 	public void updateRole(Role role) {
 		roleDao.updateRole(role);
 	}
 
-	public void removeRole(String roleName) {
-		roleDao.removeRole(new Role(roleName));
+	public void removeRole(Integer roleId) {
+		roleDao.removeRole(new Role(roleId));
 	}
 
-	public void removeRoles(String[] roleName) {
-		int length = roleName.length;
+	public void removeRoles(String[] roleIds) {
+		int length = roleIds.length;
 		for (int i = 0; i < length; i++) {
-			roleDao.removeRole(new Role(roleName[i]));
+			roleDao.removeRole(new Role(Integer.parseInt(roleIds[i])));
 		}
-
 	}
 }

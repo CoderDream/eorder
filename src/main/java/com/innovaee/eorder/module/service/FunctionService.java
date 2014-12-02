@@ -23,24 +23,34 @@ public class FunctionService extends BaseService {
 		return (Function) functionDao.findFunctionsByFunctionName(functionName);
 	}
 
-	public void saveFunction(Function function) {
-		functionDao.saveFunction(function);
+	public Function loadFunction(Integer functionId) {
+		Function function = (Function) functionDao.get(functionId);
+
+		if (null == function) {
+			return null;
+		}
+
+		return function;
+	}
+
+	public Function saveFunction(Function function) {
+		return functionDao.saveFunction(function);
 	}
 
 	public void updateFunction(Function function) {
 		functionDao.updateFunction(function);
 	}
 
-	public void removeFunction(String functionName) {
-		functionDao.removeFunction(new Function(functionName));
+	public void removeFunction(Integer functionId) {
+		functionDao.removeFunction(new Function(functionId));
 	}
 
-	public void removeFunctions(String[] functionName) {
-		int length = functionName.length;
+	public void removeFunctions(String[] functionIds) {
+		int length = functionIds.length;
 		for (int i = 0; i < length; i++) {
-			functionDao.removeFunction(new Function(functionName[i]));
+			functionDao.removeFunction(new Function(Integer
+					.parseInt(functionIds[i])));
 		}
-
 	}
 
 }

@@ -1,72 +1,87 @@
 package com.innovaee.eorder.module.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_role")
+@Table(name = "t_user_role")
 public class UserRole extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Serializable getPK() {
-		return userRoleName;
+		return userRoleId;
 	}
 
 	@Id
-	@Column(name = "user_role_name")
-	private String userRoleName;
-	@Column(name = "user_name")
-	private String userName;
-	@Column(name = "role_name")
-	private String roleName;
+	@Column(name = "USER_ROLE_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer userRoleId;
+	@Column(name = "user_id")
+	private Integer userId;
+	@Column(name = "role_id")
+	private Integer roleId;
+	@Column(name = "CREATE_AT")
+	private Timestamp createAt;
+	@Column(name = "UPDATE_AT")
+	private Timestamp updateAt;
 
 	public UserRole() {
 	}
 
-	public UserRole(String userRoleName) {
-		this.userRoleName = userRoleName;
-	}
-
-	public UserRole(String userRoleName, String userName, String roleName) {
+	public UserRole(Integer userId, Integer roleId, Timestamp createAt) {
 		super();
-		this.userRoleName = userRoleName;
-		this.userName = userName;
-		this.roleName = roleName;
+		this.userId = userId;
+		this.roleId = roleId;
+		this.createAt = createAt;
 	}
 
-	public String getUserRoleName() {
-		return userRoleName;
+	public Integer getUserRoleId() {
+		return userRoleId;
 	}
 
-	public void setUserRoleName(String userRoleName) {
-		this.userRoleName = userRoleName;
+	public void setUserRoleId(Integer userRoleId) {
+		this.userRoleId = userRoleId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	@Override
-	public String toString() {
-		return "UserRole [userRoleName=" + userRoleName + ", userName=" + userName + ", roleName=" + roleName + "]";
+	public Timestamp getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Timestamp createAt) {
+		this.createAt = createAt;
+	}
+
+	public Timestamp getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Timestamp updateAt) {
+		this.updateAt = updateAt;
 	}
 
 }

@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="com.innovaee.eorder.module.entity.Function"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path;
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -36,28 +39,26 @@ table tbody tr td {
 					<th></th>
 					<th>用户名称</th>
 					<th>用户密码</th>
-					<th>名称</th>
+					<th>电话号码</th>
+					<th>会员等级</th>
 					<th>用户状态</th>
-					<th>用户注册日期</th>
-					<th>用户失效日期</th>
-					<th>密码失效日期</th>
-					<th>用户邮箱</th>
 					<th>操作</th>
 				</tr>
-				
+
 				<s:iterator value="users">
 					<tr>
-						<td><input type="checkbox" name="userName" value='<s:property value="userName" />' /></td>
-						<td><s:property value="userName" /></td>
-						<td><s:property value="userPassword" /></td>
-						<td><s:property value="reportEntityName" /></td>
-						<td><s:property value="userEnable" /></td>
-						<td><s:property value="userRegisterDate" /></td>
-						<td><s:property value="userExpirationDate" /></td>
-						<td><s:property value="userPasswdExpDate" /></td>
-						<td><s:property value="userEmail" /></td>
-						<td><a href='<s:url action="doEdit"><s:param name="userName" value="userName" /></s:url>'> 修改 </a> &nbsp; <a
-							href='<s:url action="doRemove"><s:param name="userName" value="userName" /></s:url>'> 删除 </a></td>
+						<td><input type="checkbox" name="userId"
+							value='<s:property value="userId" />' /></td>
+						<td><s:property value="username" /></td>
+						<td><s:property value="password" /></td>
+						<td><s:property value="cellphone" /></td>
+						<td><s:property value="levelId" /></td>
+						<td><s:property value="userStatus" /></td>
+						<td><a
+							href='<s:url action="doEdit"><s:param name="userId" value="userId" /></s:url>'>
+								修改 </a> &nbsp; <a
+							href='<s:url action="doRemove"><s:param name="userId" value="userId" /></s:url>'>
+								删除 </a></td>
 					</tr>
 				</s:iterator>
 			</table>

@@ -6,15 +6,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/tx    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 	default-autowire="byName">
-	<bean id="databaseConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:database.properties</value>
-			</list>
-		</property>
-	</bean>
-
 	<import resource="classpath:applicationContext-total.xml" />
 	<import resource="classpath:applicationContext-security.xml" />
 </beans>

@@ -12,6 +12,10 @@ public class UserService extends BaseService {
 	@Resource
 	private UserDao userDao;
 
+	public User loadUser(Integer userId) {
+		return (User) userDao.get(userId);
+	}
+
 	public List<User> findAllUsers() {
 		return (List<User>) userDao.findAllUsers();
 	}
@@ -20,8 +24,8 @@ public class UserService extends BaseService {
 		return userDao.getUserByPassword(loginId, password);
 	}
 
-	public User findUsersByUserName(String userName) {
-		return (User) userDao.findUsersByUserName(userName);
+	public User findUsersByUserName(String username) {
+		return (User) userDao.findUsersByUserName(username);
 	}
 
 	public User saveUser(User user) {
@@ -36,15 +40,14 @@ public class UserService extends BaseService {
 		userDao.removeUser(user);
 	}
 
-	public void removeUser(String userName) {
-		userDao.removeUser(new User(userName));
+	public void removeUser(Integer userId) {
+		userDao.removeUser(new User(userId));
 	}
 
-	public void removeUsers(String[] userName) {
-		int length = userName.length;
+	public void removeUsers(String[] userIds) {
+		int length = userIds.length;
 		for (int i = 0; i < length; i++) {
-			userDao.removeUser(new User(userName[i]));
+			userDao.removeUser(new User(Integer.parseInt(userIds[i])));
 		}
-
 	}
 }

@@ -29,9 +29,9 @@
           <div class="param">
             <p>
               <span>User name:<span>*</span></span>
-              <label for="user_name"></label>
-              <input type="text" name="j_username" id="user_name" value="admin" tabindex="1" />
-              <label id="user_name_error" for="user_name" style="color: red"></label>
+              <label for="username"></label>
+              <input type="text" name="j_username" id="username" value="admin" tabindex="1" />
+              <label id="user_name_error" for="username" style="color: red"></label>
             </p>
 		  </div>
 

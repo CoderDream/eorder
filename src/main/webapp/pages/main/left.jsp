@@ -24,7 +24,7 @@
 	      <div id="container">
 	        <s:iterator value="menulist" id="banner">
 	        <h1 class="type">
-	          <a href="javascript:void(0)"><s:property value="#banner.displayName" /></a>
+	          <a href="javascript:void(0)"><s:property value="#banner.functionName" /></a>
             </h1>
             <div class="content">
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -34,7 +34,7 @@
 			  </table>
 			  <ul class="MM">
 			  <s:iterator value="#banner.list" id="subBanner">
-			    <li><a href='<%=basePath%><s:property value="#subBanner.link" />' target="main"><s:property value="#subBanner.displayName" /></a></li>
+			    <li><a href='<%=basePath%><s:property value="#subBanner.link" />' target="main"><s:property value="#subBanner.functionName" /></a></li>
 		      </s:iterator>
 			  </ul>
 			</div>

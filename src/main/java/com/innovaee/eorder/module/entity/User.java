@@ -1,170 +1,133 @@
 package com.innovaee.eorder.module.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "t_user")
 public class User extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Serializable getPK() {
-		return userName;
+		return userId;
 	}
 
 	@Id
-	@Column(name = "USER_NAME")
-	private String userName;
-	@Column(name = "USER_PASSWORD")
-	private String userPassword;
-	@Column(name = "REPORT_ENTITY_NAME")
-	private String reportEntityName;
-	@Column(name = "USER_ENABLE")
-	private Boolean userEnable;
-	@Column(name = "USER_REGISTER_DATE")
-	private Date userRegisterDate;
-	@Column(name = "USER_EXPIRATION_DATE")
-	private Date userExpirationDate;
-	@Column(name = "USER_PASSWD_EXP_DATE")
-	private Date userPasswdExpDate;
-	@Column(name = "USER_EMAIL")
-	private String userEmail;
-	@Column(name = "USER_QUESTION1")
-	private String userQuestion1;
-	@Column(name = "USER_ANSWER1")
-	private String userAnswer1;
-	@Column(name = "USER_QUESTION2")
-	private String userQuestion2;
-	@Column(name = "USER_ANSWER2")
-	private String userAnswer2;
-	@Column(name = "USER_QUESTION3")
-	private String userQuestion3;
-	@Column(name = "USER_ANSWER3")
-	private String userAnswer3;
+	@Column(name = "USER_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer userId;
+	@Column(name = "USERNAME")
+	private String username;
+	@Column(name = "PASSWORD")
+	private String password;
+	@Column(name = "CELLPHONE")
+	private String cellphone;
+	@Column(name = "LEVEL_ID")
+	private Integer levelId;
+	@Column(name = "USER_STATUS")
+	private Boolean userStatus;
+	@Column(name = "CREATE_AT")
+	private Timestamp createAt;
+	@Column(name = "UPDATE_AT")
+	private Timestamp updateAt;
 
 	public User() {
 	}
 
-	public User(String userName) {
-		this.userName = userName;
+	public User(String username, String password, String cellphone,
+			Integer levelId, Boolean userStatus, Timestamp createAt) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.cellphone = cellphone;
+		this.levelId = levelId;
+		this.userStatus = userStatus;
+		this.createAt = createAt;
 	}
 
-	public String getUserName() {
-		return userName;
+	public User(Integer userId) {
+		this.userId = userId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public String getUserPassword() {
-		return userPassword;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
+	public String getUsername() {
+		return username;
 	}
 
-	public String getReportEntityName() {
-		return reportEntityName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setReportEntityName(String reportEntityName) {
-		this.reportEntityName = reportEntityName;
+	public String getPassword() {
+		return password;
 	}
 
-	public Boolean getUserEnable() {
-		return userEnable;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public void setUserEnable(Boolean userEnable) {
-		this.userEnable = userEnable;
+	public String getCellphone() {
+		return cellphone;
 	}
 
-	public Date getUserRegisterDate() {
-		return userRegisterDate;
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
 	}
 
-	public void setUserRegisterDate(Date userRegisterDate) {
-		this.userRegisterDate = userRegisterDate;
+	public Integer getLevelId() {
+		return levelId;
 	}
 
-	public Date getUserExpirationDate() {
-		return userExpirationDate;
+	public void setLevelId(Integer levelId) {
+		this.levelId = levelId;
 	}
 
-	public void setUserExpirationDate(Date userExpirationDate) {
-		this.userExpirationDate = userExpirationDate;
+	public Boolean getUserStatus() {
+		return userStatus;
 	}
 
-	public Date getUserPasswdExpDate() {
-		return userPasswdExpDate;
+	public void setUserStatus(Boolean userStatus) {
+		this.userStatus = userStatus;
 	}
 
-	public void setUserPasswdExpDate(Date userPasswdExpDate) {
-		this.userPasswdExpDate = userPasswdExpDate;
+	public Timestamp getCreateAt() {
+		return createAt;
 	}
 
-	public String getUserEmail() {
-		return userEmail;
+	public void setCreateAt(Timestamp createAt) {
+		this.createAt = createAt;
 	}
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public Timestamp getUpdateAt() {
+		return updateAt;
 	}
 
-	public String getUserQuestion1() {
-		return userQuestion1;
+	public void setUpdateAt(Timestamp updateAt) {
+		this.updateAt = updateAt;
 	}
 
-	public void setUserQuestion1(String userQuestion1) {
-		this.userQuestion1 = userQuestion1;
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username
+				+ ", password=" + password + ", cellphone=" + cellphone
+				+ ", levelId=" + levelId + ", userStatus=" + userStatus
+				+ ", createAt=" + createAt + ", updateAt=" + updateAt + "]";
 	}
 
-	public String getUserAnswer1() {
-		return userAnswer1;
-	}
-
-	public void setUserAnswer1(String userAnswer1) {
-		this.userAnswer1 = userAnswer1;
-	}
-
-	public String getUserQuestion2() {
-		return userQuestion2;
-	}
-
-	public void setUserQuestion2(String userQuestion2) {
-		this.userQuestion2 = userQuestion2;
-	}
-
-	public String getUserAnswer2() {
-		return userAnswer2;
-	}
-
-	public void setUserAnswer2(String userAnswer2) {
-		this.userAnswer2 = userAnswer2;
-	}
-
-	public String getUserQuestion3() {
-		return userQuestion3;
-	}
-
-	public void setUserQuestion3(String userQuestion3) {
-		this.userQuestion3 = userQuestion3;
-	}
-
-	public String getUserAnswer3() {
-		return userAnswer3;
-	}
-
-	public void setUserAnswer3(String userAnswer3) {
-		this.userAnswer3 = userAnswer3;
-	}
 }

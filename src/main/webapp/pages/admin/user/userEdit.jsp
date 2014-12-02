@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,20 +12,24 @@
 		<s:if test="null == user">
             新增功能
             <s:form action="doStore">
-				<s:textfield name="user.userName" label="用户名称" cssStyle="width: 300px;" />
-				<s:textfield name="user.userPassword" label="用户密码" cssStyle="width: 300px;" />
-				<s:textfield name="user.reportEntityName" label="名称" cssStyle="width: 300px;" />
-				<s:textfield name="user.userEnable" label="用户状态" cssStyle="width: 300px;" />
+				<s:hidden id="user.userId" name="user.userId" value="function.roleId"></s:hidden>
+				<s:textfield name="user.username" label="用户名称" cssStyle="width: 300px;" />
+				<s:textfield name="user.password" label="用户密码" cssStyle="width: 300px;" />
+				<s:textfield name="user.cellphone" label="手机号" cssStyle="width: 300px;" />
+				<s:textfield name="user.levelId" label="会员等级" cssStyle="width: 300px;" />
+				<s:textfield name="user.userStatus" label="用户状态" cssStyle="width: 300px;" />
 				<s:submit />
 			</s:form>
 		</s:if>
 		<s:else>
             修改功能
             <s:form action="doUpdate">
-				<s:textfield name="user.userName" label="用户名称" cssStyle="width: 300px;" />
-				<s:textfield name="user.userPassword" label="用户密码" cssStyle="width: 300px;" />
-				<s:textfield name="user.reportEntityName" label="名称" cssStyle="width: 300px;" />
-				<s:textfield name="user.userEnable" label="用户状态" cssStyle="width: 300px;" />
+				<s:hidden id="user.userId" name="user.userId" value="function.roleId"></s:hidden>
+				<s:textfield name="user.username" label="用户名称" cssStyle="width: 300px;" />
+				<s:textfield name="user.password" label="用户密码" cssStyle="width: 300px;" />
+				<s:textfield name="user.cellphone" label="手机号" cssStyle="width: 300px;" />
+				<s:textfield name="user.levelId" label="会员等级" cssStyle="width: 300px;" />
+				<s:textfield name="user.userStatus" label="用户状态" cssStyle="width: 300px;" />
 				<s:submit />
 			</s:form>
 		</s:else>

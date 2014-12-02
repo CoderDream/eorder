@@ -12,6 +12,15 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<!-- support spring annotation -->
 	<context:annotation-config />
 
+	<bean id="databaseConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:database.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<!-- 配置数据源 -->
 	<!-- data source 基本的连接池 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
@@ -111,11 +120,12 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			expression="execution(* com.innovaee.eorder.module.service..*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
-	
-	
+
+
 	<bean id="loggerUtility" class="com.innovaee.eorder.module.utils.log.LoggerUtility" />
 
-	<bean id="loggerUtilInterceptor" class="com.innovaee.eorder.module.utils.interceptor.LoggerUtilInterceptor" />
+	<bean id="loggerUtilInterceptor"
+		class="com.innovaee.eorder.module.utils.interceptor.LoggerUtilInterceptor" />
 
 	<aop:config proxy-target-class="true">
 		<aop:aspect id="loggerAspect" ref="loggerUtilInterceptor">

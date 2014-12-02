@@ -1,56 +1,101 @@
 package com.innovaee.eorder.module.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "function")
+@Table(name = "t_function")
 public class Function extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Serializable getPK() {
-		return functionName;
+		return functionId;
 	}
 
 	@Id
+	@Column(name = "FUNCTION_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer functionId;
 	@Column(name = "FUNCTION_NAME")
 	private String functionName;
 	@Column(name = "FUNCTION_DESC")
 	private String functionDesc;
-	@Column(name = "FUNCTION_DISPLAY")
-	private String functionDisplay;
 	@Column(name = "FUNCTION_PATH")
 	private String functionPath;
 	@Column(name = "FUNCTION_PARENT")
-	private String functionParent;
-	@Column(name = "FUNCTION_order")
+	private Integer functionParent;
+	@Column(name = "FUNCTION_ORDER")
 	private String functionOrder;
-	@Column(name = "FUNCTION_ENABLE")
-	private Boolean functionEnable;
+	@Column(name = "FUNCTION_STATUS")
+	private Boolean functionStatus;
+	@Column(name = "CREATE_AT")
+	private Timestamp createAt;
+	@Column(name = "UPDATE_AT")
+	private Timestamp updateAt;
 
 	public Function() {
 	}
 
-	public Function(String functionName) {
-		this.functionName = functionName;
+	public Function(Integer functionId) {
+		this.functionId = functionId;
 	}
 
-	public Function(String functionName, String functionDesc, String functionDisplay, String functionPath, String functionParent,
-			String functionOrder, Boolean functionEnable) {
+	public Integer getFunctionId() {
+		return functionId;
+	}
+
+	public void setFunctionId(Integer functionId) {
+		this.functionId = functionId;
+	}
+
+	public Timestamp getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Timestamp createAt) {
+		this.createAt = createAt;
+	}
+
+	public Timestamp getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Timestamp updateAt) {
+		this.updateAt = updateAt;
+	}
+
+	public Function(String functionName, String functionDesc,
+			String functionPath, Integer functionParent, String functionOrder,
+			Boolean functionStatus) {
 		super();
 		this.functionName = functionName;
 		this.functionDesc = functionDesc;
-		this.functionDisplay = functionDisplay;
 		this.functionPath = functionPath;
 		this.functionParent = functionParent;
 		this.functionOrder = functionOrder;
-		this.functionEnable = functionEnable;
+		this.functionStatus = functionStatus;
+	}
+
+	public Function(Integer functionId, String functionName,
+			String functionDesc, String functionPath, Integer functionParent,
+			String functionOrder, Boolean functionStatus) {
+		super();
+		this.functionId = functionId;
+		this.functionName = functionName;
+		this.functionDesc = functionDesc;
+		this.functionPath = functionPath;
+		this.functionParent = functionParent;
+		this.functionOrder = functionOrder;
+		this.functionStatus = functionStatus;
 	}
 
 	public String getFunctionName() {
@@ -69,14 +114,6 @@ public class Function extends BaseEntity {
 		this.functionDesc = functionDesc;
 	}
 
-	public String getFunctionDisplay() {
-		return functionDisplay;
-	}
-
-	public void setFunctionDisplay(String functionDisplay) {
-		this.functionDisplay = functionDisplay;
-	}
-
 	public String getFunctionPath() {
 		return functionPath;
 	}
@@ -85,11 +122,11 @@ public class Function extends BaseEntity {
 		this.functionPath = functionPath;
 	}
 
-	public String getFunctionParent() {
+	public Integer getFunctionParent() {
 		return functionParent;
 	}
 
-	public void setFunctionParent(String functionParent) {
+	public void setFunctionParent(Integer functionParent) {
 		this.functionParent = functionParent;
 	}
 
@@ -101,11 +138,22 @@ public class Function extends BaseEntity {
 		this.functionOrder = functionOrder;
 	}
 
-	public Boolean getFunctionEnable() {
-		return functionEnable;
+	public Boolean getFunctionStatus() {
+		return functionStatus;
 	}
 
-	public void setFunctionEnable(Boolean functionEnable) {
-		this.functionEnable = functionEnable;
+	public void setFunctionStatus(Boolean functionStatus) {
+		this.functionStatus = functionStatus;
 	}
+
+	@Override
+	public String toString() {
+		return "Function [functionId=" + functionId + ", functionName="
+				+ functionName + ", functionDesc=" + functionDesc
+				+ ", functionPath=" + functionPath + ", functionParent="
+				+ functionParent + ", functionOrder=" + functionOrder
+				+ ", functionStatus=" + functionStatus + ", createAt="
+				+ createAt + ", updateAt=" + updateAt + "]";
+	}
+
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 
 import com.innovaee.eorder.module.entity.Function;
+import com.innovaee.eorder.module.vo.UserFunctionVo;
 import com.innovaee.eorder.test.BaseSpringTestCase;
 
 public class SecurityMetadataSourceServiceTest extends BaseSpringTestCase {
@@ -19,7 +20,8 @@ public class SecurityMetadataSourceServiceTest extends BaseSpringTestCase {
 
 	@Test
 	public void getAllFunctions() {
-		List<Function> allFunctions = securityMetadataSourceService.getAllFunctions();
+		List<Function> allFunctions = securityMetadataSourceService
+				.getAllFunctions();
 		Assert.assertNotNull(allFunctions);
 		for (Function function : allFunctions) {
 			System.out.println(function);
@@ -27,9 +29,21 @@ public class SecurityMetadataSourceServiceTest extends BaseSpringTestCase {
 	}
 
 	@Test
+	public void getUserFunctions() {
+		String username = "admin";
+		List<UserFunctionVo> allUserFunctionVos = securityMetadataSourceService
+				.getUserFunctions(username);
+		Assert.assertNotNull(allUserFunctionVos);
+		for (UserFunctionVo userFunctionVo : allUserFunctionVos) {
+			System.out.println(userFunctionVo);
+		}
+	}
+
+	@Test
 	public void getAllConfigAttributes() {
-		
-		Collection<ConfigAttribute> c = securityMetadataSourceService.getAllConfigAttributes();
+
+		Collection<ConfigAttribute> c = securityMetadataSourceService
+				.getAllConfigAttributes();
 		Iterator<ConfigAttribute> iterator = c.iterator();
 		while (iterator.hasNext()) {
 			ConfigAttribute configAttribute = iterator.next();

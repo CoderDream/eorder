@@ -23,8 +23,8 @@ public class FunctionAction extends BaseAction {
 
 	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
 
-	private String functionName;
-	private String[] functionNames;
+	private String functionId;
+	private String[] functionIds;
 	private Function function = new Function();
 	private List<Function> functions = new ArrayList<Function>();
 
@@ -48,7 +48,7 @@ public class FunctionAction extends BaseAction {
 	}
 
 	public String doLoad() {
-		function = functionService.findFunctionsByFunctionName(functionName);
+		function = functionService.loadFunction(Integer.parseInt(functionId));
 		return SUCCESS;
 	}
 
@@ -60,7 +60,8 @@ public class FunctionAction extends BaseAction {
 
 	public String doStore() {
 		// dao.storeBook(function);
-		// Function function2 = new Function("abcd", "abcd", "abcd", "abcd", "abcd", "abcd", false);
+		// Function function2 = new Function("abcd", "abcd", "abcd", "abcd",
+		// "abcd", "abcd", false);
 		functionService.saveFunction(function);
 		// String result = functionService.storeFunction(function);
 		// System.out.println("store result: " + result);
@@ -69,7 +70,8 @@ public class FunctionAction extends BaseAction {
 
 	public String doUpdate() {
 		// dao.storeBook(function);
-		// Function function2 = new Function("abcd", "abcd", "abcd", "abcd", "abcd", "abcd", false);
+		// Function function2 = new Function("abcd", "abcd", "abcd", "abcd",
+		// "abcd", "abcd", false);
 		functionService.updateFunction(function);
 		// String result = functionService.storeFunction(function);
 		// System.out.println("store result: " + result);
@@ -77,10 +79,10 @@ public class FunctionAction extends BaseAction {
 	}
 
 	public String doRemove() {
-		if (null != functionName) {
-			functionService.removeFunction(functionName);
+		if (null != functionId) {
+			functionService.removeFunction(Integer.parseInt(functionId));
 		} else {
-			functionService.removeFunctions(functionNames);
+			functionService.removeFunctions(functionIds);
 		}
 		return SUCCESS;
 	}
@@ -171,20 +173,20 @@ public class FunctionAction extends BaseAction {
 		this.functionService = functionService;
 	}
 
-	public String getFunctionName() {
-		return functionName;
+	public String getFunctionId() {
+		return functionId;
 	}
 
-	public void setFunctionName(String functionName) {
-		this.functionName = functionName;
+	public void setFunctionId(String functionId) {
+		this.functionId = functionId;
 	}
 
-	public String[] getFunctionNames() {
-		return functionNames;
+	public String[] getFunctionIds() {
+		return functionIds;
 	}
 
-	public void setFunctionNames(String[] functionNames) {
-		this.functionNames = functionNames;
+	public void setFunctionIds(String[] functionIds) {
+		this.functionIds = functionIds;
 	}
 
 	public Function getFunction() {
@@ -194,6 +196,5 @@ public class FunctionAction extends BaseAction {
 	public void setFunction(Function function) {
 		this.function = function;
 	}
-
 
 }

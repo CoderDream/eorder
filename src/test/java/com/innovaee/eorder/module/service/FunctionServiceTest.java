@@ -24,22 +24,115 @@ public class FunctionServiceTest extends BaseSpringTestCase {
 	}
 
 	@Test
+	public void loadFunction() {
+		Integer functionId = 2;
+		Function function = functionService.loadFunction(functionId);
+		Assert.assertNotNull(function);
+		Assert.assertEquals("功能管理", function.getFunctionName());
+		System.out.println(function);
+	}
+
+	@Test
 	public void findFunctionsByFunctionName() {
-		String functionName = "doSystemSettings";
-		Function function = functionService.findFunctionsByFunctionName(functionName);
+		String functionName = "系统管理";
+		Function function = functionService
+				.findFunctionsByFunctionName(functionName);
 		Assert.assertNotNull(function);
 	}
 
 	@Test
 	public void saveFunction() {
-		Function function = new Function("abcd", "abcd", "abcd", "abcd", "abcd", "abcd", false);
-		functionService.saveFunction(function);
+		String functionName = "测试";
+		String functionDesc = "测试";
+		String functionPath = "/test/doTest.action";
+		Integer functionParent = 1;
+		String functionOrder = "010500";
+		Boolean functionStatus = true;
+		Function function = new Function(functionName, functionDesc,
+				functionPath, functionParent, functionOrder, functionStatus);
+		Function functionNew = functionService.saveFunction(function);
+
+		// 检查
+		Function functionDB = functionService.loadFunction(functionNew
+				.getFunctionId());
+		Assert.assertNotNull(functionDB);
+		Assert.assertEquals("测试", functionDB.getFunctionName());
 	}
 
 	@Test
 	public void updateFunction() {
-		Function function = new Function("abcd", "abcdxxx", "abcd", "abcd", "abcd", "abcd", false);
-		functionService.updateFunction(function);
+		// 先新增一个对象
+		String functionName = "测试";
+		String functionDesc = "测试";
+		String functionPath = "/test/doTest.action";
+		Integer functionParent = 1;
+		String functionOrder = "010500";
+		Boolean functionStatus = true;
+		Function function = new Function(functionName, functionDesc,
+				functionPath, functionParent, functionOrder, functionStatus);
+		Function functionNew = functionService.saveFunction(function);
+
+		// 得到新增后的ID
+		Integer functionId = functionNew.getFunctionId();
+
+		// 更新属性
+		String newFunctionName = "测试2";
+		String newFunctionDesc = "测试2";
+		functionNew.setFunctionName(newFunctionName);
+		functionNew.setFunctionDesc(newFunctionDesc);
+		functionService.updateFunction(functionNew);
+
+		// 检查
+		Function functionDB = functionService.loadFunction(functionId);
+		Assert.assertNotNull(functionDB);
+		Assert.assertEquals("测试2", functionDB.getFunctionName());
+	}
+
+	@Test
+	public void removeFunction() {
+		String functionName = "测试";
+		String functionDesc = "测试";
+		String functionPath = "/test/doTest.action";
+		Integer functionParent = 1;
+		String functionOrder = "010500";
+		Boolean functionStatus = true;
+		Function function = new Function(functionName, functionDesc,
+				functionPath, functionParent, functionOrder, functionStatus);
+		Function functionNew = functionService.saveFunction(function);
+		Integer functionId = functionNew.getFunctionId();
+		functionService.removeFunction(functionId);
+		// 检查
+		Function functionDB = functionService.loadFunction(functionId);
+		Assert.assertNull(functionDB);
+	}
+
+	@Test
+	public void removeFunctions() {
+		String functionName = "测试";
+		String functionDesc = "测试";
+		String functionPath = "/test/doTest.action";
+		Integer functionParent = 1;
+		String functionOrder = "010500";
+		Boolean functionStatus = true;
+		Function function1 = new Function(functionName, functionDesc,
+				functionPath, functionParent, functionOrder, functionStatus);
+		Function function2 = new Function(functionName, functionDesc,
+				functionPath, functionParent, functionOrder, functionStatus);
+		Function functionNew1 = functionService.saveFunction(function1);
+		Function functionNew2 = functionService.saveFunction(function2);
+
+		String[] functionIds = new String[] {
+				functionNew1.getFunctionId().toString(),
+				functionNew2.getFunctionId().toString() };
+		functionService.removeFunctions(functionIds);
+
+		// 检查
+		Function functionDB1 = functionService.loadFunction(functionNew1
+				.getFunctionId());
+		Assert.assertNull(functionDB1);
+		Function functionDB2 = functionService.loadFunction(functionNew2
+				.getFunctionId());
+		Assert.assertNull(functionDB2);
 	}
 
 }

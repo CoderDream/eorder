@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -17,25 +16,25 @@ import com.innovaee.eorder.module.service.RoleService;
 import com.innovaee.eorder.module.vo.ResetPasswordVo;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
 import com.innovaee.eorder.web.action.BaseAction;
-import com.opensymphony.xwork2.ActionContext;
 
 public class RoleFunctionAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(RoleFunctionAction.class);
+	private static final Logger logger = Logger
+			.getLogger(RoleFunctionAction.class);
 
 	private ResetPasswordVo resetPasswordVo;
 
 	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
 
-	private String roleName;
-	
+	private String roleId;
+
 	private List<Role> roles = new ArrayList<Role>();
 
 	private List<Function> myFunctions = new ArrayList<Function>();
 
 	private List<Function> leftFunctions = new ArrayList<Function>();
-	
+
 	private String myFunctionsArray;
 
 	private String leftFunctionsArray;
@@ -45,7 +44,7 @@ public class RoleFunctionAction extends BaseAction {
 
 	@Resource
 	private RoleService roleService;
-	
+
 	@Resource
 	private FunctionService functionService;
 
@@ -67,52 +66,57 @@ public class RoleFunctionAction extends BaseAction {
 
 	public String doLoad() {
 		roles = roleService.findAllRoles();
-		myFunctions = roleFunctionService.findFunctionsByRoleName(roleName);
-		leftFunctions = roleFunctionService.findLeftFunctionsByRoleName(roleName);
+		myFunctions = roleFunctionService.findFunctionsByRoleId(Integer
+				.parseInt(roleId));
+		leftFunctions = roleFunctionService.findLeftFunctionsByRoleId(Integer
+				.parseInt(roleId));
 		return SUCCESS;
 	}
 
 	public String doList() {
 		// books = dao.getBooks();
-		//roleFunctions = roleFunctionService.findAllRoleFunctions();
+		// roleFunctions = roleFunctionService.findAllRoleFunctions();
 
 		return SUCCESS;
 	}
 
 	public String doStore() {
-		//roleFunctionService.saveRoleFunction(roleFunction);
+		// roleFunctionService.saveRoleFunction(roleFunction);
 		return SUCCESS;
 	}
-	
+
 	public String doUpdate() {
-//		ActionContext context = ActionContext.getContext();
-//		HttpServletRequest request = (HttpServletRequest) context.get(ServletActionContext.HTTP_REQUEST);
-//
-//		String[] myFunctionsName = request.getParameterValues("myFunctions");
-//		for (int i = 0; i < myFunctionsName.length; i++) {
-//			System.out.println("拥有功能： " + myFunctionsName[i] + "/t");
-//		}
-//		String[] leftFunctionsName = request.getParameterValues("leftFunctions");
-//		for (int i = 0; i < leftFunctionsName.length; i++) {
-//			System.out.println("未获功能：" + leftFunctionsName[i] + "/t");
-//		}
-		
-		roleFunctionService.updateRoleFunction(roleName, myFunctionsArray);
+		// ActionContext context = ActionContext.getContext();
+		// HttpServletRequest request = (HttpServletRequest)
+		// context.get(ServletActionContext.HTTP_REQUEST);
+		//
+		// String[] myFunctionsName = request.getParameterValues("myFunctions");
+		// for (int i = 0; i < myFunctionsName.length; i++) {
+		// System.out.println("拥有功能： " + myFunctionsName[i] + "/t");
+		// }
+		// String[] leftFunctionsName =
+		// request.getParameterValues("leftFunctions");
+		// for (int i = 0; i < leftFunctionsName.length; i++) {
+		// System.out.println("未获功能：" + leftFunctionsName[i] + "/t");
+		// }
+
+		roleFunctionService.updateRoleFunction(Integer.parseInt(roleId),
+				myFunctionsArray);
 		roles = roleService.findAllRoles();
-		myFunctions = roleFunctionService.findFunctionsByRoleName(roleName);
-		leftFunctions = roleFunctionService.findLeftFunctionsByRoleName(roleName);
+		myFunctions = roleFunctionService.findFunctionsByRoleId(Integer
+				.parseInt(roleId));
+		leftFunctions = roleFunctionService.findLeftFunctionsByRoleId(Integer
+				.parseInt(roleId));
 		return SUCCESS;
 	}
 
 	public String doRemove() {
-//		if (null != roleFunction) {
-//			roleFunctionService.removeRoleFunction(roleFunctionName);
-//		} else {
-//			roleFunctionService.removeRoleFunctions(roleFunctionNames);
-//		}
-		
-	
-		
+		// if (null != roleFunction) {
+		// roleFunctionService.removeRoleFunction(roleFunctionName);
+		// } else {
+		// roleFunctionService.removeRoleFunctions(roleFunctionNames);
+		// }
+
 		return SUCCESS;
 	}
 
@@ -226,12 +230,12 @@ public class RoleFunctionAction extends BaseAction {
 		this.leftFunctions = leftFunctions;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public String getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getMyFunctionsArray() {

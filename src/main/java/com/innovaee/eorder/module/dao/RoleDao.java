@@ -12,9 +12,14 @@ public class RoleDao extends BaseDao {
 		return Role.class;
 	}
 
+	public Role loadRole(Integer roleId) {
+		return (Role) get(roleId);
+	}
+
 	@SuppressWarnings("unchecked")
 	public Role findRolesByRoleName(String roleName) {
-		List<Role> list = (List<Role>) super.getHibernateTemplate().find("FROM Role f WHERE f.roleName=?", roleName);
+		List<Role> list = (List<Role>) super.getHibernateTemplate().find(
+				"FROM Role f WHERE f.roleName=?", roleName);
 		if (null != list && 0 < list.size()) {
 			return list.get(0);
 		}
@@ -26,8 +31,8 @@ public class RoleDao extends BaseDao {
 		return (List<Role>) super.getHibernateTemplate().find("FROM Role");
 	}
 
-	public void saveRole(Role role) {
-		save(role);
+	public Role saveRole(Role role) {
+		return (Role) save(role);
 	}
 
 	public void updateRole(Role role) {
