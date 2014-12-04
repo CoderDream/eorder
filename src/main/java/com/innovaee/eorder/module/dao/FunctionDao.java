@@ -28,7 +28,8 @@ public class FunctionDao extends BaseDao {
 	}
 
 	public Function saveFunction(Function function) {
-		return (Function) save(function);
+		Function function2 = new Function("新功能");
+		return (Function) save(function2);
 	}
 
 	public void updateFunction(Function function) {
@@ -40,13 +41,10 @@ public class FunctionDao extends BaseDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Function findFunctionsByFunctionName(String functionName) {
-		List<Function> list = (List<Function>) super.getHibernateTemplate()
-				.find("FROM Function f WHERE f.functionName=?", functionName);
-		if (null != list && 0 < list.size()) {
-			return list.get(0);
-		}
-		return null;
+	public List<Function> findFunctionsByParentFunctionId(
+			Integer parentFunctionId) {
+		return (List<Function>) super.getHibernateTemplate().find(
+				"FROM Function f WHERE f.functionParent=?", parentFunctionId);
 	}
 
 }

@@ -19,8 +19,9 @@ public class FunctionService extends BaseService {
 		return (List<Function>) functionDao.findAllFunctions();
 	}
 
-	public Function findFunctionsByFunctionName(String functionName) {
-		return (Function) functionDao.findFunctionsByFunctionName(functionName);
+	public List<Function> findFunctionsByParentFunctionId(
+			Integer parentFunctionId) {
+		return functionDao.findFunctionsByParentFunctionId(parentFunctionId);
 	}
 
 	public Function loadFunction(Integer functionId) {

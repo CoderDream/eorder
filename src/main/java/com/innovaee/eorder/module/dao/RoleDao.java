@@ -30,7 +30,7 @@ public class RoleDao extends BaseDao {
 	public List<Role> findAllRoles() {
 		return (List<Role>) super.getHibernateTemplate().find("FROM Role");
 	}
-
+	
 	public Role saveRole(Role role) {
 		return (Role) save(role);
 	}

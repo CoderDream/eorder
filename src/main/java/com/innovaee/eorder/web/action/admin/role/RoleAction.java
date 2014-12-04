@@ -48,7 +48,9 @@ public class RoleAction extends BaseAction {
 	}
 
 	public String doLoad() {
-		role = roleService.loadRole(Integer.parseInt(roleId));
+		if (null != roleId && !"".equals(roleId.trim())) {
+			role = roleService.loadRole(Integer.parseInt(roleId));
+		}
 		return SUCCESS;
 	}
 

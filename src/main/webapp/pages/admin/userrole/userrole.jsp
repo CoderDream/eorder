@@ -35,18 +35,18 @@ table tbody tr td {
 <script type="text/javascript">
 	function loadRoles() {
 		//alert('call loadRoles');
-		var t = document.getElementById("role");
+		var t = document.getElementById("user");
 		//alert("t: " + t);
 		//alert("t: " + t.options[t.selectedIndex].value);
 		var a = t.options[t.selectedIndex].value
 		//alert('a: ' + a);
-		document.getElementById("roleName").value = a;
-		//alert('b: ' + document.getElementById("roleName").value);
+		document.getElementById("roleId").value = a;
+		//alert('b: ' + document.getElementById("roleId").value);
 		//val selectedRoleName = document.getElementById("role").options[t.selectedIndex].value;
 		//alert('selectedRoleName: ' + selectedRoleName);
-		//var roleName = document.getElementById("roleName");
-		//alert('roleName value: ' + roleName.value);
-		//roleName.value = selectedRoleName; 
+		//var roleId = document.getElementById("roleId");
+		//alert('roleId value: ' + roleId.value);
+		//roleId.value = selectedRoleName; 
 		//alert('OK');
 		//var roleObject = document.getElementById("role");
 		//alert('roleObject: ' + roleObject);
@@ -71,13 +71,13 @@ table tbody tr td {
 		//alert("t: " + t.options[t.selectedIndex].value);
 		//var a = t.options[t.selectedIndex].value
 		//alert('a: ' + a);
-		//document.getElementById("roleName").value = a;
-		//alert('b: ' + document.getElementById("roleName").value);
+		//document.getElementById("roleId").value = a;
+		//alert('b: ' + document.getElementById("roleId").value);
 		//val selectedRoleName = document.getElementById("role").options[t.selectedIndex].value;
 		//alert('selectedRoleName: ' + selectedRoleName);
-		//var roleName = document.getElementById("roleName");
-		//alert('roleName value: ' + roleName.value);
-		//roleName.value = selectedRoleName; 
+		//var roleId = document.getElementById("roleId");
+		//alert('roleId value: ' + roleId.value);
+		//roleId.value = selectedRoleName; 
 		//alert('OK');
 		//var roleObject = document.getElementById("role");
 		//alert('roleObject: ' + roleObject);
@@ -88,29 +88,40 @@ table tbody tr td {
 		
 		//alert(pageNow.value);
 		
-		var myRolesOptions = document.getElementById("myRoles").options;
-		var leftRolesOptions = document.getElementById("leftRoles").options;
-		
+		var myRolesOptionsObj = document.getElementById("myRoles");
+		//alert('getOptions #1');
+		var leftRolesOptionsObj = document.getElementById("leftRoles");
+		//alert('getOptions #2');
+		var myRolesOptions = myRolesOptionsObj.options;
+		//alert('getOptions #3');
+		var leftRolesOptions = leftRolesOptionsObj.options;
+		//alert('getOptions #4');
 		//var cnbook = document.getElementByName("cnbook");
 		//alert("cnbook: " + cnbook);
 		//alert("cnbook: " + cnbook.length);
-
+		
 		//var cnbookFlag = "";
 		var myList = new Array();
 		for (var i = 0; i < myRolesOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
 			//alert(myRolesOptions[i].value);
-			myList.push(myRolesOptions[i].value);
+			if(0 != myRolesOptions[i].value) {
+				myList.push(myRolesOptions[i].value);
+			}
 		}
 		var leftList = new Array();
 		for (var i = 0; i < leftRolesOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
 			//alert(leftRolesOptions[i].value);
-			leftList.push(leftRolesOptions[i].value);
+			if(0 != leftRolesOptions[i].value) {
+				leftList.push(leftRolesOptions[i].value);
+			}
 		}
 		document.getElementById("myRolesArray").value = myList;
 		document.getElementById("leftRolesArray").value = leftList;	
 		
+		// 
+		//alert('doUpdate');
 		//获取该页面中的第一个表单元素
 		var targetForm = document.forms[0];
 		//动态修改目标表单的action属性
@@ -123,33 +134,35 @@ table tbody tr td {
 <body>
 	<div width="1020" style="height: 604px; background-color: #FFFFFF">
 		<s:form id="roleForm" action="#" method="post" theme="simple">
-			<s:hidden id="roleName" name="roleName"/>
+			<s:hidden id="roleId" name="roleId"/>
 			<s:hidden id="myRolesArray" name="myRolesArray"/>
 			<s:hidden id="leftRolesArray" name="leftRolesArray"/>
 			<table cellspacing="0">
 				<tr>
 					<td><s:select 
-							label="角色" 
-							list="roles" 
-							id="role" 
-							name="role" 
-							listKey="roleName"
-							listValue="roleDesc" 
-							value="roleName"
+							label="用户" 
+							list="users" 
+							id="user" 
+							name="user" 
+							listKey="userId"
+							listValue="username" 
+							value="userId"
 							onchange="javascript:loadRoles();" 
 							multiple="ture" 
 							size="10"/>
 					</td>
-					<td><s:optiontransferselect 
+					<td><s:optiontransferselect
+							id="myRoles"
+							doubleId="leftRoles"
 							label="拥有的功能" 
 							name="myRoles" 
 							list="myRoles" 
-							listKey="roleName" 
-							listValue="roleDisplay" 
+							listKey="roleId" 
+							listValue="roleName" 
 							doubleName="leftRoles" 
 							doubleList="leftRoles" 
-							doubleListKey="roleName"  
-							doubleListValue="roleDisplay"
+							doubleListKey="roleId"  
+							doubleListValue="roleName"
 							/></td>
 				</tr>
 				<tr>

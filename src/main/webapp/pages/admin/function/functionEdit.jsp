@@ -32,7 +32,7 @@
 		<s:else>
             修改功能
             <s:form action="doUpdate">
-				<s:hidden id="function.functionId" name="function.functionId"
+				<s:hidden id="functionId" name="functionId"
 					value="function.functionId"></s:hidden>
 				<s:textfield name="function.functionName" label="功能名称"
 					cssStyle="width: 300px;" />

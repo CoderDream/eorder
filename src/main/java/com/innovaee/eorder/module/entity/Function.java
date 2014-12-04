@@ -49,6 +49,12 @@ public class Function extends BaseEntity {
 		this.functionId = functionId;
 	}
 
+	public Function(Integer functionId, String functionName) {
+		super();
+		this.functionId = functionId;
+		this.functionName = functionName;
+	}
+
 	public Integer getFunctionId() {
 		return functionId;
 	}
@@ -73,6 +79,11 @@ public class Function extends BaseEntity {
 		this.updateAt = updateAt;
 	}
 
+	public Function(String functionName) {
+		super();
+		this.functionName = functionName;
+	}
+
 	public Function(String functionName, String functionDesc,
 			String functionPath, Integer functionParent, String functionOrder,
 			Boolean functionStatus) {
@@ -83,6 +94,19 @@ public class Function extends BaseEntity {
 		this.functionParent = functionParent;
 		this.functionOrder = functionOrder;
 		this.functionStatus = functionStatus;
+	}
+
+	public Function(String functionName, String functionDesc,
+			String functionPath, Integer functionParent, String functionOrder,
+			Boolean functionStatus, Timestamp createAt) {
+		super();
+		this.functionName = functionName;
+		this.functionDesc = functionDesc;
+		this.functionPath = functionPath;
+		this.functionParent = functionParent;
+		this.functionOrder = functionOrder;
+		this.functionStatus = functionStatus;
+		this.createAt = createAt;
 	}
 
 	public Function(Integer functionId, String functionName,

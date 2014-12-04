@@ -29,7 +29,7 @@ public class UserRoleServiceTest extends BaseSpringTestCase {
 	}
 
 	@Test
-	public void findUserRoleByUserId() {
+	public void findUserRoleByUserId_01() {
 		Integer userId = 1;
 		List<UserRole> userRoles = userRoleService
 				.findUserRolesByUserId(userId);
@@ -38,6 +38,18 @@ public class UserRoleServiceTest extends BaseSpringTestCase {
 			System.out.println(userRole);
 		}
 	}
+	
+	@Test
+	public void findUserRoleByUserId_02() {
+		Integer userId = 2;
+		List<UserRole> userRoles = userRoleService
+				.findUserRolesByUserId(userId);
+		Assert.assertNotNull(userRoles);
+		for (UserRole userRole : userRoles) {
+			System.out.println(userRole);
+		}
+	}
+
 
 	@Test
 	public void findUserRoleByIds() {
@@ -79,7 +91,6 @@ public class UserRoleServiceTest extends BaseSpringTestCase {
 		Assert.assertEquals(userId, newUserRole.getUserId());
 
 		userRoleService.removeUserRole(user, role);
-
 		UserRole userRoleDB = userRoleService.findUserRoleByIds(roleId, userId);
 		Assert.assertNull(userRoleDB);
 	}
@@ -99,7 +110,7 @@ public class UserRoleServiceTest extends BaseSpringTestCase {
 	public void findLeftRolesByUserId() {
 		List<Role> roles = userRoleService.findLeftRolesByUserId(userId);
 		Assert.assertNotNull(roles);
-		Assert.assertEquals(0, roles.size());
+		Assert.assertEquals(1, roles.size());
 	}
 
 }

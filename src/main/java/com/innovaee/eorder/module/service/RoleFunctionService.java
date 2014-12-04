@@ -51,7 +51,10 @@ public class RoleFunctionService extends BaseService {
 		Function function = null;
 		for (RoleFunction roleFunction : roleFunctions) {
 			function = functionDao.loadFunction(roleFunction.getFunctionId());
-			functions.add(function);
+			// 过滤Root功能
+			if (0 != function.getFunctionParent()) {
+				functions.add(function);
+			}
 		}
 
 		return functions;
@@ -62,19 +65,30 @@ public class RoleFunctionService extends BaseService {
 	 * @return
 	 */
 	public List<Function> findLeftFunctionsByRoleId(Integer roleId) {
+		List<Function> leftFunctions = new ArrayList<Function>();
 		List<Function> functions = new ArrayList<Function>();
 		List<RoleFunction> roleFunctions = roleFunctionDao
 				.findRoleFunctionsByRoleId(roleId);
 		Function function = null;
 		for (RoleFunction roleFunction : roleFunctions) {
 			function = functionDao.loadFunction(roleFunction.getFunctionId());
-			functions.add(function);
+			// 过滤Root类型的功能(functionParen为0)
+			if (0 != function.getFunctionParent()) {
+				functions.add(function);
+			}
 		}
 
 		List<Function> allFunctions = functionDao.findAllFunctions();
-		allFunctions.removeAll(functions);
+		for (Function functionDB : allFunctions) {
+			// 过滤Root类型的功能(functionParen为0)
+			if (0 != functionDB.getFunctionParent()) {
+				leftFunctions.add(functionDB);
+			}
+		}
 
-		return allFunctions;
+		leftFunctions.removeAll(functions);
+
+		return leftFunctions;
 	}
 
 	public void saveRoleFunction(RoleFunction roleFunction) {
@@ -98,6 +112,18 @@ public class RoleFunctionService extends BaseService {
 					.findRoleFunctionByIds(roleId, functionId);
 			// 如果DB不存在，就添加
 			if (null == roleFunctionDB) {
+				// 先检查这个功能的父功能是否给该roleId
+				Integer parentFunctionId = functionDB.getFunctionParent();
+				RoleFunction parentRoleFunctionDB = (RoleFunction) roleFunctionDao
+						.findRoleFunctionByIds(roleId, parentFunctionId);
+				// 如果不存在，就添加该父功能
+				if (null == parentRoleFunctionDB) {
+					parentRoleFunctionDB = new RoleFunction(roleId,
+							parentFunctionId, createAt);
+					rtnRoleFunction = roleFunctionDao
+							.saveRoleFunction(parentRoleFunctionDB);
+				}
+
 				rtnRoleFunction = roleFunctionDao
 						.saveRoleFunction(roleFunction);
 			}
@@ -120,14 +146,41 @@ public class RoleFunctionService extends BaseService {
 			if (null != roleFunctionDB) {
 				roleFunctionDao.removeRoleFunction(roleFunctionDB);
 			}
+
+			// 如果某功能组的所有功能都删除了，如果只剩下父功能对应的一条记录，则该父功能记录也要移除
+			// 先得到这个功能的父功能及其子功能在角色功能表中的记录列表
+			// 1、先通过parentFunctionId找到所有该功能的子功能
+			Integer parentFunctionId = functionDB.getFunctionParent();
+			List<Function> subFunctionList = functionDao
+					.findFunctionsByParentFunctionId(parentFunctionId);
+			List<Integer> subFunctionIdList = new ArrayList<Integer>();
+			for (Function subFunction : subFunctionList) {
+				System.out.println(subFunction);
+				subFunctionIdList.add(subFunction.getFunctionId());
+			}
+
+			List<RoleFunction> subRoleFunctionListDB = roleFunctionDao
+					.findParentRoleFunctionByIds(roleId, parentFunctionId);
+			// 如果不存在子功能，就删除该父功能
+			if (0 == subRoleFunctionListDB.size()) {
+				RoleFunction parentRoleFunction = new RoleFunction(roleId,
+						parentFunctionId);
+				roleFunctionDao.removeRoleFunction(parentRoleFunction);
+			}
 		}
+	}
+
+	public List<RoleFunction> findRoleFunctionsByFunctionIds(Integer roleId,
+			final List<Integer> parentFunctionId) {
+		return roleFunctionDao.findRoleFunctionsByFunctionIds(roleId,
+				parentFunctionId);
 	}
 
 	/**
 	 * @param roleId
 	 * @param myFunctions
 	 */
-	public void updateRoleFunction(Integer roleId, String myFunctionIds) {
+	public void updateRoleFunctionBackup(Integer roleId, String myFunctionIds) {
 		List<Integer> myFunctionIdList = StringUtil.stringToIntegerList(
 				myFunctionIds, Constants.REGEX);
 
@@ -153,6 +206,30 @@ public class RoleFunctionService extends BaseService {
 		toDeleteFunctionIds.removeAll(myFunctionIdList);
 		for (Integer functionId : toDeleteFunctionIds) {
 			removeRoleFunction(new Role(roleId), new Function(functionId));
+		}
+	}
+
+	/**
+	 * 先删除已有的，后增加最新的
+	 * 
+	 * @param roleId
+	 * @param myFunctions
+	 */
+	public void updateRoleFunction(Integer roleId, String myFunctionIds) {
+		// 1. 根据roleId获取DB中的functionId列表，然后删除；
+		List<RoleFunction> dbRoleFunctions = roleFunctionDao
+				.findRoleFunctionsByRoleId(roleId);
+		for (RoleFunction roleFunction : dbRoleFunctions) {
+			// dbFunctionIds.add(roleFunction.getFunctionId());
+			removeRoleFunction(new Role(roleId),
+					new Function(roleFunction.getFunctionId()));
+		}
+
+		// 2. 取得需要新增的functionId列表；
+		List<Integer> myFunctionIdList = StringUtil.stringToIntegerList(
+				myFunctionIds, Constants.REGEX);
+		for (Integer functionId : myFunctionIdList) {
+			saveRoleFunction(new Role(roleId), new Function(functionId));
 		}
 	}
 

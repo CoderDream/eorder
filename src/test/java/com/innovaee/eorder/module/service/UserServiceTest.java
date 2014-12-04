@@ -18,8 +18,8 @@ public class UserServiceTest extends BaseSpringTestCase {
 	@Autowired
 	private UserService userService;
 
-	private String username = "测试";
-	private String password = "12345";
+	private String username = "abc";
+	private String password = "abc";
 	private String cellphone = "13888888888";
 	private Integer levelId = 1;
 	private Boolean userStatus = true;

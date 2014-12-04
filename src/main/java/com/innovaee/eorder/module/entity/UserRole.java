@@ -37,6 +37,11 @@ public class UserRole extends BaseEntity {
 	public UserRole() {
 	}
 
+	public UserRole(Integer userId) {
+		super();
+		this.userId = userId;
+	}
+
 	public UserRole(Integer userId, Integer roleId, Timestamp createAt) {
 		super();
 		this.userId = userId;
@@ -82,6 +87,13 @@ public class UserRole extends BaseEntity {
 
 	public void setUpdateAt(Timestamp updateAt) {
 		this.updateAt = updateAt;
+	}
+
+	@Override
+	public String toString() {
+		return "UserRole [userRoleId=" + userRoleId + ", userId=" + userId
+				+ ", roleId=" + roleId + ", createAt=" + createAt
+				+ ", updateAt=" + updateAt + "]";
 	}
 
 }

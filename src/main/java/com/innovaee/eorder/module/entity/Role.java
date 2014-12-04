@@ -42,11 +42,26 @@ public class Role extends BaseEntity {
 		this.roleId = roleId;
 	}
 
+	public Role(Integer roleId, String roleName) {
+		super();
+		this.roleId = roleId;
+		this.roleName = roleName;
+	}
+
 	public Role(String roleName, String roleDesc, Boolean roleStatus) {
 		super();
 		this.roleName = roleName;
 		this.roleDesc = roleDesc;
 		this.roleStatus = roleStatus;
+	}
+
+	public Role(String roleName, String roleDesc, Boolean roleStatus,
+			Timestamp createAt) {
+		super();
+		this.roleName = roleName;
+		this.roleDesc = roleDesc;
+		this.roleStatus = roleStatus;
+		this.createAt = createAt;
 	}
 
 	public Role(Integer roleId, String roleName, String roleDesc,

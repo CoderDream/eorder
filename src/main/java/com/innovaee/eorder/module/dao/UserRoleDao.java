@@ -30,12 +30,12 @@ public class UserRoleDao extends BaseDao {
 		super.getHibernateTemplate().delete(userRole);
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<UserRole> findUserRolesByRoleId(Integer roleId) {
-		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate()
-				.find("FROM UserRole f WHERE f.roleId=?", roleId);
-		return list;
-	}
+//	@SuppressWarnings("unchecked")
+//	public List<UserRole> findUserRolesByRoleId(Integer roleId) {
+//		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate()
+//				.find("FROM UserRole f WHERE f.roleId=?", roleId);
+//		return list;
+//	}
 
 	@SuppressWarnings("unchecked")
 	public List<UserRole> findUserRolesByUserId(Integer userId) {

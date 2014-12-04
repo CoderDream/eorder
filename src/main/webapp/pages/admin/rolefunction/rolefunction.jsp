@@ -40,7 +40,7 @@ table tbody tr td {
 		//alert("t: " + t.options[t.selectedIndex].value);
 		var a = t.options[t.selectedIndex].value
 		//alert('a: ' + a);
-		document.getElementById("roleName").value = a;
+		document.getElementById("roleId").value = a;
 		//alert('b: ' + document.getElementById("roleName").value);
 		//val selectedRoleName = document.getElementById("role").options[t.selectedIndex].value;
 		//alert('selectedRoleName: ' + selectedRoleName);
@@ -100,13 +100,17 @@ table tbody tr td {
 		for (var i = 0; i < myFunctionsOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
 			//alert(myFunctionsOptions[i].value);
-			myList.push(myFunctionsOptions[i].value);
+			if(0 != myFunctionsOptions[i].value) {
+				leftList.push(myFunctionsOptions[i].value);
+			}
 		}
 		var leftList = new Array();
 		for (var i = 0; i < leftFunctionsOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
 			//alert(leftFunctionsOptions[i].value);
-			leftList.push(leftFunctionsOptions[i].value);
+			if(0 != leftFunctionsOptions[i].value) {
+				leftList.push(leftFunctionsOptions[i].value);
+			}
 		}
 		document.getElementById("myFunctionsArray").value = myList;
 		document.getElementById("leftFunctionsArray").value = leftList;	
@@ -123,7 +127,7 @@ table tbody tr td {
 <body>
 	<div width="1020" style="height: 604px; background-color: #FFFFFF">
 		<s:form id="roleForm" action="#" method="post" theme="simple">
-			<s:hidden id="roleName" name="roleName"/>
+			<s:hidden id="roleId" name="roleId"/>
 			<s:hidden id="myFunctionsArray" name="myFunctionsArray"/>
 			<s:hidden id="leftFunctionsArray" name="leftFunctionsArray"/>
 			<table cellspacing="0">
@@ -133,23 +137,25 @@ table tbody tr td {
 							list="roles" 
 							id="role" 
 							name="role" 
-							listKey="roleName"
-							listValue="roleDesc" 
-							value="roleName"
+							listKey="roleId"
+							listValue="roleName" 
+							value="roleId"
 							onchange="javascript:loadFunctions();" 
 							multiple="ture" 
 							size="10"/>
 					</td>
 					<td><s:optiontransferselect 
+							id="myFunctions"
 							label="拥有的功能" 
 							name="myFunctions" 
 							list="myFunctions" 
-							listKey="functionName" 
-							listValue="functionDisplay" 
+							listKey="functionId" 
+							listValue="functionName" 
+							doubleId="leftFunctions"
 							doubleName="leftFunctions" 
 							doubleList="leftFunctions" 
-							doubleListKey="functionName"  
-							doubleListValue="functionDisplay"
+							doubleListKey="functionId"  
+							doubleListValue="functionName"
 							/></td>
 				</tr>
 				<tr>

@@ -45,7 +45,7 @@ public class RoleServiceTest extends BaseSpringTestCase {
 
 	@Test
 	public void saveRole() {
-		Role role = new Role(roleName, roleDesc, roleStatus);
+		Role role = new Role(roleName, roleDesc, roleStatus, createAt);
 		Role roleNew = roleService.saveRole(role);
 
 		// 检查

@@ -41,6 +41,12 @@ public class RoleFunction extends BaseEntity {
 		this.roleFunctionId = roleFunctionId;
 	}
 
+	public RoleFunction(Integer roleId, Integer functionId) {
+		super();
+		this.roleId = roleId;
+		this.functionId = functionId;
+	}
+
 	public RoleFunction(Integer roleId, Integer functionId, Timestamp createAt) {
 		super();
 		this.roleId = roleId;

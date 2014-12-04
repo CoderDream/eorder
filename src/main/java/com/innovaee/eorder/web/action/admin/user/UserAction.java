@@ -7,8 +7,11 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.BeanUtils;
 
+import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.entity.User;
+import com.innovaee.eorder.module.service.UserRoleService;
 import com.innovaee.eorder.module.service.UserService;
 import com.innovaee.eorder.module.utils.Md5Util;
 import com.innovaee.eorder.module.vo.ResetPasswordVo;
@@ -26,11 +29,15 @@ public class UserAction extends BaseAction {
 
 	private String userId;
 	private String[] userIds;
-	private User user = new User();
+	private User user;
+
 	private List<User> users = new ArrayList<User>();
 
 	@Resource
 	private UserService userService;
+
+	@Resource
+	private UserRoleService userRoleService;
 
 	private String contextPath;
 
@@ -49,7 +56,9 @@ public class UserAction extends BaseAction {
 	}
 
 	public String doLoad() {
-		user = userService.loadUser(Integer.parseInt(userId));
+		if (null != userId && !"".equals(userId.trim())) {
+			user = userService.loadUser(Integer.parseInt(userId));
+		}
 		return SUCCESS;
 	}
 
@@ -64,17 +73,30 @@ public class UserAction extends BaseAction {
 		String password = user.getPassword();
 		String md5Password = Md5Util.getMD5Str(password + "{" + userId + "}");
 		user.setPassword(md5Password);
+		user.setUserStatus(true);
 
-		userService.saveUser(user);
+		// User newUser =
+		User user2 = new User();
+		BeanUtils.copyProperties(user, user2);
+		userService.saveUser(user2);
+		// 默认给用户添加普通用户的角色
+		userRoleService.saveUserRole(user2, new Role(2));
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		String userId = user.getUsername();
-		String password = user.getPassword();
-		String md5Password = Md5Util.getMD5Str(password + "{" + userId + "}");
-		user.setPassword(md5Password);
-		userService.updateUser(user);
+		// String userId = user.getUsername();
+		// String password = user.getPassword();
+		// String md5Password = Md5Util.getMD5Str(password + "{" + userId +
+		// "}");
+		// user.setPassword(md5Password);
+		// SessionFactoryUtils s = null;
+		if (null != userId) {
+			user.setUserId(Integer.parseInt(userId));
+		}
+		User user2 = new User();
+		BeanUtils.copyProperties(user, user2);
+		userService.updateUser(user2);
 		return SUCCESS;
 	}
 
@@ -195,6 +217,14 @@ public class UserAction extends BaseAction {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public UserRoleService getUserRoleService() {
+		return userRoleService;
+	}
+
+	public void setUserRoleService(UserRoleService userRoleService) {
+		this.userRoleService = userRoleService;
 	}
 
 }

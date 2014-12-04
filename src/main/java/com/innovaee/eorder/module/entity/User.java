@@ -24,6 +24,7 @@ public class User extends BaseEntity {
 	@Id
 	@Column(name = "USER_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	// @Column(name = "USER_ID")
 	private Integer userId;
 	@Column(name = "USERNAME")
 	private String username;
@@ -56,6 +57,10 @@ public class User extends BaseEntity {
 
 	public User(Integer userId) {
 		this.userId = userId;
+	}
+	
+	public User(String username) {
+		this.username = username;
 	}
 
 	public Integer getUserId() {

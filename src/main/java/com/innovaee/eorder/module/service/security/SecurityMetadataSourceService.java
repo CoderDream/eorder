@@ -15,14 +15,14 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
-import com.innovaee.eorder.module.dao.RoleFunctionDao;
 import com.innovaee.eorder.module.dao.FunctionDao;
 import com.innovaee.eorder.module.dao.RoleDao;
+import com.innovaee.eorder.module.dao.RoleFunctionDao;
 import com.innovaee.eorder.module.dao.UserDao;
 import com.innovaee.eorder.module.dao.UserRoleDao;
-import com.innovaee.eorder.module.entity.RoleFunction;
 import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.entity.Role;
+import com.innovaee.eorder.module.entity.RoleFunction;
 import com.innovaee.eorder.module.entity.User;
 import com.innovaee.eorder.module.entity.UserRole;
 import com.innovaee.eorder.module.service.BaseService;
@@ -70,6 +70,7 @@ public class SecurityMetadataSourceService extends BaseService implements
 	public List<UserFunctionVo> getUserFunctions(String username) {
 		List<UserFunctionVo> userFunctions = new ArrayList<UserFunctionVo>();
 
+		org.springframework.security.web.authentication.logout.LogoutFilter l = null;
 		// User
 		User user = (User) userDao.findUsersByUserName(username);
 

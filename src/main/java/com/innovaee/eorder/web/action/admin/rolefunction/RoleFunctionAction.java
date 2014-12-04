@@ -65,11 +65,7 @@ public class RoleFunctionAction extends BaseAction {
 	}
 
 	public String doLoad() {
-		roles = roleService.findAllRoles();
-		myFunctions = roleFunctionService.findFunctionsByRoleId(Integer
-				.parseInt(roleId));
-		leftFunctions = roleFunctionService.findLeftFunctionsByRoleId(Integer
-				.parseInt(roleId));
+		loadScreenData();
 		return SUCCESS;
 	}
 
@@ -102,12 +98,22 @@ public class RoleFunctionAction extends BaseAction {
 
 		roleFunctionService.updateRoleFunction(Integer.parseInt(roleId),
 				myFunctionsArray);
+		loadScreenData();
+		return SUCCESS;
+	}
+
+	private void loadScreenData() {
 		roles = roleService.findAllRoles();
 		myFunctions = roleFunctionService.findFunctionsByRoleId(Integer
 				.parseInt(roleId));
+		if (null == myFunctions || 0 == myFunctions.size()) {
+			myFunctions.add(new Function(0, ""));
+		}
 		leftFunctions = roleFunctionService.findLeftFunctionsByRoleId(Integer
 				.parseInt(roleId));
-		return SUCCESS;
+		if (null == leftFunctions || 0 == leftFunctions.size()) {
+			leftFunctions.add(new Function(0, ""));
+		}
 	}
 
 	public String doRemove() {

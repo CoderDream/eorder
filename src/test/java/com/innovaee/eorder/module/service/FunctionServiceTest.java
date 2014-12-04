@@ -14,6 +14,13 @@ public class FunctionServiceTest extends BaseSpringTestCase {
 	@Autowired
 	private FunctionService functionService;
 
+	private String functionName = "测试";
+	private String functionDesc = "测试";
+	private String functionPath = "/test/doTest.action";
+	private Integer functionParent = 1;
+	private String functionOrder = "010500";
+	private Boolean functionStatus = true;
+
 	@Test
 	public void getAllFunctions() {
 		List<Function> allFunctions = functionService.findAllFunctions();
@@ -33,23 +40,21 @@ public class FunctionServiceTest extends BaseSpringTestCase {
 	}
 
 	@Test
-	public void findFunctionsByFunctionName() {
-		String functionName = "系统管理";
-		Function function = functionService
-				.findFunctionsByFunctionName(functionName);
-		Assert.assertNotNull(function);
+	public void findFunctionsByParentFunctionId() {
+		Integer parentFunctionId = 1;
+		List<Function> functionList = functionService
+				.findFunctionsByParentFunctionId(parentFunctionId);
+		Assert.assertNotNull(functionList);
+		for (Function function : functionList) {
+			System.out.println(function);
+		}
 	}
 
 	@Test
 	public void saveFunction() {
-		String functionName = "测试";
-		String functionDesc = "测试";
-		String functionPath = "/test/doTest.action";
-		Integer functionParent = 1;
-		String functionOrder = "010500";
-		Boolean functionStatus = true;
 		Function function = new Function(functionName, functionDesc,
-				functionPath, functionParent, functionOrder, functionStatus);
+				functionPath, functionParent, functionOrder, functionStatus,
+				createAt);
 		Function functionNew = functionService.saveFunction(function);
 
 		// 检查
@@ -62,12 +67,6 @@ public class FunctionServiceTest extends BaseSpringTestCase {
 	@Test
 	public void updateFunction() {
 		// 先新增一个对象
-		String functionName = "测试";
-		String functionDesc = "测试";
-		String functionPath = "/test/doTest.action";
-		Integer functionParent = 1;
-		String functionOrder = "010500";
-		Boolean functionStatus = true;
 		Function function = new Function(functionName, functionDesc,
 				functionPath, functionParent, functionOrder, functionStatus);
 		Function functionNew = functionService.saveFunction(function);
@@ -90,12 +89,6 @@ public class FunctionServiceTest extends BaseSpringTestCase {
 
 	@Test
 	public void removeFunction() {
-		String functionName = "测试";
-		String functionDesc = "测试";
-		String functionPath = "/test/doTest.action";
-		Integer functionParent = 1;
-		String functionOrder = "010500";
-		Boolean functionStatus = true;
 		Function function = new Function(functionName, functionDesc,
 				functionPath, functionParent, functionOrder, functionStatus);
 		Function functionNew = functionService.saveFunction(function);
@@ -108,12 +101,6 @@ public class FunctionServiceTest extends BaseSpringTestCase {
 
 	@Test
 	public void removeFunctions() {
-		String functionName = "测试";
-		String functionDesc = "测试";
-		String functionPath = "/test/doTest.action";
-		Integer functionParent = 1;
-		String functionOrder = "010500";
-		Boolean functionStatus = true;
 		Function function1 = new Function(functionName, functionDesc,
 				functionPath, functionParent, functionOrder, functionStatus);
 		Function function2 = new Function(functionName, functionDesc,

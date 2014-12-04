@@ -25,7 +25,7 @@ public class FunctionAction extends BaseAction {
 
 	private String functionId;
 	private String[] functionIds;
-	private Function function = new Function();
+	private Function function;
 	private List<Function> functions = new ArrayList<Function>();
 
 	@Resource
@@ -48,7 +48,10 @@ public class FunctionAction extends BaseAction {
 	}
 
 	public String doLoad() {
-		function = functionService.loadFunction(Integer.parseInt(functionId));
+		if (null != functionId && !"".equals(functionId.trim())) {
+			function = functionService.loadFunction(Integer
+					.parseInt(functionId));
+		}
 		return SUCCESS;
 	}
 
@@ -60,9 +63,8 @@ public class FunctionAction extends BaseAction {
 
 	public String doStore() {
 		// dao.storeBook(function);
-		// Function function2 = new Function("abcd", "abcd", "abcd", "abcd",
-		// "abcd", "abcd", false);
-		functionService.saveFunction(function);
+		Function function2 = new Function("新功能");
+		functionService.saveFunction(function2);
 		// String result = functionService.storeFunction(function);
 		// System.out.println("store result: " + result);
 		return SUCCESS;

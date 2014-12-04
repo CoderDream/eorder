@@ -1,5 +1,6 @@
 package com.innovaee.eorder.module.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -52,7 +53,20 @@ public class RoleFunctionServiceTest extends BaseSpringTestCase {
 	}
 
 	@Test
-	public void saveRoleFunction() {
+	public void saveRoleFunction_01() {
+		Role role = new Role(roleId);
+		Function function = new Function(functionId);
+		RoleFunction newRoleFunction = roleFunctionService.saveRoleFunction(
+				role, function);
+		Assert.assertNotNull(newRoleFunction);
+		Assert.assertEquals(roleId, newRoleFunction.getRoleId());
+		Assert.assertEquals(functionId, newRoleFunction.getFunctionId());
+	}
+
+	@Test
+	public void saveRoleFunction_02() {
+		roleId = 2;
+		functionId = 9;
 		Role role = new Role(roleId);
 		Function function = new Function(functionId);
 		RoleFunction newRoleFunction = roleFunctionService.saveRoleFunction(
@@ -91,14 +105,27 @@ public class RoleFunctionServiceTest extends BaseSpringTestCase {
 	}
 
 	@Test
-	public void updateRoleFunction() {
-		String myFunctionIds = "1,2,3";
+	public void updateRoleFunction_01() {
+		roleId = 2;
+		String myFunctionIds = "2,3,8,11";
 		roleFunctionService.updateRoleFunction(roleId, myFunctionIds);
 
 		List<RoleFunction> roleFunctions = roleFunctionService
 				.findRoleFunctionsByRoleId(roleId);
 		Assert.assertNotNull(roleFunctions);
-		Assert.assertEquals(3, roleFunctions.size());
+		Assert.assertEquals(7, roleFunctions.size());
+	}
+
+	@Test
+	public void updateRoleFunction_02() {
+		roleId = 2;
+		String myFunctionIds = "9,11";
+		roleFunctionService.updateRoleFunction(roleId, myFunctionIds);
+
+		List<RoleFunction> roleFunctions = roleFunctionService
+				.findRoleFunctionsByRoleId(roleId);
+		Assert.assertNotNull(roleFunctions);
+		Assert.assertEquals(4, roleFunctions.size());
 	}
 
 	@Test
@@ -107,6 +134,27 @@ public class RoleFunctionServiceTest extends BaseSpringTestCase {
 				.findLeftFunctionsByRoleId(roleId);
 		Assert.assertNotNull(functions);
 		Assert.assertEquals(3, functions.size());
+	}
+
+	@Test
+	public void findLeftFunctionsByRoleId_02() {
+		roleId = 3;
+		List<Function> functions = roleFunctionService
+				.findLeftFunctionsByRoleId(roleId);
+		Assert.assertNotNull(functions);
+		Assert.assertEquals(8, functions.size());
+	}
+
+	@Test
+	public void findRoleFunctionsByFunctionIds() {
+		List<Integer> parentFunctionId = new ArrayList<Integer>();
+		parentFunctionId.add(3);
+		List<RoleFunction> roleFunctions = roleFunctionService
+				.findRoleFunctionsByFunctionIds(roleId, parentFunctionId);
+		Assert.assertNotNull(roleFunctions);
+		for (RoleFunction roleFunction : roleFunctions) {
+			System.out.println(roleFunction);
+		}
 	}
 
 }

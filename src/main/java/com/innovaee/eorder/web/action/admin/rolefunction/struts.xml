@@ -11,7 +11,7 @@
 		<action name="doList" class="com.innovaee.eorder.web.action.admin.rolefunction.RoleFunctionAction" method="list">
 			<result>/pages/admin/rolefunction/rolefunction.jsp</result>
 		</action>
-		<action name="doLoad" class="com.innovaee.eorder.web.action.admin.rolefunction.RoleFunctionAction" method="load">
+		<action name="doLoad" class="com.innovaee.eorder.web.action.admin.rolefunction.RoleFunctionAction" method="doLoad">
 			<result>/pages/admin/rolefunction/rolefunction.jsp</result>
 		</action>
 		<action name="doStore" class="com.innovaee.eorder.web.action.admin.rolefunction.RoleFunctionAction" method="doStore">
@@ -19,9 +19,6 @@
 		</action>
 		<action name="doUpdate" class="com.innovaee.eorder.web.action.admin.rolefunction.RoleFunctionAction" method="doUpdate">
 			<result>/pages/admin/rolefunction/rolefunction.jsp</result>
-		</action>
-		<action name="doRemove" class="com.innovaee.eorder.web.action.admin.rolefunction.RoleFunctionAction" method="remove">
-			<result type="redirect">doRoleFunction.action</result>
 		</action>
 
 		<action name="roleFunctionAction" class="com.innovaee.eorder.web.action.admin.rolefunction.RoleFunctionAction" method="execute">

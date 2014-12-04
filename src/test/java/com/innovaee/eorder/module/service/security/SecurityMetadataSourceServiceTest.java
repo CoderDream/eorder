@@ -29,8 +29,19 @@ public class SecurityMetadataSourceServiceTest extends BaseSpringTestCase {
 	}
 
 	@Test
-	public void getUserFunctions() {
+	public void getUserFunctions_01() {
 		String username = "admin";
+		List<UserFunctionVo> allUserFunctionVos = securityMetadataSourceService
+				.getUserFunctions(username);
+		Assert.assertNotNull(allUserFunctionVos);
+		for (UserFunctionVo userFunctionVo : allUserFunctionVos) {
+			System.out.println(userFunctionVo);
+		}
+	}
+
+	@Test
+	public void getUserFunctions_02() {
+		String username = "test";
 		List<UserFunctionVo> allUserFunctionVos = securityMetadataSourceService
 				.getUserFunctions(username);
 		Assert.assertNotNull(allUserFunctionVos);

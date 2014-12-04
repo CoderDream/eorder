@@ -11,6 +11,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<!-- support spring annotation -->
 	<context:annotation-config />
+	<!-- 去哪个包扫描生成bean 
+ 	<context:component-scan base-package="com.innovaee.eorder.module.entity.*" />  -->
 
 	<bean id="databaseConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -50,6 +52,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			<list>
 				<value>com.innovaee.eorder.module.entity</value>
 				<value>com.innovaee.eorder.module.utils.log</value>
+				<value>cn.net.msg.model</value>
 			</list>
 		</property>
 
