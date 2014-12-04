@@ -42,7 +42,6 @@ table tbody tr td {
 					<th>功能路径</th>
 					<th>父功能</th>
 					<th>功能序号</th>
-					<th>功能状态</th>
 					<th>操作</th>
 				</tr>
 
@@ -55,7 +54,6 @@ table tbody tr td {
 						<td><s:property value="functionPath" /></td>
 						<td><s:property value="functionParent" /></td>
 						<td><s:property value="functionOrder" /></td>
-						<td><s:property value="functionStatus" /></td>
 						<td><a
 							href='<s:url action="doEdit"><s:param name="functionId" value="functionId" /></s:url>'>
 								修改 </a> &nbsp; <a

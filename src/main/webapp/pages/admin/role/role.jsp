@@ -39,7 +39,6 @@ table tbody tr td {
 					<th></th>
 					<th>角色名称</th>
 					<th>角色描述</th>
-					<th>功能状态</th>
 					<th>操作</th>
 				</tr>
 				<s:iterator value="roles">
@@ -48,7 +47,6 @@ table tbody tr td {
 							value='<s:property value="roleId" />' /></td>
 						<td><s:property value="roleName" /></td>
 						<td><s:property value="roleDesc" /></td>
-						<td><s:property value="roleStatus" /></td>
 						<td><a
 							href='<s:url action="doEdit"><s:param name="roleId" value="roleId" /></s:url>'>
 								修改 </a> &nbsp; <a

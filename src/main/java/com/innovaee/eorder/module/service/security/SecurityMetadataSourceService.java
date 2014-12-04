@@ -69,30 +69,21 @@ public class SecurityMetadataSourceService extends BaseService implements
 
 	public List<UserFunctionVo> getUserFunctions(String username) {
 		List<UserFunctionVo> userFunctions = new ArrayList<UserFunctionVo>();
-
-		org.springframework.security.web.authentication.logout.LogoutFilter l = null;
-		// User
 		User user = (User) userDao.findUsersByUserName(username);
-
 		Iterator<UserRole> itUserRole = securityMetadataSourceService
 				.getUserRoles(username).iterator();
 		while (itUserRole.hasNext()) {
 			UserRole userRole = itUserRole.next();
-
-			// Role
 			Role role = (Role) roleDao.get(userRole.getRoleId());
-
 			Iterator<RoleFunction> itRoleFunction = securityMetadataSourceService
 					.findRoleFunctionsByRoleId(userRole.getRoleId()).iterator();
 			while (itRoleFunction.hasNext()) {
 				RoleFunction roleFunction = itRoleFunction.next();
 
-				// Function
 				Function function = (Function) functionDao.get(roleFunction
 						.getFunctionId());
 
 				UserFunctionVo userFunctionVo = new UserFunctionVo();
-
 				userFunctionVo.setUser(user);
 				userFunctionVo.setRole(role);
 				userFunctionVo.setFunction(function);

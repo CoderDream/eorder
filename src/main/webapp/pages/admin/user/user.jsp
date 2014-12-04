@@ -38,7 +38,6 @@ table tbody tr td {
 				<tr>
 					<th></th>
 					<th>用户名称</th>
-					<th>用户密码</th>
 					<th>电话号码</th>
 					<th>会员等级</th>
 					<th>用户状态</th>
@@ -50,7 +49,6 @@ table tbody tr td {
 						<td><input type="checkbox" name="userId"
 							value='<s:property value="userId" />' /></td>
 						<td><s:property value="username" /></td>
-						<td><s:property value="password" /></td>
 						<td><s:property value="cellphone" /></td>
 						<td><s:property value="levelId" /></td>
 						<td><s:property value="userStatus" /></td>

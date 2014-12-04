@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.BeanUtils;
 
 import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.service.RoleService;
@@ -25,7 +26,7 @@ public class RoleAction extends BaseAction {
 
 	private String roleId;
 	private String[] roleIds;
-	private Role role = new Role();
+	private Role role;
 	private List<Role> roles = new ArrayList<Role>();
 
 	@Resource
@@ -55,28 +56,26 @@ public class RoleAction extends BaseAction {
 	}
 
 	public String doList() {
-		// books = dao.getBooks();
 		roles = roleService.findAllRoles();
 		return SUCCESS;
 	}
 
 	public String doStore() {
-		// dao.storeBook(role);
-		// Role role2 = new Role("abcd", "abcd", "abcd", "abcd", "abcd", "abcd",
-		// false);
-		roleService.saveRole(role);
-		// String result = roleService.storeRole(role);
-		// System.out.println("store result: " + result);
+		Role role2 = new Role();
+		role2.setRoleStatus(true);
+		BeanUtils.copyProperties(role, role2);
+		roleService.saveRole(role2);
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		// dao.storeBook(role);
-		// Role role2 = new Role("abcd", "abcd", "abcd", "abcd", "abcd", "abcd",
-		// false);
-		roleService.updateRole(role);
-		// String result = roleService.storeRole(role);
-		// System.out.println("store result: " + result);
+		if (!"".equals(roleId)) {
+			role.setRoleId(Integer.parseInt(roleId));
+		}
+		Role role2 = new Role();
+		role2.setRoleStatus(true);
+		BeanUtils.copyProperties(role, role2);
+		roleService.updateRole(role2);
 		return SUCCESS;
 	}
 

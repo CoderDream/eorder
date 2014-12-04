@@ -28,6 +28,10 @@ public class UserService extends BaseService {
 		return (User) userDao.findUsersByUserName(username);
 	}
 
+	public User findUsersByUserId(Integer userId) {
+		return (User) userDao.get(userId);
+	}
+
 	public User saveUser(User user) {
 		return userDao.saveUser(user);
 	}

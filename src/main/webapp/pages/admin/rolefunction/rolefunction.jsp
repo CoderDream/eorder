@@ -66,30 +66,18 @@ table tbody tr td {
 	
 	function updateFunctions() {
 		//alert('call loadFunctions');
-		//var t = document.getElementById("role");
-		//alert("t: " + t);
-		//alert("t: " + t.options[t.selectedIndex].value);
-		//var a = t.options[t.selectedIndex].value
-		//alert('a: ' + a);
-		//document.getElementById("roleName").value = a;
-		//alert('b: ' + document.getElementById("roleName").value);
-		//val selectedRoleName = document.getElementById("role").options[t.selectedIndex].value;
-		//alert('selectedRoleName: ' + selectedRoleName);
-		//var roleName = document.getElementById("roleName");
-		//alert('roleName value: ' + roleName.value);
-		//roleName.value = selectedRoleName; 
-		//alert('OK');
-		//var roleObject = document.getElementById("role");
-		//alert('roleObject: ' + roleObject);
-		//var optionsObject = document.getElementById("role").options[selectIndex];
-		//alert('optionsObject: ' + optionsObject);
-		//var textValue = document.getElementById("role").options[selectIndex].text;
-		//alert('textValue: ' + textValue);
 		
-		//alert(pageNow.value);
+		var myFunctionsOptionsObj = document.getElementById("myFunctions");
+		//alert('getOptions #1');
+		var leftFunctionsOptionsObj = document.getElementById("leftFunctions");
+		//alert('getOptions #2');
+		var myFunctionsOptions = myFunctionsOptionsObj.options;
+		//alert('getOptions #3');
+		var leftFunctionsOptions = leftFunctionsOptionsObj.options;
+		//alert('getOptions #4');
 		
-		var myFunctionsOptions = document.getElementById("myFunctions").options;
-		var leftFunctionsOptions = document.getElementById("leftFunctions").options;
+		//var myFunctionsOptions = document.getElementById("myFunctions").options;
+		//var leftFunctionsOptions = document.getElementById("leftFunctions").options;
 		
 		//var cnbook = document.getElementByName("cnbook");
 		//alert("cnbook: " + cnbook);
@@ -101,9 +89,11 @@ table tbody tr td {
 			//alert(cnbook[i].getAttribute("value"));
 			//alert(myFunctionsOptions[i].value);
 			if(0 != myFunctionsOptions[i].value) {
-				leftList.push(myFunctionsOptions[i].value);
+				myList.push(myFunctionsOptions[i].value);
 			}
 		}
+
+		//alert('doUpdate #1');
 		var leftList = new Array();
 		for (var i = 0; i < leftFunctionsOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
@@ -112,6 +102,7 @@ table tbody tr td {
 				leftList.push(leftFunctionsOptions[i].value);
 			}
 		}
+
 		document.getElementById("myFunctionsArray").value = myList;
 		document.getElementById("leftFunctionsArray").value = leftList;	
 		

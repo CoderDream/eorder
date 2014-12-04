@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.BeanUtils;
 
 import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.service.FunctionService;
@@ -56,27 +57,25 @@ public class FunctionAction extends BaseAction {
 	}
 
 	public String doList() {
-		// books = dao.getBooks();
 		functions = functionService.findAllFunctions();
 		return SUCCESS;
 	}
 
 	public String doStore() {
-		// dao.storeBook(function);
-		Function function2 = new Function("新功能");
+		Function function2 = new Function();
+		function2.setFunctionStatus(true);
+		BeanUtils.copyProperties(function, function2);
 		functionService.saveFunction(function2);
-		// String result = functionService.storeFunction(function);
-		// System.out.println("store result: " + result);
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		// dao.storeBook(function);
-		// Function function2 = new Function("abcd", "abcd", "abcd", "abcd",
-		// "abcd", "abcd", false);
-		functionService.updateFunction(function);
-		// String result = functionService.storeFunction(function);
-		// System.out.println("store result: " + result);
+		if (!"".equals(functionId)) {
+			function.setFunctionId(Integer.parseInt(functionId));
+		}
+		Function function2 = new Function();
+		BeanUtils.copyProperties(function, function2);
+		functionService.updateFunction(function2);
 		return SUCCESS;
 	}
 
@@ -105,7 +104,6 @@ public class FunctionAction extends BaseAction {
 	}
 
 	public String doLeft() {
-
 		List<RoleLinkVo> subList = new ArrayList<RoleLinkVo>();
 		RoleLinkVo linkVo = new RoleLinkVo();
 		linkVo = new RoleLinkVo();

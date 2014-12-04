@@ -28,8 +28,7 @@ public class FunctionDao extends BaseDao {
 	}
 
 	public Function saveFunction(Function function) {
-		Function function2 = new Function("新功能");
-		return (Function) save(function2);
+		return (Function) save(function);
 	}
 
 	public void updateFunction(Function function) {

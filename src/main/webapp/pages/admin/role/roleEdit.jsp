@@ -12,20 +12,17 @@
 		<s:if test="null == role">
             新增角色
             <s:form action="doStore">
-				<s:hidden id="role.roleId" name="role.roleId" value="function.roleId"></s:hidden>
 				<s:textfield name="role.roleName" label="角色名称" cssStyle="width: 300px;" />
 				<s:textfield name="role.roleDesc" label="角色简称" cssStyle="width: 300px;" />
-				<s:textfield name="role.roleStatus" label="角色状态" cssStyle="width: 300px;" />
 				<s:submit />
 			</s:form>
 		</s:if>
 		<s:else>
             修改角色
             <s:form action="doUpdate">
-				<s:hidden id="role.roleId" name="role.roleId" value="function.roleId"></s:hidden>
+				<s:hidden id="roleId" name="roleId" value="%{roleId}"></s:hidden>
 				<s:textfield name="role.roleName" label="角色名称" cssStyle="width: 300px;" />
 				<s:textfield name="role.roleDesc" label="角色简称" cssStyle="width: 300px;" />
-				<s:textfield name="role.roleStatus" label="角色状态" cssStyle="width: 300px;" />
 				<s:submit />
 			</s:form>
 		</s:else>

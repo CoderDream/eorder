@@ -49,9 +49,7 @@ public class UserAction extends BaseAction {
 
 	public String doUser() {
 		logger.debug("enter doUser() method");
-
 		users = userService.findAllUsers();
-
 		return SUCCESS;
 	}
 
@@ -63,7 +61,6 @@ public class UserAction extends BaseAction {
 	}
 
 	public String doList() {
-		// books = dao.getBooks();
 		users = userService.findAllUsers();
 		return SUCCESS;
 	}
@@ -75,7 +72,6 @@ public class UserAction extends BaseAction {
 		user.setPassword(md5Password);
 		user.setUserStatus(true);
 
-		// User newUser =
 		User user2 = new User();
 		BeanUtils.copyProperties(user, user2);
 		userService.saveUser(user2);
@@ -85,14 +81,9 @@ public class UserAction extends BaseAction {
 	}
 
 	public String doUpdate() {
-		// String userId = user.getUsername();
-		// String password = user.getPassword();
-		// String md5Password = Md5Util.getMD5Str(password + "{" + userId +
-		// "}");
-		// user.setPassword(md5Password);
-		// SessionFactoryUtils s = null;
 		if (null != userId) {
 			user.setUserId(Integer.parseInt(userId));
+			user = userService.findUsersByUserId(user.getUserId());
 		}
 		User user2 = new User();
 		BeanUtils.copyProperties(user, user2);

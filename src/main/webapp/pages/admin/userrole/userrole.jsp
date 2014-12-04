@@ -102,6 +102,8 @@ table tbody tr td {
 		
 		//var cnbookFlag = "";
 		var myList = new Array();
+
+		alert('myRolesOptions.length: ' + myRolesOptions.length);
 		for (var i = 0; i < myRolesOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
 			//alert(myRolesOptions[i].value);

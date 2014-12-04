@@ -70,33 +70,15 @@ public class RoleFunctionAction extends BaseAction {
 	}
 
 	public String doList() {
-		// books = dao.getBooks();
-		// roleFunctions = roleFunctionService.findAllRoleFunctions();
-
 		return SUCCESS;
 	}
 
 	public String doStore() {
-		// roleFunctionService.saveRoleFunction(roleFunction);
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		// ActionContext context = ActionContext.getContext();
-		// HttpServletRequest request = (HttpServletRequest)
-		// context.get(ServletActionContext.HTTP_REQUEST);
-		//
-		// String[] myFunctionsName = request.getParameterValues("myFunctions");
-		// for (int i = 0; i < myFunctionsName.length; i++) {
-		// System.out.println("拥有功能： " + myFunctionsName[i] + "/t");
-		// }
-		// String[] leftFunctionsName =
-		// request.getParameterValues("leftFunctions");
-		// for (int i = 0; i < leftFunctionsName.length; i++) {
-		// System.out.println("未获功能：" + leftFunctionsName[i] + "/t");
-		// }
-
-		roleFunctionService.updateRoleFunction(Integer.parseInt(roleId),
+			roleFunctionService.updateRoleFunction(Integer.parseInt(roleId),
 				myFunctionsArray);
 		loadScreenData();
 		return SUCCESS;
@@ -117,12 +99,6 @@ public class RoleFunctionAction extends BaseAction {
 	}
 
 	public String doRemove() {
-		// if (null != roleFunction) {
-		// roleFunctionService.removeRoleFunction(roleFunctionName);
-		// } else {
-		// roleFunctionService.removeRoleFunctions(roleFunctionNames);
-		// }
-
 		return SUCCESS;
 	}
 
