@@ -2,14 +2,9 @@ package com.innovaee.eorder.module.dao;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import com.innovaee.eorder.module.entity.User;
 
 public class UserDao extends BaseDao {
-
-	@Resource
-	private UserDao userDao;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -33,7 +28,7 @@ public class UserDao extends BaseDao {
 	}
 
 	public User getUserByPassword(String username, String password) {
-		User user = (User) userDao.get(username);
+		User user = (User) get(username);
 
 		if (null == user) {
 			return null;

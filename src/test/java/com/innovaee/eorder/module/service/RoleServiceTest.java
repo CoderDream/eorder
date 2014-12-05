@@ -14,8 +14,8 @@ public class RoleServiceTest extends BaseSpringTestCase {
 	@Autowired
 	private RoleService roleService;
 
-	private String roleName = "测试";
-	private String roleDesc = "测试";
+	private String roleName = "Test";
+	private String roleDesc = "Test";
 	private Boolean roleStatus = true;
 
 	@Test
@@ -32,13 +32,13 @@ public class RoleServiceTest extends BaseSpringTestCase {
 		Integer roleId = 2;
 		Role role = roleService.loadRole(roleId);
 		Assert.assertNotNull(role);
-		Assert.assertEquals("普通用户", role.getRoleName());
+		Assert.assertEquals("Normal", role.getRoleName());
 		System.out.println(role);
 	}
 
 	@Test
 	public void findRolesByRoleName() {
-		String roleName = "管理员";
+		String roleName = "Admin";
 		Role role = roleService.findRolesByRoleName(roleName);
 		Assert.assertNotNull(role);
 	}
@@ -51,7 +51,7 @@ public class RoleServiceTest extends BaseSpringTestCase {
 		// 检查
 		Role roleDB = roleService.loadRole(roleNew.getRoleId());
 		Assert.assertNotNull(roleDB);
-		Assert.assertEquals("测试", roleDB.getRoleName());
+		Assert.assertEquals("Test", roleDB.getRoleName());
 	}
 
 	@Test
@@ -64,8 +64,8 @@ public class RoleServiceTest extends BaseSpringTestCase {
 		Integer roleId = roleNew.getRoleId();
 
 		// 更新属性
-		String newRoleName = "测试2";
-		String newRoleDesc = "测试2";
+		String newRoleName = "Test2";
+		String newRoleDesc = "Test2";
 		roleNew.setRoleName(newRoleName);
 		roleNew.setRoleDesc(newRoleDesc);
 		roleService.updateRole(roleNew);
@@ -73,7 +73,7 @@ public class RoleServiceTest extends BaseSpringTestCase {
 		// 检查
 		Role roleDB = roleService.loadRole(roleId);
 		Assert.assertNotNull(roleDB);
-		Assert.assertEquals("测试2", roleDB.getRoleName());
+		Assert.assertEquals("Test2", roleDB.getRoleName());
 	}
 
 	@Test
