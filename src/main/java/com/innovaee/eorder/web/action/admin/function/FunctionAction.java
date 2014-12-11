@@ -7,10 +7,12 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-import org.springframework.beans.BeanUtils;
 
 import com.innovaee.eorder.module.entity.Function;
+import com.innovaee.eorder.module.entity.RoleFunction;
 import com.innovaee.eorder.module.service.FunctionService;
+import com.innovaee.eorder.module.service.RoleFunctionService;
+import com.innovaee.eorder.module.vo.FunctionVO;
 import com.innovaee.eorder.module.vo.ResetPasswordVo;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
 import com.innovaee.eorder.web.action.BaseAction;
@@ -25,12 +27,19 @@ public class FunctionAction extends BaseAction {
 	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
 
 	private String functionId;
+	private String functionName;
+	private String functionDesc;
+	private String functionPath;
+	private Integer functionParent;
+	private String functionOrder;
 	private String[] functionIds;
-	private Function function;
-	private List<Function> functions = new ArrayList<Function>();
+	private List<FunctionVO> functionvos;
 
 	@Resource
 	private FunctionService functionService;
+
+	@Resource
+	private RoleFunctionService roleFunctionService;
 
 	private String contextPath;
 
@@ -43,45 +52,97 @@ public class FunctionAction extends BaseAction {
 	public String doFunction() {
 		logger.debug("enter doFunction() method");
 
-		functions = functionService.findAllFunctions();
+		functionvos = functionService.findAllFunctionVOs();
 
 		return SUCCESS;
 	}
 
 	public String doLoad() {
 		if (null != functionId && !"".equals(functionId.trim())) {
-			function = functionService.loadFunction(Integer
+			Function function = functionService.loadFunction(Integer
 					.parseInt(functionId));
+
+			functionName = function.getFunctionName();
+			functionDesc = function.getFunctionDesc();
+			functionPath = function.getFunctionPath();
+			functionParent = function.getFunctionParent();
+			functionOrder = function.getFunctionOrder();
 		}
+
+		functionvos = functionService.findAllFunctionVOs();
 		return SUCCESS;
 	}
 
 	public String doList() {
-		functions = functionService.findAllFunctions();
+		functionvos = functionService.findAllFunctionVOs();
 		return SUCCESS;
 	}
 
 	public String doStore() {
-		Function function2 = new Function();
-		function2.setFunctionStatus(true);
-		BeanUtils.copyProperties(function, function2);
-		functionService.saveFunction(function2);
+		Function function = new Function();
+		if (null != functionName && !"".equals(functionName.trim())) {
+			function.setFunctionName(functionName);
+		}
+
+		if (null != functionDesc && !"".equals(functionDesc.trim())) {
+			function.setFunctionDesc(functionDesc);
+		}
+
+		if (null != functionPath && !"".equals(functionPath.trim())) {
+			function.setFunctionPath(functionPath);
+		}
+
+		if (0 != functionParent) {
+			function.setFunctionParent(functionParent);
+		}
+
+		if (null != functionOrder && !"".equals(functionOrder.trim())) {
+			function.setFunctionOrder(functionOrder);
+		}
+		function.setFunctionStatus(true);
+		functionService.saveFunction(function);
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		if (!"".equals(functionId)) {
-			function.setFunctionId(Integer.parseInt(functionId));
+		Function function = null;
+		if (null != functionId) {
+			function = functionService.loadFunction(Integer
+					.parseInt(functionId));
 		}
-		Function function2 = new Function();
-		BeanUtils.copyProperties(function, function2);
-		functionService.updateFunction(function2);
+
+		if (null != functionName && !"".equals(functionName.trim())) {
+			function.setFunctionName(functionName);
+		}
+
+		if (null != functionDesc && !"".equals(functionDesc.trim())) {
+			function.setFunctionDesc(functionDesc);
+		}
+
+		if (null != functionPath && !"".equals(functionPath.trim())) {
+			function.setFunctionPath(functionPath);
+		}
+
+		if (0 != functionParent) {
+			function.setFunctionParent(functionParent);
+		}
+
+		if (null != functionOrder && !"".equals(functionOrder.trim())) {
+			function.setFunctionOrder(functionOrder);
+		}
+
+		functionService.updateFunction(function);
 		return SUCCESS;
 	}
 
 	public String doRemove() {
 		if (null != functionId) {
-			functionService.removeFunction(Integer.parseInt(functionId));
+			// 先判断角色功能关联关系，如果此功能已授权给某个角色，则不能删除
+			List<RoleFunction> myRoleFunctions = roleFunctionService
+					.findRoleFunctionsByFunctionId(Integer.parseInt(functionId));
+			if (null == myRoleFunctions || 0 == myRoleFunctions.size()) {
+				functionService.removeFunction(Integer.parseInt(functionId));
+			}
 		} else {
 			functionService.removeFunctions(functionIds);
 		}
@@ -157,12 +218,12 @@ public class FunctionAction extends BaseAction {
 		this.contextPath = contextPath;
 	}
 
-	public List<Function> getFunctions() {
-		return functions;
+	public List<FunctionVO> getFunctionvos() {
+		return functionvos;
 	}
 
-	public void setFunctions(List<Function> functions) {
-		this.functions = functions;
+	public void setFunctionvos(List<FunctionVO> functionvos) {
+		this.functionvos = functionvos;
 	}
 
 	public FunctionService getFunctionService() {
@@ -189,12 +250,44 @@ public class FunctionAction extends BaseAction {
 		this.functionIds = functionIds;
 	}
 
-	public Function getFunction() {
-		return function;
+	public String getFunctionName() {
+		return functionName;
 	}
 
-	public void setFunction(Function function) {
-		this.function = function;
+	public void setFunctionName(String functionName) {
+		this.functionName = functionName;
+	}
+
+	public String getFunctionDesc() {
+		return functionDesc;
+	}
+
+	public void setFunctionDesc(String functionDesc) {
+		this.functionDesc = functionDesc;
+	}
+
+	public String getFunctionPath() {
+		return functionPath;
+	}
+
+	public void setFunctionPath(String functionPath) {
+		this.functionPath = functionPath;
+	}
+
+	public Integer getFunctionParent() {
+		return functionParent;
+	}
+
+	public void setFunctionParent(Integer functionParent) {
+		this.functionParent = functionParent;
+	}
+
+	public String getFunctionOrder() {
+		return functionOrder;
+	}
+
+	public void setFunctionOrder(String functionOrder) {
+		this.functionOrder = functionOrder;
 	}
 
 }

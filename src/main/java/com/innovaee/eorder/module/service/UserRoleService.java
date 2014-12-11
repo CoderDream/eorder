@@ -42,6 +42,11 @@ public class UserRoleService extends BaseService {
 	public List<UserRole> findUserRolesByUserId(Integer userId) {
 		return (List<UserRole>) userRoleDao.findUserRolesByUserId(userId);
 	}
+	
+
+	public List<UserRole> findUserRolesByRoleId(Integer roleId) {
+		return (List<UserRole>) userRoleDao.findUserRolesByRoleId(roleId);
+	}
 
 	public List<Role> findRolesByUserId(Integer userId) {
 		List<Role> roles = new ArrayList<Role>();

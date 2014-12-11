@@ -44,6 +44,11 @@ public class RoleFunctionService extends BaseService {
 				.findRoleFunctionsByRoleId(roleId);
 	}
 
+	public List<RoleFunction> findRoleFunctionsByFunctionId(Integer functionId) {
+		return (List<RoleFunction>) roleFunctionDao
+				.findRoleFunctionsByFunctionId(functionId);
+	}
+
 	public List<Function> findFunctionsByRoleId(Integer roleId) {
 		List<Function> functions = new ArrayList<Function>();
 		List<RoleFunction> roleFunctions = roleFunctionDao

@@ -10,10 +10,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="../resources/css/style.css">
+<script src="../resources/js/inputtransferselect.js" type="text/javascript"></script>
+<script src="../resources/js/optiontransferselect.js" type="text/javascript"></script>
 </head>
+
+<s:head />
 <script type="text/javascript">
 	function save() {
-		alert('call save');
+		//alert('call save');
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("saveForm");
 		//动态修改目标表单的action属性
@@ -23,7 +27,42 @@
 	}
 
 	function update() {
-		alert('call update');
+		//alert('call update');
+
+		var myRolesOptionsObj = document.getElementById("myRoles");
+		//alert('getOptions #1');
+		var leftRolesOptionsObj = document.getElementById("leftRoles");
+		//alert('getOptions #2');
+		var myRolesOptions = myRolesOptionsObj.options;
+		//alert('getOptions #3');
+		var leftRolesOptions = leftRolesOptionsObj.options;
+		//alert('getOptions #4');
+
+		var myList = new Array();
+
+		//alert('myRolesOptions.length: ' + myRolesOptions.length);
+		for (var i = 0; i < myRolesOptions.length; i++) {
+			//alert(cnbook[i].getAttribute("value"));
+			//alert('myRolesOptions[i].value: ' + myRolesOptions[i].value);
+			if (0 != myRolesOptions[i].value) {
+				myList.push(myRolesOptions[i].value);
+			}
+		}
+		var leftList = new Array();
+		//alert('leftRolesOptions.length: ' + leftRolesOptions.length);
+		for (var i = 0; i < leftRolesOptions.length; i++) {
+			//alert(cnbook[i].getAttribute("value"));
+			//alert(leftRolesOptions[i].value);
+			if (0 != leftRolesOptions[i].value) {
+				leftList.push(leftRolesOptions[i].value);
+			}
+		}
+		//alert('update ###5');
+		document.getElementById("myRolesArray").value = myList;
+		document.getElementById("leftRolesArray").value = leftList;
+
+		//alert('update ###');
+
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("updateForm");
 		//动态修改目标表单的action属性
@@ -44,6 +83,9 @@
 				<s:if test="null == userId">
 					<h4>新增功能</h4>
 					<s:form class="eorder-form-usr" id="saveForm" action="doStore">
+						<s:hidden id="roleId" name="roleId" />
+						<s:hidden id="myRolesArray" name="myRolesArray" />
+						<s:hidden id="leftRolesArray" name="leftRolesArray" />
 						<input type="text name=" id="username" name="username"
 							class="form-control eorder-input" placeholder="用户名" />
 						<input type="password" id="password" name="password"
@@ -58,6 +100,9 @@
 					<h4>修改功能</h4>
 					<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
 						<s:hidden id="userId" name="userId" value="%{userId}" />
+						<s:hidden id="roleId" name="roleId" />
+						<s:hidden id="myRolesArray" name="myRolesArray" />
+						<s:hidden id="leftRolesArray" name="leftRolesArray" />
 						<input type="text" id="username" name="username"
 							class="form-control eorder-input" placeholder="用户名" value="${username}">
 						<input type="password" id="password" name="password"
@@ -72,36 +117,12 @@
 
 			<div class="col-md-3">
 				<h4>已分配角色</h4>
-				<select multiple class="form-control eorder-multi-sel">
-				</select>
 			</div>
-			<div class="col-md-2 text-center">
-				<button class="btn btn-default eorder-btn-arrow" style="margin-top: 42px">
-					<span class="glyphicon glyphicon-backward"></span>
-				</button>
-				<br />
-				<button class="btn btn-default eorder-btn-arrow">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-				</button>
-				<br />
-				<button class="btn btn-default eorder-btn-arrow">
-					<span class="glyphicon glyphicon-chevron-right"></span>
-				</button>
-				<br />
-				<button class="btn btn-default eorder-btn-arrow">
-					<span class="glyphicon glyphicon-forward"></span>
-				</button>
-			</div>
-			<div class="col-md-3">
-				<h4>可分配角色</h4>
-				<select multiple class="form-control eorder-multi-sel">
-					<option>管理员</option>
-					<option>菜品编辑</option>
-					<option>收银员</option>
-					<option>服务员</option>
-					<option>用户</option>
-				</select>
-			</div>
+			<s:optiontransferselect cssStyle="form-control eorder-multi-sel"
+				cssClass="form-control eorder-multi-sel" id="myRoles" name="myRoles"
+				list="myRoles" listKey="roleId" listValue="roleName" doubleId="leftRoles"
+				doubleName="leftRoles" doubleList="leftRoles" doubleListKey="roleId"
+				doubleListValue="roleName" />
 		</div>
 
 		<br>
@@ -129,8 +150,7 @@
 						<tbody>
 							<s:iterator value="uservos">
 								<tr>
-									<td><input type="checkbox" name="userId"
-										value='<s:property value="userId" />' /></td>
+									<td><s:hidden id="userId" name="userId" value="%{userId}" /></td>
 									<td><s:property value="username" /></td>
 									<td><s:property value="roleName" /></td>
 									<td><s:property value="cellphone" /></td>

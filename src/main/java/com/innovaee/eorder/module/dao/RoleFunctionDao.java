@@ -41,6 +41,15 @@ public class RoleFunctionDao extends BaseDao {
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<RoleFunction> findRoleFunctionsByFunctionId(Integer functionId) {
+		List<RoleFunction> list = (List<RoleFunction>) super
+				.getHibernateTemplate().find(
+						"FROM RoleFunction rf WHERE rf.functionId=?",
+						functionId);
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
 	public RoleFunction findRoleFunctionByIds(Integer roleId, Integer functionId) {
 		List<RoleFunction> list = (List<RoleFunction>) super
 				.getHibernateTemplate()
@@ -75,7 +84,8 @@ public class RoleFunctionDao extends BaseDao {
 						String hql = "from RoleFunction rf where rf.functionId in(:typeids)";
 						Query query = session.createQuery(hql);
 						query.setParameterList("typeids", parentFunctionId);
-						List<RoleFunction> list = (List<RoleFunction>)query.list();
+						List<RoleFunction> list = (List<RoleFunction>) query
+								.list();
 
 						return list;
 						// return session

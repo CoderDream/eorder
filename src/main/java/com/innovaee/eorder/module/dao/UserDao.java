@@ -24,6 +24,10 @@ public class UserDao extends BaseDao {
 		}
 		return null;
 	}
+	
+	public User loadUser(Integer userId) {
+		return (User) get(userId);
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {

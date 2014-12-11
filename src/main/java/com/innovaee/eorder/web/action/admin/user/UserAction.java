@@ -42,6 +42,14 @@ public class UserAction extends BaseAction {
 	@Resource
 	private UserRoleService userRoleService;
 
+	private List<Role> myRoles = new ArrayList<Role>();
+
+	private List<Role> leftRoles = new ArrayList<Role>();
+
+	private String myRolesArray;
+
+	private String leftRolesArray;
+
 	private String contextPath;
 
 	public String login() {
@@ -62,6 +70,18 @@ public class UserAction extends BaseAction {
 			username = user.getUsername();
 			password = user.getPassword();
 			cellphone = user.getCellphone();
+
+			// 加载用户角色信息
+			myRoles = userRoleService.findRolesByUserId(Integer
+					.parseInt(userId));
+			if (null == myRoles || 0 == myRoles.size()) {
+				myRoles.add(new Role(0, " "));
+			}
+			leftRoles = userRoleService.findLeftRolesByUserId(Integer
+					.parseInt(userId));
+			if (null == leftRoles || 0 == leftRoles.size()) {
+				leftRoles.add(new Role(0, " "));
+			}
 		}
 		uservos = userService.findAllUserVOs();
 		return SUCCESS;
@@ -74,46 +94,52 @@ public class UserAction extends BaseAction {
 
 	public String doStore() {
 		String md5Password = "";
-		User user2 = new User();
+		User user = new User();
 		if (null != username && !"".equals(username.trim())) {
-			user2.setUsername(username);
+			user.setUsername(username);
 		}
 		if (null != password && !"".equals(password.trim())) {
 			md5Password = Md5Util.getMD5Str(password + "{" + username + "}");
 		}
 		if (null != cellphone && !"".equals(cellphone.trim())) {
-			user2.setCellphone(cellphone);
+			user.setCellphone(cellphone);
 		}
 
-		user2.setPassword(md5Password);
-		user2.setLevelId(Constants.DEFAULT_LEVEL);
-		user2.setUserStatus(true);
+		user.setPassword(md5Password);
+		user.setLevelId(Constants.DEFAULT_LEVEL);
+		user.setUserStatus(true);
 
-		userService.saveUser(user2);
+		userService.saveUser(user);
 		// 默认给用户添加普通用户的角色
-		userRoleService.saveUserRole(user2, new Role(Constants.DEFAULT_ROLE));
+		userRoleService.saveUserRole(user, new Role(Constants.DEFAULT_ROLE));
 
 		uservos = userService.findAllUserVOs();
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		User user2 = new User();
+		User user = null;
 		if (null != userId) {
-			user2 = userService.loadUser(Integer.parseInt(userId));
+			user = userService.loadUser(Integer.parseInt(userId));
 		}
 
 		if (null != username && !"".equals(username.trim())) {
-			user2.setUsername(username);
+			user.setUsername(username);
 		}
 		if (null != password && !"".equals(password.trim())) {
-			user2.setPassword(password);
+			user.setPassword(password);
 		}
 		if (null != cellphone && !"".equals(cellphone.trim())) {
-			user2.setCellphone(cellphone);
+			user.setCellphone(cellphone);
 		}
-		userService.updateUser(user2);
+		userService.updateUser(user);
 
+		// 更新角色信息
+		userRoleService.updateUserRole(Integer.parseInt(userId), myRolesArray);
+		userId = "";
+		username = "";
+		password = "";
+		cellphone = "";
 		uservos = userService.findAllUserVOs();
 		return SUCCESS;
 	}
@@ -143,7 +169,6 @@ public class UserAction extends BaseAction {
 	}
 
 	public String doLeft() {
-
 		List<RoleLinkVo> subList = new ArrayList<RoleLinkVo>();
 		RoleLinkVo linkVo = new RoleLinkVo();
 		linkVo = new RoleLinkVo();
@@ -259,6 +284,38 @@ public class UserAction extends BaseAction {
 
 	public void setUserRoleService(UserRoleService userRoleService) {
 		this.userRoleService = userRoleService;
+	}
+
+	public List<Role> getMyRoles() {
+		return myRoles;
+	}
+
+	public void setMyRoles(List<Role> myRoles) {
+		this.myRoles = myRoles;
+	}
+
+	public List<Role> getLeftRoles() {
+		return leftRoles;
+	}
+
+	public void setLeftRoles(List<Role> leftRoles) {
+		this.leftRoles = leftRoles;
+	}
+
+	public String getMyRolesArray() {
+		return myRolesArray;
+	}
+
+	public void setMyRolesArray(String myRolesArray) {
+		this.myRolesArray = myRolesArray;
+	}
+
+	public String getLeftRolesArray() {
+		return leftRolesArray;
+	}
+
+	public void setLeftRolesArray(String leftRolesArray) {
+		this.leftRolesArray = leftRolesArray;
 	}
 
 }

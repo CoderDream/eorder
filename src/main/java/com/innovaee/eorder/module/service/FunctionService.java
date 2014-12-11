@@ -1,11 +1,15 @@
 package com.innovaee.eorder.module.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
+
 import com.innovaee.eorder.module.dao.FunctionDao;
 import com.innovaee.eorder.module.entity.Function;
+import com.innovaee.eorder.module.vo.FunctionVO;
 
 public class FunctionService extends BaseService {
 
@@ -17,6 +21,34 @@ public class FunctionService extends BaseService {
 
 	public List<Function> findAllFunctions() {
 		return (List<Function>) functionDao.findAllFunctions();
+	}
+
+	/**
+	 * 返回所有用户
+	 * 
+	 * @return
+	 */
+	public List<FunctionVO> findAllFunctionVOs() {
+		List<FunctionVO> functionvos = new ArrayList<FunctionVO>();
+		FunctionVO functionVO = null;
+		Function parentFunction = null;
+		List<Function> functions = functionDao.findAllFunctions();
+		for (Function function : functions) {
+			functionVO = new FunctionVO();
+			BeanUtils.copyProperties(function, functionVO);
+
+			// 设置用户等级名称
+			parentFunction = functionDao.loadFunction(function
+					.getFunctionParent());
+			if (null != parentFunction) {
+				functionVO.setFunctionParentName(parentFunction
+						.getFunctionName());
+			}
+
+			functionvos.add(functionVO);
+		}
+
+		return functionvos;
 	}
 
 	public List<Function> findFunctionsByParentFunctionId(

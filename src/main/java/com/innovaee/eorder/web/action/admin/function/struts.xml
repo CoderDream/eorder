@@ -11,7 +11,7 @@
 			<result>/pages/admin/function/function.jsp</result>
 		</action>
 		<action name="doEdit" class="com.innovaee.eorder.web.action.admin.function.FunctionAction" method="load">
-			<result>/pages/admin/function/functionEdit.jsp</result>
+			<result>/pages/admin/function/function.jsp</result>
 		</action>
 		<action name="doStore" class="com.innovaee.eorder.web.action.admin.function.FunctionAction" method="doStore">
 			<result type="redirect">doFunction.action</result>

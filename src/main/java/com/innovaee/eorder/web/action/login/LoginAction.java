@@ -21,6 +21,8 @@ public class LoginAction extends BaseAction {
 
 	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
 
+	private String username;
+
 	public String login() {
 		return SUCCESS;
 	}
@@ -34,6 +36,13 @@ public class LoginAction extends BaseAction {
 	}
 
 	public String doHeader() {
+
+		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		Assert.notNull(userDetail);
+		
+		username = userDetail.getUser().getUsername();
+
 		return SUCCESS;
 	}
 
@@ -152,4 +161,13 @@ public class LoginAction extends BaseAction {
 	public void setMenulist(List<RoleLinkVo> menulist) {
 		this.menulist = menulist;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 }

@@ -7,12 +7,16 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-import org.springframework.beans.BeanUtils;
 
+import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.entity.Role;
+import com.innovaee.eorder.module.entity.UserRole;
+import com.innovaee.eorder.module.service.RoleFunctionService;
 import com.innovaee.eorder.module.service.RoleService;
+import com.innovaee.eorder.module.service.UserRoleService;
 import com.innovaee.eorder.module.vo.ResetPasswordVo;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
+import com.innovaee.eorder.module.vo.RoleVO;
 import com.innovaee.eorder.web.action.BaseAction;
 
 public class RoleAction extends BaseAction {
@@ -25,12 +29,28 @@ public class RoleAction extends BaseAction {
 	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
 
 	private String roleId;
+	private String roleName;
+	private String roleDesc;
 	private String[] roleIds;
-	private Role role;
-	private List<Role> roles = new ArrayList<Role>();
+
+	private List<RoleVO> rolevos = new ArrayList<RoleVO>();
 
 	@Resource
 	private RoleService roleService;
+
+	@Resource
+	private UserRoleService userRoleService;
+
+	@Resource
+	private RoleFunctionService roleFunctionService;
+
+	private List<Function> myFunctions = new ArrayList<Function>();
+
+	private List<Function> leftFunctions = new ArrayList<Function>();
+
+	private String myFunctionsArray;
+
+	private String leftFunctionsArray;
 
 	private String contextPath;
 
@@ -42,46 +62,86 @@ public class RoleAction extends BaseAction {
 
 	public String doRole() {
 		logger.debug("enter doRole() method");
-
-		roles = roleService.findAllRoles();
-
+		rolevos = roleService.findAllRoleVOs();
 		return SUCCESS;
 	}
 
 	public String doLoad() {
-		if (null != roleId && !"".equals(roleId.trim())) {
-			role = roleService.loadRole(Integer.parseInt(roleId));
+		if (null != roleId) {
+			Role role = roleService.loadRole(Integer.parseInt(roleId));
+			roleName = role.getRoleName();
+			roleDesc = role.getRoleDesc();
+
+			// 加载用户角色信息
+			myFunctions = roleFunctionService.findFunctionsByRoleId(Integer
+					.parseInt(roleId));
+			if (null == myFunctions || 0 == myFunctions.size()) {
+				myFunctions.add(new Function(0, " "));
+			}
+			leftFunctions = roleFunctionService
+					.findLeftFunctionsByRoleId(Integer.parseInt(roleId));
+			if (null == leftFunctions || 0 == leftFunctions.size()) {
+				leftFunctions.add(new Function(0, " "));
+			}
 		}
+		rolevos = roleService.findAllRoleVOs();
 		return SUCCESS;
 	}
 
 	public String doList() {
-		roles = roleService.findAllRoles();
+		rolevos = roleService.findAllRoleVOs();
 		return SUCCESS;
 	}
 
 	public String doStore() {
-		Role role2 = new Role();
-		role2.setRoleStatus(true);
-		BeanUtils.copyProperties(role, role2);
-		roleService.saveRole(role2);
+		Role role = new Role();
+		if (null != roleName && !"".equals(roleName.trim())) {
+			role.setRoleName(roleName);
+		}
+		if (null != roleDesc && !"".equals(roleDesc.trim())) {
+			role.setRoleDesc(roleDesc);
+		}
+
+		role.setRoleStatus(true);
+
+		roleService.saveRole(role);
+
+		rolevos = roleService.findAllRoleVOs();
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		if (!"".equals(roleId)) {
-			role.setRoleId(Integer.parseInt(roleId));
+		Role role = new Role();
+		if (null != roleId) {
+			role = roleService.loadRole(Integer.parseInt(roleId));
 		}
-		Role role2 = new Role();
-		role2.setRoleStatus(true);
-		BeanUtils.copyProperties(role, role2);
-		roleService.updateRole(role2);
+
+		if (null != roleName && !"".equals(roleName.trim())) {
+			role.setRoleName(roleName);
+		}
+		if (null != roleDesc && !"".equals(roleDesc.trim())) {
+			role.setRoleDesc(roleDesc);
+		}
+		roleService.updateRole(role);
+
+		// 更新角色信息
+		roleFunctionService.updateRoleFunction(Integer.parseInt(roleId),
+				myFunctionsArray);
+		roleId = "";
+		roleName = "";
+		roleDesc = "";
+		rolevos = roleService.findAllRoleVOs();
 		return SUCCESS;
 	}
 
 	public String doRemove() {
 		if (null != roleId) {
-			roleService.removeRole(Integer.parseInt(roleId));
+			// 先判断用户角色关联关系，如果此角色已授权给某个用户，则不能删除
+			List<UserRole> myUserRoles = userRoleService
+					.findUserRolesByRoleId(Integer.parseInt(roleId));
+			if (null == myUserRoles || 0 == myUserRoles.size()) {
+				roleService.removeRole(Integer.parseInt(roleId));
+			}
 		} else {
 			roleService.removeRoles(roleIds);
 		}
@@ -104,7 +164,6 @@ public class RoleAction extends BaseAction {
 	}
 
 	public String doLeft() {
-
 		List<RoleLinkVo> subList = new ArrayList<RoleLinkVo>();
 		RoleLinkVo linkVo = new RoleLinkVo();
 		linkVo = new RoleLinkVo();
@@ -158,12 +217,12 @@ public class RoleAction extends BaseAction {
 		this.contextPath = contextPath;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+	public List<RoleVO> getRolevos() {
+		return rolevos;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setRolevos(List<RoleVO> rolevos) {
+		this.rolevos = rolevos;
 	}
 
 	public RoleService getRoleService() {
@@ -182,6 +241,22 @@ public class RoleAction extends BaseAction {
 		this.roleId = roleId;
 	}
 
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public String getRoleDesc() {
+		return roleDesc;
+	}
+
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
+	}
+
 	public String[] getRoleIds() {
 		return roleIds;
 	}
@@ -190,12 +265,44 @@ public class RoleAction extends BaseAction {
 		this.roleIds = roleIds;
 	}
 
-	public Role getRole() {
-		return role;
+	public RoleFunctionService getRoleFunctionService() {
+		return roleFunctionService;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoleFunctionService(RoleFunctionService roleFunctionService) {
+		this.roleFunctionService = roleFunctionService;
+	}
+
+	public List<Function> getMyFunctions() {
+		return myFunctions;
+	}
+
+	public void setMyFunctions(List<Function> myFunctions) {
+		this.myFunctions = myFunctions;
+	}
+
+	public List<Function> getLeftFunctions() {
+		return leftFunctions;
+	}
+
+	public void setLeftFunctions(List<Function> leftFunctions) {
+		this.leftFunctions = leftFunctions;
+	}
+
+	public String getMyFunctionsArray() {
+		return myFunctionsArray;
+	}
+
+	public void setMyFunctionsArray(String myFunctionsArray) {
+		this.myFunctionsArray = myFunctionsArray;
+	}
+
+	public String getLeftFunctionsArray() {
+		return leftFunctionsArray;
+	}
+
+	public void setLeftFunctionsArray(String leftFunctionsArray) {
+		this.leftFunctionsArray = leftFunctionsArray;
 	}
 
 }

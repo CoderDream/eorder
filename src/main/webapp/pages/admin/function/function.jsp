@@ -10,10 +10,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="../resources/css/style.css">
+<script src="../resources/js/inputtransferselect.js" type="text/javascript"></script>
+<script src="../resources/js/optiontransferselect.js" type="text/javascript"></script>
 </head>
+
+<s:head />
+<script type="text/javascript">
+	function save() {
+		//alert('call save');
+		//获取该页面中的第一个表单元素
+		var targetForm = document.getElementById("saveForm");
+		//动态修改目标表单的action属性
+		targetForm.action = "doStore.action";
+		//提交表单
+		targetForm.submit();
+	}
+
+	function update() {
+		//alert('call update');
+
+		//alert('update ###');
+
+		//获取该页面中的第一个表单元素
+		var targetForm = document.getElementById("updateForm");
+		//动态修改目标表单的action属性
+		targetForm.action = "doUpdate.action";
+		//提交表单
+		targetForm.submit();
+	}
+</script>
 <body>
 	<div class="col-md-9">
 		<!--导航标题栏-->
+		<div class="row">
+			<h3 class="page-header">功能管理</h3>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3">
+				<s:if test="null == functionId">
+					<h4>新增功能</h4>
+					<s:form class="eorder-form-usr" id="saveForm" action="doStore">
+						<input type="text" id="functionName" name="functionName"
+							class="form-control eorder-input" placeholder="功能名称" />
+						<input type="text" id="functionDesc" name="functionDesc"
+							class="form-control eorder-input" placeholder="功能描述" />
+						<input type="text" id="functionPath" name="functionPath"
+							class="form-control eorder-input" placeholder="功能路径" />
+						<input type="text" id="functionParent" name="functionParent"
+							class="form-control eorder-input" placeholder="上级功能" />
+						<input type="text" id="functionOrder" name="functionOrder"
+							class="form-control eorder-input" placeholder="功能排序" />
+						<a href="#" onclick="save();"
+							class="btn btn-default btn-block eorder-btn-login">创建新功能</a>
+					</s:form>
+				</s:if>
+				<s:else>
+					<h4>修改功能</h4>
+					<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
+						<s:hidden id="functionId" name="functionId" value="%{functionId}" />
+						<input type="text" id="functionName" name="functionName"
+							class="form-control eorder-input" placeholder="功能名称"
+							value="${functionName}" />
+						<input type="text" id="functionDesc" name="functionDesc"
+							class="form-control eorder-input" placeholder="功能描述"
+							value="${functionDesc}" />
+						<input type="text" id="functionPath" name="functionPath"
+							class="form-control eorder-input" placeholder="功能路径"
+							value="${functionPath}" />
+						<input type="text" id="functionParent" name="functionParent"
+							class="form-control eorder-input" placeholder="上级功能"
+							value="${functionParent}" />
+						<input type="text" id="functionOrder" name="functionOrder"
+							class="form-control eorder-input" placeholder="功能排序"
+							value="${functionOrder}" />
+						<a href="#" onclick="update();"
+							class="btn btn-default btn-block eorder-btn-login">修改功能信息</a>
+					</s:form>
+				</s:else>
+			</div>
+		</div>
+
+		<br>
+
 		<div class="row">
 			<h3 class="page-header">功能列表</h3>
 		</div>
@@ -29,21 +108,21 @@
 								<th>功能名称</th>
 								<th>功能描述</th>
 								<th>功能路径</th>
-								<th>父功能</th>
-								<th>功能序号</th>
+								<th>上级功能</th>
+								<th>功能排序</th>
 								<th>编辑</th>
 								<th>删除</th>
 							</tr>
 						</thead>
 						<tbody>
-							<s:iterator value="functions">
+							<s:iterator value="functionvos">
 								<tr>
-									<td><input type="checkbox" name="functionId"
-										value='<s:property value="functionId" />' /></td>
+									<td><s:hidden id="functionId" name="functionId"
+											value="%{functionId}" /></td>
 									<td><s:property value="functionName" /></td>
 									<td><s:property value="functionDesc" /></td>
 									<td><s:property value="functionPath" /></td>
-									<td><s:property value="functionParent" /></td>
+									<td><s:property value="functionParentName" /></td>
 									<td><s:property value="functionOrder" /></td>
 									<td><a
 										href='<s:url action="doEdit"><s:param name="functionId" value="functionId" /></s:url>'>

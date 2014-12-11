@@ -10,58 +10,119 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="../resources/css/style.css">
+<script src="../resources/js/inputtransferselect.js" type="text/javascript"></script>
+<script src="../resources/js/optiontransferselect.js" type="text/javascript"></script>
 </head>
+
+<s:head />
+<script type="text/javascript">
+	function save() {
+		//alert('call save');
+		//获取该页面中的第一个表单元素
+		var targetForm = document.getElementById("saveForm");
+		//动态修改目标表单的action属性
+		targetForm.action = "doStore.action";
+		//提交表单
+		targetForm.submit();
+	}
+
+	function update() {
+		//alert('call update');
+
+		var myFunctionsOptionsObj = document.getElementById("myFunctions");
+		//alert('getOptions #1');
+		var leftFunctionsOptionsObj = document.getElementById("leftFunctions");
+		//alert('getOptions #2');
+		var myFunctionsOptions = myFunctionsOptionsObj.options;
+		//alert('getOptions #3');
+		var leftFunctionsOptions = leftFunctionsOptionsObj.options;
+		//alert('getOptions #4');
+
+		var myList = new Array();
+
+		//alert('myFunctionsOptions.length: ' + myFunctionsOptions.length);
+		for (var i = 0; i < myFunctionsOptions.length; i++) {
+			//alert(cnbook[i].getAttribute("value"));
+			//alert('myFunctionsOptions[i].value: ' + myFunctionsOptions[i].value);
+			if (0 != myFunctionsOptions[i].value) {
+				myList.push(myFunctionsOptions[i].value);
+			}
+		}
+		var leftList = new Array();
+		//alert('leftFunctionsOptions.length: ' + leftFunctionsOptions.length);
+		for (var i = 0; i < leftFunctionsOptions.length; i++) {
+			//alert(cnbook[i].getAttribute("value"));
+			//alert(leftFunctionsOptions[i].value);
+			if (0 != leftFunctionsOptions[i].value) {
+				leftList.push(leftFunctionsOptions[i].value);
+			}
+		}
+		//alert('update ###5');
+		document.getElementById("myFunctionsArray").value = myList;
+		document.getElementById("leftFunctionsArray").value = leftList;
+
+		//alert('update ###');
+
+		//获取该页面中的第一个表单元素
+		var targetForm = document.getElementById("updateForm");
+		//动态修改目标表单的action属性
+		targetForm.action = "doUpdate.action";
+		//提交表单
+		targetForm.submit();
+	}
+</script>
 <body>
 	<div class="col-md-9">
 		<!--导航标题栏-->
 		<div class="row">
-			<h3 class="page-header">角色管理</h3>
+			<h3 class="page-header">用户管理</h3>
 		</div>
 
-		<form class="eorder-form-usr" role="form">
-			<div class="row">
-				<div class="col-md-3">
-					<input type="text" class="form-control eorder-input" placeholder="用户名">
-					<input type="password" class="form-control eorder-input" placeholder="密  码">
-					<input type="password" class="form-control eorder-input" placeholder="确认密码">
-					<input type="text" class="form-control eorder-input" placeholder="员工号">
-					<input type="text" class="form-control eorder-input" placeholder="会员号">
-					<a href="#" class="btn btn-default btn-block eorder-btn-login">创建新用户</a>
-				</div>
-				<div class="col-md-3">
-					<h4>已分配角色</h4>
-					<select multiple class="form-control eorder-multi-sel">
-					</select>
-				</div>
-				<div class="col-md-2 text-center">
-					<button class="btn btn-default eorder-btn-arrow" style="margin-top: 42px">
-						<span class="glyphicon glyphicon-backward"></span>
-					</button>
-					<br />
-					<button class="btn btn-default eorder-btn-arrow">
-						<span class="glyphicon glyphicon-chevron-left"></span>
-					</button>
-					<br />
-					<button class="btn btn-default eorder-btn-arrow">
-						<span class="glyphicon glyphicon-chevron-right"></span>
-					</button>
-					<br />
-					<button class="btn btn-default eorder-btn-arrow">
-						<span class="glyphicon glyphicon-forward"></span>
-					</button>
-				</div>
-				<div class="col-md-3">
-					<h4>可分配角色</h4>
-					<select multiple class="form-control eorder-multi-sel">
-						<option>管理员</option>
-						<option>菜品编辑</option>
-						<option>收银员</option>
-						<option>服务员</option>
-						<option>用户</option>
-					</select>
-				</div>
+		<div class="row">
+			<div class="col-md-3">
+				<s:if test="null == roleId">
+					<h4>新增功能</h4>
+					<s:form class="eorder-form-usr" id="saveForm" action="doStore">
+						<s:hidden id="functionId" name="functionId" />
+						<s:hidden id="myFunctionsArray" name="myFunctionsArray" />
+						<s:hidden id="leftFunctionsArray" name="leftFunctionsArray" />
+						<input type="text" id="roleName" name="roleName"
+							class="form-control eorder-input" placeholder="角色名称" />
+						<input type="text" id="roleDesc" name="roleDesc"
+							class="form-control eorder-input" placeholder="角色描述">
+						<a href="#" onclick="save();"
+							class="btn btn-default btn-block eorder-btn-login">创建新角色</a>
+					</s:form>
+				</s:if>
+				<s:else>
+					<h4>修改功能</h4>
+					<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
+						<s:hidden id="roleId" name="roleId" value="%{roleId}" />
+						<s:hidden id="functionId" name="functionId" />
+						<s:hidden id="myFunctionsArray" name="myFunctionsArray" />
+						<s:hidden id="leftFunctionsArray" name="leftFunctionsArray" />
+						<input type="text" name="roleName" id="roleName" name="roleName"
+							class="form-control eorder-input" placeholder="角色名称" value="${roleName}" />
+						<input type="text" id="roleDesc" name="roleDesc"
+							class="form-control eorder-input" placeholder="角色描述" value="${roleDesc}">
+						<a href="#" onclick="update();"
+							class="btn btn-default btn-block eorder-btn-login">修改角色信息</a>
+					</s:form>
+				</s:else>
 			</div>
-		</form>
+
+			<div class="col-md-3">
+				<h4>已分配功能</h4>
+			</div>
+			<s:optiontransferselect cssStyle="form-control eorder-multi-sel"
+				cssClass="form-control eorder-multi-sel" id="myFunctions"
+				doubleId="leftFunctions" name="myFunctions" list="myFunctions"
+				listKey="functionId" listValue="functionName" doubleName="leftFunctions"
+				doubleList="leftFunctions" doubleListKey="functionId"
+				doubleListValue="functionName" />
+		</div>
+
+		<br>
 
 		<div class="row">
 			<h3 class="page-header">角色列表</h3>
@@ -77,17 +138,18 @@
 								<th></th>
 								<th>角色名称</th>
 								<th>角色描述</th>
+								<th>功能列表</th>
 								<th>编辑</th>
 								<th>删除</th>
 							</tr>
 						</thead>
 						<tbody>
-							<s:iterator value="roles">
+							<s:iterator value="rolevos">
 								<tr>
-									<td><input type="checkbox" name="roleId"
-										value='<s:property value="roleId" />' /></td>
+									<td><s:hidden id="roleId" name="roleId" value="%{roleId}" /></td>
 									<td><s:property value="roleName" /></td>
 									<td><s:property value="roleDesc" /></td>
+									<td><s:property value="functionName" /></td>
 									<td><a
 										href='<s:url action="doEdit"><s:param name="roleId" value="roleId" /></s:url>'>
 											<span class="glyphicon glyphicon-edit">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html>
 <html lang='zh-cn'>
@@ -28,7 +29,11 @@
 				<ul class="nav navbar-nav navbar-right">
 					<!--标题栏里面需要展现的item-->
 					<li><p class=navbar-text>
-							Hi Admin, welcome to use this system! <a href='<c:url value="/j_spring_security_logout" />' target="_parent"> Logout</a>
+							当前用户：
+							<s:property value="username" />
+							&nbsp;&nbsp; <a href="<c:url value='/j_spring_security_logout' />"
+								target="_parent"> 退出系统</a>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+							&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 						</p></li>
 				</ul>
 			</div>
