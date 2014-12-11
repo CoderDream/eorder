@@ -17,7 +17,7 @@
 		<logout logout-success-url="/default.html" />
 		<remember-me />
 		<session-management invalid-session-url="/default.html">
-			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+			<concurrency-control max-sessions="5" error-if-maximum-exceeded="true" />
 		</session-management>
 
 		<intercept-url pattern="/resources/**" filters="none" />

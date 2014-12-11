@@ -7,15 +7,16 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-import org.springframework.beans.BeanUtils;
 
 import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.entity.User;
 import com.innovaee.eorder.module.service.UserRoleService;
 import com.innovaee.eorder.module.service.UserService;
+import com.innovaee.eorder.module.utils.Constants;
 import com.innovaee.eorder.module.utils.Md5Util;
 import com.innovaee.eorder.module.vo.ResetPasswordVo;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
+import com.innovaee.eorder.module.vo.UserVO;
 import com.innovaee.eorder.web.action.BaseAction;
 
 public class UserAction extends BaseAction {
@@ -28,10 +29,12 @@ public class UserAction extends BaseAction {
 	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
 
 	private String userId;
+	private String username;
+	private String password;
+	private String cellphone;
 	private String[] userIds;
-	private User user;
 
-	private List<User> users = new ArrayList<User>();
+	private List<UserVO> uservos = new ArrayList<UserVO>();
 
 	@Resource
 	private UserService userService;
@@ -49,45 +52,69 @@ public class UserAction extends BaseAction {
 
 	public String doUser() {
 		logger.debug("enter doUser() method");
-		users = userService.findAllUsers();
+		uservos = userService.findAllUserVOs();
 		return SUCCESS;
 	}
 
 	public String doLoad() {
-		if (null != userId && !"".equals(userId.trim())) {
-			user = userService.loadUser(Integer.parseInt(userId));
+		if (null != userId) {
+			User user = userService.loadUser(Integer.parseInt(userId));
+			username = user.getUsername();
+			password = user.getPassword();
+			cellphone = user.getCellphone();
 		}
+		uservos = userService.findAllUserVOs();
 		return SUCCESS;
 	}
 
 	public String doList() {
-		users = userService.findAllUsers();
+		uservos = userService.findAllUserVOs();
 		return SUCCESS;
 	}
 
 	public String doStore() {
-		String userId = user.getUsername();
-		String password = user.getPassword();
-		String md5Password = Md5Util.getMD5Str(password + "{" + userId + "}");
-		user.setPassword(md5Password);
-		user.setUserStatus(true);
-
+		String md5Password = "";
 		User user2 = new User();
-		BeanUtils.copyProperties(user, user2);
+		if (null != username && !"".equals(username.trim())) {
+			user2.setUsername(username);
+		}
+		if (null != password && !"".equals(password.trim())) {
+			md5Password = Md5Util.getMD5Str(password + "{" + username + "}");
+		}
+		if (null != cellphone && !"".equals(cellphone.trim())) {
+			user2.setCellphone(cellphone);
+		}
+
+		user2.setPassword(md5Password);
+		user2.setLevelId(Constants.DEFAULT_LEVEL);
+		user2.setUserStatus(true);
+
 		userService.saveUser(user2);
 		// 默认给用户添加普通用户的角色
-		userRoleService.saveUserRole(user2, new Role(2));
+		userRoleService.saveUserRole(user2, new Role(Constants.DEFAULT_ROLE));
+
+		uservos = userService.findAllUserVOs();
 		return SUCCESS;
 	}
 
 	public String doUpdate() {
-		if (null != userId) {
-			user.setUserId(Integer.parseInt(userId));
-			user = userService.findUsersByUserId(user.getUserId());
-		}
 		User user2 = new User();
-		BeanUtils.copyProperties(user, user2);
+		if (null != userId) {
+			user2 = userService.loadUser(Integer.parseInt(userId));
+		}
+
+		if (null != username && !"".equals(username.trim())) {
+			user2.setUsername(username);
+		}
+		if (null != password && !"".equals(password.trim())) {
+			user2.setPassword(password);
+		}
+		if (null != cellphone && !"".equals(cellphone.trim())) {
+			user2.setCellphone(cellphone);
+		}
 		userService.updateUser(user2);
+
+		uservos = userService.findAllUserVOs();
 		return SUCCESS;
 	}
 
@@ -170,12 +197,12 @@ public class UserAction extends BaseAction {
 		this.contextPath = contextPath;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public List<UserVO> getUservos() {
+		return uservos;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setUservos(List<UserVO> uservos) {
+		this.uservos = uservos;
 	}
 
 	public UserService getUserService() {
@@ -194,20 +221,36 @@ public class UserAction extends BaseAction {
 		this.userId = userId;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+
 	public String[] getUserIds() {
 		return userIds;
 	}
 
 	public void setUserIds(String[] userIds) {
 		this.userIds = userIds;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public UserRoleService getUserRoleService() {

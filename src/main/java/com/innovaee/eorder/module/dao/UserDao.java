@@ -1,5 +1,8 @@
 package com.innovaee.eorder.module.dao;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import com.innovaee.eorder.module.entity.User;
@@ -38,10 +41,18 @@ public class UserDao extends BaseDao {
 	}
 
 	public User saveUser(User user) {
+		Timestamp createAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		user.setCreateAt(createAt);
 		return (User) save(user);
 	}
 
 	public void updateUser(User user) {
+		Timestamp updateAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		user.setUpdateAt(updateAt);
 		update(user);
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.innovaee.eorder.module.entity.User;
 import com.innovaee.eorder.module.utils.Md5Util;
+import com.innovaee.eorder.module.vo.UserVO;
 import com.innovaee.eorder.test.BaseSpringTestCase;
 
 public class UserServiceTest extends BaseSpringTestCase {
@@ -29,10 +30,10 @@ public class UserServiceTest extends BaseSpringTestCase {
 
 	@Test
 	public void getAllUsers() {
-		List<User> allUsers = userService.findAllUsers();
-		Assert.assertNotNull(allUsers);
-		for (User user : allUsers) {
-			System.out.println(user);
+		List<UserVO> allUserVOs = userService.findAllUserVOs();
+		Assert.assertNotNull(allUserVOs);
+		for (UserVO uservo : allUserVOs) {
+			System.out.println(uservo);
 		}
 	}
 
@@ -87,13 +88,28 @@ public class UserServiceTest extends BaseSpringTestCase {
 		Assert.assertEquals(newCellphone, userDB.getCellphone());
 	}
 
+	/**
+	 * 01.先创建，后删除
+	 */
 	@Test
-	public void removeUser() {
+	public void removeUser_01() {
 		String md5Password = Md5Util.getMD5Str(password + "{" + username + "}");
 		User user = new User(username, md5Password, cellphone, levelId,
 				userStatus, createAt);
 		User userNew = userService.saveUser(user);
 		Integer userId = userNew.getUserId();
+		userService.removeUser(userId);
+		// 检查
+		User userDB = userService.loadUser(userId);
+		Assert.assertNull(userDB);
+	}
+	
+	/**
+	 * 02.传入特定的userId后直接删除
+	 */
+	@Test
+	public void removeUser_02() {
+		Integer userId = 8;
 		userService.removeUser(userId);
 		// 检查
 		User userDB = userService.loadUser(userId);

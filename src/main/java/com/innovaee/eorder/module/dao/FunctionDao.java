@@ -1,5 +1,8 @@
 package com.innovaee.eorder.module.dao;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -32,6 +35,10 @@ public class FunctionDao extends BaseDao {
 	}
 
 	public void updateFunction(Function function) {
+		Timestamp updateAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		function.setUpdateAt(updateAt);
 		update(function);
 	}
 

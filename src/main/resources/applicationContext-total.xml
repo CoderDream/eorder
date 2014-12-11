@@ -11,8 +11,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<!-- support spring annotation -->
 	<context:annotation-config />
-	<!-- 去哪个包扫描生成bean 
- 	<context:component-scan base-package="com.innovaee.eorder.module.entity.*" />  -->
+	<!-- 去哪个包扫描生成bean <context:component-scan base-package="com.innovaee.eorder.module.entity.*" 
+		/> -->
 
 	<bean id="databaseConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -151,6 +151,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="roleDao" class="com.innovaee.eorder.module.dao.RoleDao" parent="baseDAO" />
 	<bean id="userDao" class="com.innovaee.eorder.module.dao.UserDao" parent="baseDAO" />
 	<bean id="userRoleDao" class="com.innovaee.eorder.module.dao.UserRoleDao"
+		parent="baseDAO" />
+	<bean id="userLevelDao" class="com.innovaee.eorder.module.dao.UserLevelDao"
 		parent="baseDAO" />
 
 	<bean id="baseService" class="com.innovaee.eorder.module.service.BaseService"

@@ -1,5 +1,8 @@
 package com.innovaee.eorder.module.dao;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import com.innovaee.eorder.module.entity.Role;
@@ -36,6 +39,10 @@ public class RoleDao extends BaseDao {
 	}
 
 	public void updateRole(Role role) {
+		Timestamp updateAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		role.setUpdateAt(updateAt);
 		update(role);
 	}
 
