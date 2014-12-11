@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2014-12-11 12:39:12
+Date: 2014-12-11 23:01:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -131,23 +131,20 @@ CREATE TABLE `t_function` (
   `create_at` datetime DEFAULT NULL,
   `update_at` datetime DEFAULT NULL,
   PRIMARY KEY (`function_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='define system functions & path';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='define system functions & path';
 
 -- ----------------------------
 -- Records of t_function
 -- ----------------------------
-INSERT INTO `t_function` VALUES ('1', '系统管理', 'doAdministration', '', '0', '010000', '1', null, null);
+INSERT INTO `t_function` VALUES ('1', '管理', 'doAdministration', '', '0', '010000', '1', null, null);
 INSERT INTO `t_function` VALUES ('2', '功能管理', 'doFunction', '/function/doFunction.action', '1', '010300', '1', null, null);
 INSERT INTO `t_function` VALUES ('3', '角色管理', 'doRole', '/role/doRole.action', '1', '010200', '1', null, null);
 INSERT INTO `t_function` VALUES ('4', '用户管理', 'doUser', '/user/doUser.action', '1', '010100', '1', null, null);
-INSERT INTO `t_function` VALUES ('5', '角色功能关联', 'doRoleFunction', '/rolefunction/doRoleFunction.action', '1', '010400', '1', null, null);
-INSERT INTO `t_function` VALUES ('6', '用户角色关联', 'doUserRole', '/userrole/doUserRole.action', '1', '010500', '1', null, null);
 INSERT INTO `t_function` VALUES ('7', '设置', 'doConfiguration', null, '0', '020000', '1', null, null);
 INSERT INTO `t_function` VALUES ('8', '个人设置', 'doPersonal', '/person/doPerson.action', '7', '020100', '1', null, null);
 INSERT INTO `t_function` VALUES ('9', '密码重置', 'doResetPassword', '/resetpassword/doResetPassword', '7', '020200', '1', null, null);
 INSERT INTO `t_function` VALUES ('10', '测试', 'doTest', '', '0', '030000', '1', '2014-12-03 08:43:56', null);
-INSERT INTO `t_function` VALUES ('36', '新功能1', '新功能1', '新功能1', '10', '030100', null, null, null);
-INSERT INTO `t_function` VALUES ('39', '新功能2', '新功能2', '新功能2', '10', '030200', null, null, null);
+INSERT INTO `t_function` VALUES ('36', '新功能', '新功能', '/test/doPerson1.action', '10', '030100', '1', null, '2014-12-11 09:42:13');
 
 -- ----------------------------
 -- Table structure for `t_level`
@@ -232,17 +229,17 @@ CREATE TABLE `t_role` (
   `create_at` datetime DEFAULT NULL,
   `update_at` datetime DEFAULT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
-INSERT INTO `t_role` VALUES ('1', '管理员', '管理员', '1', null, null);
+INSERT INTO `t_role` VALUES ('1', '管理员', '管理员', '1', null, '2014-12-11 10:48:50');
 INSERT INTO `t_role` VALUES ('2', '普通用户', '普通用户', '1', null, null);
-INSERT INTO `t_role` VALUES ('3', '测试', '测试2', '1', null, null);
-INSERT INTO `t_role` VALUES ('9', '服务员', '服务员', null, null, null);
-INSERT INTO `t_role` VALUES ('10', '收银员', '收银员', null, null, null);
-INSERT INTO `t_role` VALUES ('11', '菜品管理员', '菜品管理员', null, null, null);
+INSERT INTO `t_role` VALUES ('3', '测试员', '测试员', '1', null, '2014-12-11 08:36:25');
+INSERT INTO `t_role` VALUES ('9', '服务员', '服务员', '1', null, '2014-12-11 08:36:40');
+INSERT INTO `t_role` VALUES ('10', '收银员', '收银员', '1', null, '2014-12-11 09:45:22');
+INSERT INTO `t_role` VALUES ('11', '菜品管理员', '菜品管理员', '1', null, '2014-12-11 09:45:32');
 
 -- ----------------------------
 -- Table structure for `t_role_function`
@@ -259,7 +256,7 @@ CREATE TABLE `t_role_function` (
   KEY `pk_function_id_2` (`function_id`),
   CONSTRAINT `pk_function_id_2` FOREIGN KEY (`function_id`) REFERENCES `t_function` (`function_id`),
   CONSTRAINT `pk_role_id_2` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of t_role_function
@@ -267,21 +264,23 @@ CREATE TABLE `t_role_function` (
 INSERT INTO `t_role_function` VALUES ('39', '2', '7', '2014-12-03 02:30:51', null);
 INSERT INTO `t_role_function` VALUES ('40', '2', '8', '2014-12-03 02:30:51', null);
 INSERT INTO `t_role_function` VALUES ('41', '2', '9', '2014-12-03 02:30:51', null);
-INSERT INTO `t_role_function` VALUES ('52', '1', '1', '2014-12-03 04:21:59', null);
-INSERT INTO `t_role_function` VALUES ('53', '1', '2', '2014-12-03 04:21:59', null);
-INSERT INTO `t_role_function` VALUES ('54', '1', '3', '2014-12-03 04:21:59', null);
-INSERT INTO `t_role_function` VALUES ('55', '1', '4', '2014-12-03 04:21:59', null);
-INSERT INTO `t_role_function` VALUES ('56', '1', '5', '2014-12-03 04:21:59', null);
-INSERT INTO `t_role_function` VALUES ('57', '1', '6', '2014-12-03 04:21:59', null);
-INSERT INTO `t_role_function` VALUES ('58', '1', '7', '2014-12-03 04:22:00', null);
-INSERT INTO `t_role_function` VALUES ('59', '1', '8', '2014-12-03 04:22:00', null);
-INSERT INTO `t_role_function` VALUES ('60', '1', '9', '2014-12-03 04:22:00', null);
-INSERT INTO `t_role_function` VALUES ('61', '11', '10', '2014-12-04 09:20:04', null);
-INSERT INTO `t_role_function` VALUES ('62', '11', '36', '2014-12-04 09:20:04', null);
-INSERT INTO `t_role_function` VALUES ('63', '11', '39', '2014-12-04 09:20:04', null);
-INSERT INTO `t_role_function` VALUES ('64', '10', '10', '2014-12-04 09:20:53', null);
-INSERT INTO `t_role_function` VALUES ('65', '10', '36', '2014-12-04 09:20:53', null);
-INSERT INTO `t_role_function` VALUES ('66', '10', '39', '2014-12-04 09:20:53', null);
+INSERT INTO `t_role_function` VALUES ('76', '3', '7', '2014-12-11 08:36:25', null);
+INSERT INTO `t_role_function` VALUES ('77', '3', '8', '2014-12-11 08:36:25', null);
+INSERT INTO `t_role_function` VALUES ('78', '9', '7', '2014-12-11 08:36:40', null);
+INSERT INTO `t_role_function` VALUES ('79', '9', '9', '2014-12-11 08:36:40', null);
+INSERT INTO `t_role_function` VALUES ('87', '10', '10', '2014-12-11 09:45:22', null);
+INSERT INTO `t_role_function` VALUES ('88', '10', '36', '2014-12-11 09:45:22', null);
+INSERT INTO `t_role_function` VALUES ('89', '11', '10', '2014-12-11 09:45:33', null);
+INSERT INTO `t_role_function` VALUES ('90', '11', '36', '2014-12-11 09:45:33', null);
+INSERT INTO `t_role_function` VALUES ('91', '11', '7', '2014-12-11 09:45:33', null);
+INSERT INTO `t_role_function` VALUES ('92', '11', '8', '2014-12-11 09:45:33', null);
+INSERT INTO `t_role_function` VALUES ('93', '11', '9', '2014-12-11 09:45:33', null);
+INSERT INTO `t_role_function` VALUES ('100', '1', '1', '2014-12-11 10:48:50', null);
+INSERT INTO `t_role_function` VALUES ('101', '1', '2', '2014-12-11 10:48:50', null);
+INSERT INTO `t_role_function` VALUES ('102', '1', '3', '2014-12-11 10:48:50', null);
+INSERT INTO `t_role_function` VALUES ('103', '1', '4', '2014-12-11 10:48:50', null);
+INSERT INTO `t_role_function` VALUES ('104', '1', '10', '2014-12-11 10:48:50', null);
+INSERT INTO `t_role_function` VALUES ('105', '1', '36', '2014-12-11 10:48:50', null);
 
 -- ----------------------------
 -- Table structure for `t_user`
@@ -298,7 +297,7 @@ CREATE TABLE `t_user` (
   `create_at` datetime DEFAULT NULL,
   `update_at` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='user''s basic information';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='user''s basic information';
 
 -- ----------------------------
 -- Records of t_user
@@ -306,11 +305,9 @@ CREATE TABLE `t_user` (
 INSERT INTO `t_user` VALUES ('1', 'admin', 'ceb4f32325eda6142bd65215f4c0f371', '13912345671', null, '1', '1', '2012-09-29 00:00:00', null);
 INSERT INTO `t_user` VALUES ('2', 'test', '889255f1c9c8f12a353be255f78a848b', '13912345672', null, '2', '1', '2012-09-29 00:00:00', null);
 INSERT INTO `t_user` VALUES ('6', 'abc', 'd3c318a0efec18294afcf4d098c4620b', '13912345673', null, '3', '1', '2012-09-29 00:00:00', null);
-INSERT INTO `t_user` VALUES ('7', '张三', '0cc8580da0421d5885db4c978e15ace0', '13912340001', null, '1', '1', null, null);
+INSERT INTO `t_user` VALUES ('7', '张三', '0cc8580da0421d5885db4c978e15ace0', '13912340001', null, '1', '1', null, '2014-12-11 03:52:29');
 INSERT INTO `t_user` VALUES ('9', '王五', 'b3ccc74de29cd6dded5bac6677923ddb', '13912340003', null, '1', '1', null, null);
 INSERT INTO `t_user` VALUES ('10', '赵六', 'b3ccc74de29cd6dded5bac6677923ddb', '13912340004', null, '1', '1', null, null);
-INSERT INTO `t_user` VALUES ('11', '李四', '0df9fba88e9da4f611e819acd5aaa57e', '13912340006', null, '1', '1', null, '2014-12-11 12:23:33');
-INSERT INTO `t_user` VALUES ('12', 'abc', 'd3c318a0efec18294afcf4d098c4620b', '13888888888', null, '1', '1', '2014-12-11 12:36:19', null);
 
 -- ----------------------------
 -- Table structure for `t_user_level`
@@ -350,7 +347,7 @@ CREATE TABLE `t_user_role` (
   KEY `t_role_id_1` (`role_id`),
   CONSTRAINT `t_role_id_1` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`role_id`),
   CONSTRAINT `t_user_id_1` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_role
@@ -361,7 +358,7 @@ INSERT INTO `t_user_role` VALUES ('13', '2', '2', '2014-12-04 12:04:22', null);
 INSERT INTO `t_user_role` VALUES ('14', '2', '3', '2014-12-04 12:04:22', null);
 INSERT INTO `t_user_role` VALUES ('19', '6', '3', '2014-12-04 09:09:44', null);
 INSERT INTO `t_user_role` VALUES ('20', '6', '10', '2014-12-04 09:09:44', null);
-INSERT INTO `t_user_role` VALUES ('21', '7', '2', '2014-12-10 08:18:46', null);
 INSERT INTO `t_user_role` VALUES ('23', '9', '2', '2014-12-10 09:38:48', null);
 INSERT INTO `t_user_role` VALUES ('24', '10', '2', '2014-12-10 09:41:10', null);
-INSERT INTO `t_user_role` VALUES ('25', '11', '2', '2014-12-10 09:41:54', null);
+INSERT INTO `t_user_role` VALUES ('26', '7', '2', '2014-12-11 03:52:33', null);
+INSERT INTO `t_user_role` VALUES ('27', '7', '10', '2014-12-11 03:52:33', null);
