@@ -13,7 +13,8 @@
 		<!-- <result-types> </result-types> -->
 
 		<interceptors>
-			<interceptor name="loggerInterceptor" class="com.innovaee.eorder.web.interceptor.LoggerInterceptor" />
+			<interceptor name="loggerInterceptor"
+				class="com.innovaee.eorder.web.interceptor.LoggerInterceptor" />
 
 			<interceptor-stack name="eorderStack">
 				<interceptor-ref name="loggerInterceptor" />
@@ -48,8 +49,6 @@
 	<include file="com/innovaee/eorder/web/action/login/struts.xml" />
 
 	<include file="com/innovaee/eorder/web/action/admin/function/struts.xml" />
-	<include file="com/innovaee/eorder/web/action/admin/rolefunction/struts.xml" />
 	<include file="com/innovaee/eorder/web/action/admin/user/struts.xml" />
 	<include file="com/innovaee/eorder/web/action/admin/role/struts.xml" />
-	<include file="com/innovaee/eorder/web/action/admin/userrole/struts.xml" />
 </struts>

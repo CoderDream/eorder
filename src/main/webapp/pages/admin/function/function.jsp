@@ -108,7 +108,8 @@
 								<th>功能名称</th>
 								<th>功能描述</th>
 								<th>功能路径</th>
-								<th>上级功能</th>
+								<th>上级功能ID</th>
+								<th>上级功能名称</th>
 								<th>功能排序</th>
 								<th>编辑</th>
 								<th>删除</th>
@@ -122,6 +123,7 @@
 									<td><s:property value="functionName" /></td>
 									<td><s:property value="functionDesc" /></td>
 									<td><s:property value="functionPath" /></td>
+									<td><s:property value="functionParent" /></td>
 									<td><s:property value="functionParentName" /></td>
 									<td><s:property value="functionOrder" /></td>
 									<td><a

@@ -36,7 +36,6 @@ public class LoginAction extends BaseAction {
 	}
 
 	public String doHeader() {
-
 		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
 		Assert.notNull(userDetail);
