@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dwr PUBLIC 
+	"-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" 
+	"http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+	<allow>
+		<!-- 将DWRValidator创建为JavaScript的validator对象 -->
+		<create creator="new" javascript="validator">
+			<param name="class" value="org.apache.struts2.validators.DWRValidator" />
+		</create>
+
+		<!-- 使用dwr内置的bean转换器，对ValidationAwareSupport类型进行转换 -->
+		<convert converter="bean" match="com.opensymphony.xwork2.ValidationAwareSupport" />
+	</allow>
+
+	<signatures>
+        <![CDATA[
+        import java.util.Map;
+        import org.apache.struts2.validators.DWRValidator;
+
+        DWRValidator.doPost(String, String, Map<String, String>);
+        ]]>
+	</signatures>
+</dwr>

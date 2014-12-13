@@ -34,6 +34,7 @@ public class UserAction extends BaseAction {
 	private String cellphone;
 	private String[] userIds;
 
+	private String message;
 	private List<UserVO> uservos = new ArrayList<UserVO>();
 
 	@Resource
@@ -93,6 +94,32 @@ public class UserAction extends BaseAction {
 	}
 
 	public String doStore() {
+		if (this.getUsername() == null || this.getUsername().trim().equals("")) {
+			// addFieldError("username", "用户名不能为空！");
+			this.setMessage("用户名不能为空！");
+			return SUCCESS;
+		} else if (this.getCellphone() == null
+				|| this.getCellphone().trim().equals("")) {
+			// addFieldError("username", "用户名不能为空！");
+			this.setMessage("手机号码不能为空！");
+			return SUCCESS;
+		} else {
+			User user = userService.findUsersByUserName(username);
+			if (null != user) {
+				// addFieldError("username", this.getUsername() + " 该用户已存在！");
+				this.setMessage("该用户已存在！");
+				return SUCCESS;
+			}
+
+			user = userService.findUsersByUserName(cellphone);
+			if (null != user) {
+				// addFieldError("cellphone", this.getCellphone() +
+				// "该手机号码已存在！");
+				this.setMessage("该手机号码已存在！");
+				return SUCCESS;
+			}
+		}
+
 		String md5Password = "";
 		User user = new User();
 		if (null != username && !"".equals(username.trim())) {
@@ -114,6 +141,8 @@ public class UserAction extends BaseAction {
 		userRoleService.saveUserRole(user, new Role(Constants.DEFAULT_ROLE));
 
 		uservos = userService.findAllUserVOs();
+
+		this.setMessage("用户 " + username + " 新增成功！");
 		return SUCCESS;
 	}
 
@@ -316,6 +345,14 @@ public class UserAction extends BaseAction {
 
 	public void setLeftRolesArray(String leftRolesArray) {
 		this.leftRolesArray = leftRolesArray;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

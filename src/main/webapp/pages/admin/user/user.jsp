@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html>
 <html lang='zh-cn'>
 <head>
@@ -10,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="../resources/css/style.css">
+<script src="../resources/js/jquery.js" type="text/javascript"></script>
 <script src="../resources/js/inputtransferselect.js" type="text/javascript"></script>
 <script src="../resources/js/optiontransferselect.js" type="text/javascript"></script>
 </head>
@@ -17,15 +17,48 @@
 <s:head />
 <script type="text/javascript">
 	function save() {
-		//alert('call save');
+		alert('call save');
 		//获取该页面中的第一个表单元素
-		var targetForm = document.getElementById("saveForm");
+		//var targetForm = document.getElementById("saveForm");
 		//动态修改目标表单的action属性
-		targetForm.action = "doStore.action";
+		//targetForm.action = "doStore.action";
 		//提交表单
-		targetForm.submit();
+		//targetForm.submit();
+		
+		// 定义将要请求的Action
+		var url = "${base}/user2/doStore.action";
+		// 获取用户查询的ID
+		var postusername = $("#username").val();
+		var postpassword = $("#password").val();
+		var postcellphone = $("#cellphone").val();
+		alert(url);
+		alert('ready to post');
+		$.post(url, {
+			username : postusername,
+			password : postpassword,
+			cellphone : postcellphone
+		}, callbackFun, 'json');
 	}
 
+	// 这里使用$.post()方法，其他的jquery ajax方法也是一样的原理，$.post()较为常用
+
+	// 查询用户的异步请求的回调函数(参数：异步请求后获取的json数据)
+	function callbackFun(data) {
+		alert('callback')
+		var message = data.message;
+		// 获取json数据中的用户（单个用户）
+		
+		var getUser = data.user;
+		// 清空DIV中的内容
+		$("#result").html("");
+		// 向DIV中追加代码
+		$("#result").append(message);
+		// 向DIV中追加代码
+		$("#result").append(
+				"<div style='width:200;text-align:center;'>用户ID:" + getUser.userId
+						+ "<br/>	用户名:" + getUser.username + "</br>密码:"
+						+ getUser.password + "</div>");
+	}
 	function update() {
 		//alert('call update');
 
@@ -82,7 +115,7 @@
 			<div class="col-md-3">
 				<s:if test="null == userId">
 					<h4>新增功能</h4>
-					<s:form class="eorder-form-usr" id="saveForm" action="doStore">
+					<s:form class="eorder-form-usr" id="saveForm">
 						<s:hidden id="roleId" name="roleId" />
 						<s:hidden id="myRolesArray" name="myRolesArray" />
 						<s:hidden id="leftRolesArray" name="leftRolesArray" />
@@ -98,7 +131,7 @@
 				</s:if>
 				<s:else>
 					<h4>修改功能</h4>
-					<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
+					<s:form class="eorder-form-usr" id="updateForm">
 						<s:hidden id="userId" name="userId" value="%{userId}" />
 						<s:hidden id="roleId" name="roleId" />
 						<s:hidden id="myRolesArray" name="myRolesArray" />
@@ -113,16 +146,24 @@
 							class="btn btn-default btn-block eorder-btn-login">修改用户信息</a>
 					</s:form>
 				</s:else>
+				
+				<div id="result"></div>
 			</div>
 
 			<div class="col-md-3">
 				<h4>已分配角色</h4>
-			</div>
-			<s:optiontransferselect cssStyle="form-control eorder-multi-sel"
-				cssClass="form-control eorder-multi-sel" id="myRoles" name="myRoles"
+				<div style="width:300px;">
+			<s:optiontransferselect 
+				doubleCssClass="form-control eorder-multi-sel"
+				cssClass="form-control eorder-multi-sel" 
+				buttonCssClass="btn btn-default eorder-btn-arrow"
+				id="myRoles" name="myRoles"
 				list="myRoles" listKey="roleId" listValue="roleName" doubleId="leftRoles"
 				doubleName="leftRoles" doubleList="leftRoles" doubleListKey="roleId"
 				doubleListValue="roleName" />
+				</div>
+			</div>
+			
 		</div>
 
 		<br>

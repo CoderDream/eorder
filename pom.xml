@@ -11,11 +11,11 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.11</junit.version>
-		<struts2.version>2.3.1.2</struts2.version>
+		<struts2.version>2.1.8</struts2.version>
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<spring.asm.version>3.1.4.RELEASE</spring.asm.version>
-		<struts2.spring.plugin.version>2.3.16</struts2.spring.plugin.version>
+		<struts2.spring.plugin.version>2.1.8</struts2.spring.plugin.version>
 		<hibernate.version>3.6.9.Final</hibernate.version>
 		<hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
 		<hibernate.commons.version>3.3.0.ga</hibernate.commons.version>
@@ -205,6 +205,14 @@
 			<version>${commons.collections.version}</version>
 			<scope>compile</scope>
 		</dependency>
+
+		<!-- dwr -->
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>2.0.3</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>

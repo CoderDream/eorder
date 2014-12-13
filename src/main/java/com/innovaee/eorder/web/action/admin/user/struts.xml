@@ -18,6 +18,7 @@
 		</action>
 		<action name="doStore" class="com.innovaee.eorder.web.action.admin.user.UserAction"
 			method="doStore">
+			<result name="input">/pages/admin/user/user.jsp</result>
 			<result type="redirect">doUser.action</result>
 		</action>
 		<action name="doUpdate" class="com.innovaee.eorder.web.action.admin.user.UserAction"
