@@ -6,14 +6,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
 
 import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.entity.RoleFunction;
 import com.innovaee.eorder.module.service.FunctionService;
 import com.innovaee.eorder.module.service.RoleFunctionService;
+import com.innovaee.eorder.module.utils.MenuUtil;
 import com.innovaee.eorder.module.vo.FunctionVO;
-import com.innovaee.eorder.module.vo.ResetPasswordVo;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
 import com.innovaee.eorder.web.action.BaseAction;
 
@@ -22,9 +21,7 @@ public class FunctionAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(FunctionAction.class);
 
-	private ResetPasswordVo resetPasswordVo;
-
-	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
+	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
 
 	private String functionId;
 	private String functionName;
@@ -43,17 +40,24 @@ public class FunctionAction extends BaseAction {
 
 	private String contextPath;
 
+	public void refreshData() {
+		this.setMenulist(MenuUtil.getRoleLinkVOList());
+		functionvos = functionService.findAllFunctionVOs();
+	}
+
 	public String login() {
 		logger.debug("enter login() method");
 
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doFunction() {
 		logger.debug("enter doFunction() method");
 
-		functionvos = functionService.findAllFunctionVOs();
-
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -69,12 +73,14 @@ public class FunctionAction extends BaseAction {
 			functionOrder = function.getFunctionOrder();
 		}
 
-		functionvos = functionService.findAllFunctionVOs();
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doList() {
-		functionvos = functionService.findAllFunctionVOs();
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -101,6 +107,9 @@ public class FunctionAction extends BaseAction {
 		}
 		function.setFunctionStatus(true);
 		functionService.saveFunction(function);
+
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -132,6 +141,9 @@ public class FunctionAction extends BaseAction {
 		}
 
 		functionService.updateFunction(function);
+
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -146,11 +158,17 @@ public class FunctionAction extends BaseAction {
 		} else {
 			functionService.removeFunctions(functionIds);
 		}
+
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doUserInfo() {
 		logger.debug("enter doUserInfo() method");
+
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -164,50 +182,20 @@ public class FunctionAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String doLeft() {
-		List<RoleLinkVo> subList = new ArrayList<RoleLinkVo>();
-		RoleLinkVo linkVo = new RoleLinkVo();
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Reset Password");
-		linkVo.setFlag("0");
-		linkVo.setLink("/base/config.action");
-		subList.add(linkVo);
-
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Security Question");
-		linkVo.setFlag("0");
-		linkVo.setLink("/mail/list.action");
-		subList.add(linkVo);
-
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Basic Setup");
-		linkVo.setFlag("1");
-		linkVo.setList(subList);
-		list.add(linkVo);
-
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Admin");
-		linkVo.setFlag("1");
-		list.add(linkVo);
-
-		ServletActionContext.getRequest().setAttribute("permission", list);
-		return SUCCESS;
+	public List<RoleLinkVo> getMenulist() {
+		return menulist;
 	}
 
-	public ResetPasswordVo getResetPasswordVo() {
-		return resetPasswordVo;
+	public void setMenulist(List<RoleLinkVo> menulist) {
+		this.menulist = menulist;
 	}
 
-	public void setResetPasswordVo(ResetPasswordVo resetPasswordVo) {
-		this.resetPasswordVo = resetPasswordVo;
+	public RoleFunctionService getRoleFunctionService() {
+		return roleFunctionService;
 	}
 
-	public List<RoleLinkVo> getList() {
-		return list;
-	}
-
-	public void setList(List<RoleLinkVo> list) {
-		this.list = list;
+	public void setRoleFunctionService(RoleFunctionService roleFunctionService) {
+		this.roleFunctionService = roleFunctionService;
 	}
 
 	public String getContextPath() {

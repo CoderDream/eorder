@@ -9,18 +9,11 @@ ListUtil.move = function(oListboxFrom, oListboxTo, iIndex) {
 		oListboxTo.appendChild(oOption);
 	}
 
-	refresh(oListbox1);
-	refresh(oListbox2);
+	//refresh(oListbox1);
+	//refresh(oListbox2);
 }
 
-function moveOneToLeft() {
-	// alert('moveOneToLeft');
-	var oListbox1 = document.getElementById("myRoles");
-	var oListbox2 = document.getElementById("leftRoles");
-	// alert('ready to move: ');
-
-	// alert('myRolesOptions.length: ' + oListbox1.length);
-
+function moveOneToLeft(oListbox1, oListbox2) {
 	for (var i = 0; i < oListbox2.options.length; i++) {
 		if (oListbox2.options[i].selected) {
 			// alert("i: " + i);
@@ -29,14 +22,7 @@ function moveOneToLeft() {
 	}
 }
 
-function moveOneToRight() {
-	// alert('moveOneToLeft');
-	var oListbox1 = document.getElementById("myRoles");
-	var oListbox2 = document.getElementById("leftRoles");
-	// alert('ready to move: ');
-
-	// alert('myRolesOptions.length: ' + oListbox1.length);
-
+function moveOneToRight(oListbox1, oListbox2) {
 	for (var i = 0; i < oListbox2.options.length; i++) {
 		if (oListbox1.options[i].selected) {
 			//alert("i: " + i);
@@ -57,23 +43,15 @@ ListUtil.moveAll = function(oListboxFrom, oListboxTo) {
 		oListboxTo.appendChild(oOption);
 	}
 
-	refresh(oListbox1);
-	refresh(oListbox2);
+	//refresh(oListbox1);
+	//refresh(oListbox2);
 }
 
-function moveAllToLeft() {
-	// alert('moveAllToLeft');
-	var oListbox1 = document.getElementById("myRoles");
-	var oListbox2 = document.getElementById("leftRoles");
-
+function moveAllToLeft(oListbox1, oListbox2) {
 	ListUtil.moveAll(oListbox2, oListbox1);
 }
 
-function moveAllToRight() {
-	// alert('moveOneToLeft');
-	var oListbox1 = document.getElementById("myRoles");
-	var oListbox2 = document.getElementById("leftRoles");
-
+function moveAllToRight(oListbox1, oListbox2) {
 	ListUtil.moveAll(oListbox1, oListbox2);
 }
 
@@ -83,7 +61,7 @@ ListUtil.refresh = function(oListboxFrom) {
 	var len1 = oListboxFrom.options.length;
 	for (var x = 0; x < len1; x++) {
 		var ind = len - x - 1;
-		alert("index: " + ind);
+		//alert("index: " + ind);
 		var oOption = oListboxFrom.options[ind];
 		// alert(x + " : "+oOption.firstChild.nodeValue);
 		// oListboxTo.appendChild(oOption);

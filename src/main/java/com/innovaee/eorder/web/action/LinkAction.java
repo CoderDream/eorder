@@ -1,4 +1,4 @@
-package com.vaannila.action;
+package com.innovaee.eorder.web.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 

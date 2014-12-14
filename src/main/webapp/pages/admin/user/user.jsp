@@ -22,6 +22,36 @@
 </head>
 
 <script type="text/javascript">
+	function moveOneRoleToLeft() {
+		// alert('moveOneToLeft');
+		var oListbox1 = document.getElementById("myRoles");
+		var oListbox2 = document.getElementById("leftRoles");
+		moveOneToLeft(oListbox1, oListbox2);
+	}
+
+	function moveOneRoleToRight() {
+		// alert('moveOneToLeft');
+		var oListbox1 = document.getElementById("myRoles");
+		var oListbox2 = document.getElementById("leftRoles");
+		moveOneToRight(oListbox1, oListbox2);
+	}
+
+	function moveAllRolesToLeft() {
+		// alert('moveAllToLeft');
+		var oListbox1 = document.getElementById("myRoles");
+		var oListbox2 = document.getElementById("leftRoles");
+
+		moveAllToLeft(oListbox1, oListbox2);
+	}
+
+	function moveAllRolesToRight() {
+		// alert('moveOneToLeft');
+		var oListbox1 = document.getElementById("myRoles");
+		var oListbox2 = document.getElementById("leftRoles");
+
+		moveAllToRight(oListbox1, oListbox2);
+	}
+
 	function save() {
 		//alert('call save');
 		//获取该页面中的第一个表单元素
@@ -49,7 +79,7 @@
 		//alert('myRolesOptions.length: ' + myRolesOptions.length);
 		for (var i = 0; i < myRolesOptions.length; i++) {
 			//alert(cnbook[i].getAttribute("value"));
-			//alert('myRolesOptions[i].value: ' + myRolesOptions[i].value);
+			//alert('myRolesOptions[i].firstChild.nodeValue: ' + myRolesOptions[i].value);
 			if (0 != myRolesOptions[i].value) {
 				myList.push(myRolesOptions[i].value);
 			}
@@ -190,28 +220,28 @@
 							class="form-control eorder-multi-sel">
 
 							<s:iterator value="myRoles" id="role">
-								<option value="role.roleId">${role.roleName}</option>
+								<option value="${role.roleId}">${role.roleName}</option>
 							</s:iterator>
 						</select>
 					</div>
 					<div class="col-md-2 text-center">
 						<button class="btn btn-default eorder-btn-arrow" style="margin-top: 42px"
-							onclick="moveAllToLeft();">
+							onclick="moveAllRolesToLeft();">
 							<span class="glyphicon glyphicon-backward"></span>
 						</button>
 						<br />
 						<button class="btn btn-default eorder-btn-arrow"
-							onclick="moveOneToLeft();">
+							onclick="moveOneRoleToLeft();">
 							<span class="glyphicon glyphicon-chevron-left"></span>
 						</button>
 						<br />
 						<button class="btn btn-default eorder-btn-arrow"
-							onclick="moveOneToRight();">
+							onclick="moveOneRoleToRight();">
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</button>
 						<br />
 						<button class="btn btn-default eorder-btn-arrow"
-							onclick="moveAllToRight();">
+							onclick="moveAllRolesToRight();">
 							<span class="glyphicon glyphicon-forward"></span>
 						</button>
 					</div>
@@ -220,7 +250,7 @@
 						<select id="leftRoles" name="leftRoles" multiple
 							class="form-control eorder-multi-sel">
 							<s:iterator value="leftRoles" id="role">
-								<option value="role.roleId">${role.roleName}</option>
+								<option value="${role.roleId}">${role.roleName}</option>
 							</s:iterator>
 						</select>
 					</div>

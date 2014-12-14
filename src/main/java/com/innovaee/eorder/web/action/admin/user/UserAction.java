@@ -1,15 +1,11 @@
 package com.innovaee.eorder.web.action.admin.user;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.Assert;
 
 import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.entity.User;
@@ -17,10 +13,8 @@ import com.innovaee.eorder.module.service.UserRoleService;
 import com.innovaee.eorder.module.service.UserService;
 import com.innovaee.eorder.module.utils.Constants;
 import com.innovaee.eorder.module.utils.Md5Util;
-import com.innovaee.eorder.module.vo.ResetPasswordVo;
+import com.innovaee.eorder.module.utils.MenuUtil;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
-import com.innovaee.eorder.module.vo.UserDetailsVo;
-import com.innovaee.eorder.module.vo.UserFunctionVo;
 import com.innovaee.eorder.module.vo.UserVO;
 import com.innovaee.eorder.web.action.BaseAction;
 
@@ -28,8 +22,6 @@ public class UserAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(UserAction.class);
-
-	private ResetPasswordVo resetPasswordVo;
 
 	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
 
@@ -60,14 +52,16 @@ public class UserAction extends BaseAction {
 	public String login() {
 		logger.debug("enter login() method");
 
-		doLeft();
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doUser() {
 		logger.debug("enter doUser() method");
-		uservos = userService.findAllUserVOs();
-		doLeft();
+		
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -90,14 +84,15 @@ public class UserAction extends BaseAction {
 				leftRoles.add(new Role(0, " "));
 			}
 		}
-		uservos = userService.findAllUserVOs();
-		doLeft();
+		
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doList() {
-		uservos = userService.findAllUserVOs();
-		doLeft();
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -122,7 +117,8 @@ public class UserAction extends BaseAction {
 		// 默认给用户添加普通用户的角色
 		userRoleService.saveUserRole(user, new Role(Constants.DEFAULT_ROLE));
 
-		uservos = userService.findAllUserVOs();
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -149,8 +145,15 @@ public class UserAction extends BaseAction {
 		username = "";
 		password = "";
 		cellphone = "";
-		uservos = userService.findAllUserVOs();
+		
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
+	}
+	
+	public void refreshData(){
+		this.setMenulist(MenuUtil.getRoleLinkVOList());
+		uservos = userService.findAllUserVOs();
 	}
 
 	public String doRemove() {
@@ -159,11 +162,17 @@ public class UserAction extends BaseAction {
 		} else {
 			userService.removeUsers(userIds);
 		}
+		
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doUserInfo() {
 		logger.debug("enter doUserInfo() method");
+
+		// 更新页面数据
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -175,107 +184,6 @@ public class UserAction extends BaseAction {
 	public String doBottom() {
 		logger.debug("enter doBottom() method");
 		return SUCCESS;
-	}
-
-	public String doLeft() {
-		// get user detail information from Spring Security Context
-		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal();
-		Assert.notNull(userDetail);
-
-		// get all granted functions list of the authenticated user
-		List<UserFunctionVo> userFunctions = userDetail.getUserFunctions();
-
-		// sort the functions list in order by functions' order number
-		Collections.sort(userFunctions, new Comparator<UserFunctionVo>() {
-			@Override
-			public int compare(UserFunctionVo o1, UserFunctionVo o2) {
-				return o1.getFunction().getFunctionOrder()
-						.compareTo(o2.getFunction().getFunctionOrder());
-			}
-		});
-
-		// fill the list<RoleLinkVo> in functions' list
-		menulist.clear();
-		for (UserFunctionVo ufVo : userFunctions) {
-			// if (StringUtils.isEmpty(ufVo.getFunction().getFunctionParent()))
-			// {
-			if (0 == ufVo.getFunction().getFunctionParent()) {
-				// no parent menu item, this is a top level menu item
-
-				// check if there is the duplicated item in the list
-				boolean duplicated = false;
-				for (RoleLinkVo r : menulist) {
-					if (ufVo.getFunction().getFunctionName()
-							.equals(r.getName())) {
-						duplicated = true;
-						break;
-					}
-				}
-				if (duplicated) {
-					continue;
-				}
-
-				RoleLinkVo rlVo = new RoleLinkVo();
-				rlVo.setFlag("1");
-				rlVo.setLink(ufVo.getFunction().getFunctionPath());
-				rlVo.setId(ufVo.getFunction().getFunctionId());
-				rlVo.setName(ufVo.getFunction().getFunctionName());
-				rlVo.setFunctionName(ufVo.getFunction().getFunctionName());
-				rlVo.setOrder(ufVo.getFunction().getFunctionOrder());
-				rlVo.setList(new ArrayList<RoleLinkVo>());
-				menulist.add(rlVo);
-				continue;
-			}
-
-			// otherwise, it's a level2 menu item
-			RoleLinkVo parent = null;
-			for (RoleLinkVo p : menulist) {
-				// if
-				// (p.getName().equals(ufVo.getFunction().getFunctionParent()))
-				// {
-				if (p.getId() == ufVo.getFunction().getFunctionParent()) {
-					parent = p;
-					break;
-				}
-			}
-			if (null == parent) {
-				// cannot find the funcion item's parent
-				logger.warn(String.format("cannot find function[%s]'s parent",
-						ufVo.getFunction().getFunctionName()));
-				continue;
-			}
-
-			// check if there is the duplicated item in the list
-			boolean duplicated = false;
-			for (RoleLinkVo r : parent.getList()) {
-				if (ufVo.getFunction().getFunctionName().equals(r.getName())) {
-					duplicated = true;
-					break;
-				}
-			}
-			if (duplicated) {
-				continue;
-			}
-			RoleLinkVo rlVo = new RoleLinkVo();
-			rlVo.setFlag("2");
-			rlVo.setLink(ufVo.getFunction().getFunctionPath());
-			rlVo.setId(ufVo.getFunction().getFunctionId());
-			rlVo.setName(ufVo.getFunction().getFunctionName());
-			rlVo.setFunctionName(ufVo.getFunction().getFunctionName());
-			rlVo.setOrder(ufVo.getFunction().getFunctionOrder());
-			parent.getList().add(rlVo);
-		}
-
-		return SUCCESS;
-	}
-
-	public ResetPasswordVo getResetPasswordVo() {
-		return resetPasswordVo;
-	}
-
-	public void setResetPasswordVo(ResetPasswordVo resetPasswordVo) {
-		this.resetPasswordVo = resetPasswordVo;
 	}
 
 	public List<RoleLinkVo> getMenulist() {

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
 
 import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.entity.Role;
@@ -14,6 +13,7 @@ import com.innovaee.eorder.module.entity.UserRole;
 import com.innovaee.eorder.module.service.RoleFunctionService;
 import com.innovaee.eorder.module.service.RoleService;
 import com.innovaee.eorder.module.service.UserRoleService;
+import com.innovaee.eorder.module.utils.MenuUtil;
 import com.innovaee.eorder.module.vo.ResetPasswordVo;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
 import com.innovaee.eorder.module.vo.RoleVO;
@@ -23,6 +23,8 @@ public class RoleAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(RoleAction.class);
+
+	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
 
 	private ResetPasswordVo resetPasswordVo;
 
@@ -54,15 +56,20 @@ public class RoleAction extends BaseAction {
 
 	private String contextPath;
 
+	public void refreshData() {
+		this.setMenulist(MenuUtil.getRoleLinkVOList());
+		rolevos = roleService.findAllRoleVOs();
+	}
+
 	public String login() {
 		logger.debug("enter login() method");
-
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doRole() {
 		logger.debug("enter doRole() method");
-		rolevos = roleService.findAllRoleVOs();
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -84,12 +91,12 @@ public class RoleAction extends BaseAction {
 				leftFunctions.add(new Function(0, " "));
 			}
 		}
-		rolevos = roleService.findAllRoleVOs();
+		refreshData();
 		return SUCCESS;
 	}
 
 	public String doList() {
-		rolevos = roleService.findAllRoleVOs();
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -106,7 +113,7 @@ public class RoleAction extends BaseAction {
 
 		roleService.saveRole(role);
 
-		rolevos = roleService.findAllRoleVOs();
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -130,7 +137,7 @@ public class RoleAction extends BaseAction {
 		roleId = "";
 		roleName = "";
 		roleDesc = "";
-		rolevos = roleService.findAllRoleVOs();
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -145,11 +152,16 @@ public class RoleAction extends BaseAction {
 		} else {
 			roleService.removeRoles(roleIds);
 		}
+		
+		refreshData();
+		
 		return SUCCESS;
 	}
 
 	public String doRoleInfo() {
 		logger.debug("enter doRoleInfo() method");
+		
+		refreshData();
 		return SUCCESS;
 	}
 
@@ -160,36 +172,6 @@ public class RoleAction extends BaseAction {
 
 	public String doBottom() {
 		logger.debug("enter doBottom() method");
-		return SUCCESS;
-	}
-
-	public String doLeft() {
-		List<RoleLinkVo> subList = new ArrayList<RoleLinkVo>();
-		RoleLinkVo linkVo = new RoleLinkVo();
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Reset Password");
-		linkVo.setFlag("0");
-		linkVo.setLink("/base/config.action");
-		subList.add(linkVo);
-
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Security Question");
-		linkVo.setFlag("0");
-		linkVo.setLink("/mail/list.action");
-		subList.add(linkVo);
-
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Basic Setup");
-		linkVo.setFlag("1");
-		linkVo.setList(subList);
-		list.add(linkVo);
-
-		linkVo = new RoleLinkVo();
-		linkVo.setName("Admin");
-		linkVo.setFlag("1");
-		list.add(linkVo);
-
-		ServletActionContext.getRequest().setAttribute("permission", list);
 		return SUCCESS;
 	}
 
@@ -303,6 +285,22 @@ public class RoleAction extends BaseAction {
 
 	public void setLeftFunctionsArray(String leftFunctionsArray) {
 		this.leftFunctionsArray = leftFunctionsArray;
+	}
+
+	public List<RoleLinkVo> getMenulist() {
+		return menulist;
+	}
+
+	public void setMenulist(List<RoleLinkVo> menulist) {
+		this.menulist = menulist;
+	}
+
+	public UserRoleService getUserRoleService() {
+		return userRoleService;
+	}
+
+	public void setUserRoleService(UserRoleService userRoleService) {
+		this.userRoleService = userRoleService;
 	}
 
 }
