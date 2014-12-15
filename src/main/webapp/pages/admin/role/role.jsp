@@ -191,9 +191,9 @@
 								<s:hidden id="myFunctionsArray" name="myFunctionsArray" />
 								<s:hidden id="leftFunctionsArray" name="leftFunctionsArray" />
 								<input type="text" id="roleName" name="roleName"
-									class="form-control eorder-input" placeholder="角色名称" />
+									class="form-control eorder-input" placeholder="角色名称" value="${roleName}"/>
 								<input type="text" id="roleDesc" name="roleDesc"
-									class="form-control eorder-input" placeholder="角色描述">
+									class="form-control eorder-input" placeholder="角色描述" value="${roleDesc}">
 								<a href="#" onclick="save();"
 									class="btn btn-default btn-block eorder-btn-login">创建新角色</a>
 							</s:form>

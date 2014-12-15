@@ -102,7 +102,6 @@
 												href='<%=basePath%><s:property value="#subBanner.link" />'
 												target="main"><s:property value="#subBanner.functionName" /></a>
 										</s:iterator>
-
 									</div>
 								</div>
 							</div>
@@ -124,15 +123,15 @@
 							<h4>新增权限</h4>
 							<s:form class="eorder-form-usr" id="saveForm">
 								<input type="text" id="functionName" name="functionName"
-									class="form-control eorder-input" placeholder="权限名称" />
+									class="form-control eorder-input" placeholder="权限名称" value="${functionName}"/>
 								<input type="text" id="functionDesc" name="functionDesc"
-									class="form-control eorder-input" placeholder="权限描述" />
+									class="form-control eorder-input" placeholder="权限描述" value="${functionDesc}" />
 								<input type="text" id="functionPath" name="functionPath"
-									class="form-control eorder-input" placeholder="权限路径" />
+									class="form-control eorder-input" placeholder="权限路径" value="${functionPath}" />
 								<input type="text" id="functionParent" name="functionParent"
-									class="form-control eorder-input" placeholder="上级权限" />
+									class="form-control eorder-input" placeholder="上级权限" value="${functionParent}" />
 								<input type="text" id="functionOrder" name="functionOrder"
-									class="form-control eorder-input" placeholder="权限排序" />
+									class="form-control eorder-input" placeholder="权限排序" value="${functionOrder}" />
 								<a href="#" onclick="save();"
 									class="btn btn-default btn-block eorder-btn-login">创建新权限</a>
 							</s:form>
@@ -184,6 +183,7 @@
 								<thead>
 									<tr>
 										<th></th>
+										<th>权限ID</th>
 										<th>权限名称</th>
 										<th>权限描述</th>
 										<th>权限路径</th>
@@ -197,8 +197,7 @@
 								<tbody>
 									<s:iterator value="functionvos">
 										<tr>
-											<td><s:hidden id="functionId" name="functionId"
-													value="%{functionId}" /></td>
+											<td><s:property value="functionId" /></td>
 											<td><s:property value="functionName" /></td>
 											<td><s:property value="functionDesc" /></td>
 											<td><s:property value="functionPath" /></td>
