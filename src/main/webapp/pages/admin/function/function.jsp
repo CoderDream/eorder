@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 	String path = request.getContextPath();
@@ -26,7 +27,7 @@
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("saveForm");
 		//动态修改目标表单的action属性
-		targetForm.action = "doStore.action";
+		targetForm.action = "save.action";
 		//提交表单
 		targetForm.submit();
 	}
@@ -39,7 +40,7 @@
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("updateForm");
 		//动态修改目标表单的action属性
-		targetForm.action = "doUpdate.action";
+		targetForm.action = "update.action";
 		//提交表单
 		targetForm.submit();
 	}
@@ -60,7 +61,13 @@
 			<div class="collapse navbar-collapse navHeaderCollapse">
 				<ul class="nav navbar-nav navbar-right">
 					<!--标题栏里面需要展现的item-->
-					<li><p class=navbar-text>欢迎: 管理员</p></li>
+					<li><p class=navbar-text>
+							当前用户：
+							<s:property value="loginName" />
+							&nbsp;&nbsp; <a href="<c:url value='/j_spring_security_logout' />"
+								target="_parent"> 退出系统</a>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+							&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+						</p></li>
 				</ul>
 			</div>
 		</div>
@@ -108,58 +115,65 @@
 			<div class="col-md-9">
 				<!--导航标题栏-->
 				<div class="row">
-					<h3 class="page-header">功能管理</h3>
+					<h3 class="page-header">权限管理</h3>
 				</div>
 
 				<div class="row">
 					<div class="col-md-3">
 						<s:if test="null == functionId">
-							<h4>新增功能</h4>
-							<s:form class="eorder-form-usr" id="saveForm" action="doStore">
+							<h4>新增权限</h4>
+							<s:form class="eorder-form-usr" id="saveForm">
 								<input type="text" id="functionName" name="functionName"
-									class="form-control eorder-input" placeholder="功能名称" />
+									class="form-control eorder-input" placeholder="权限名称" />
 								<input type="text" id="functionDesc" name="functionDesc"
-									class="form-control eorder-input" placeholder="功能描述" />
+									class="form-control eorder-input" placeholder="权限描述" />
 								<input type="text" id="functionPath" name="functionPath"
-									class="form-control eorder-input" placeholder="功能路径" />
+									class="form-control eorder-input" placeholder="权限路径" />
 								<input type="text" id="functionParent" name="functionParent"
-									class="form-control eorder-input" placeholder="上级功能" />
+									class="form-control eorder-input" placeholder="上级权限" />
 								<input type="text" id="functionOrder" name="functionOrder"
-									class="form-control eorder-input" placeholder="功能排序" />
+									class="form-control eorder-input" placeholder="权限排序" />
 								<a href="#" onclick="save();"
-									class="btn btn-default btn-block eorder-btn-login">创建新功能</a>
+									class="btn btn-default btn-block eorder-btn-login">创建新权限</a>
 							</s:form>
 						</s:if>
 						<s:else>
-							<h4>修改功能</h4>
-							<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
+							<h4>修改权限</h4>
+							<s:form class="eorder-form-usr" id="updateForm">
 								<s:hidden id="functionId" name="functionId" value="%{functionId}" />
 								<input type="text" id="functionName" name="functionName"
-									class="form-control eorder-input" placeholder="功能名称"
+									class="form-control eorder-input" placeholder="权限名称"
 									value="${functionName}" />
 								<input type="text" id="functionDesc" name="functionDesc"
-									class="form-control eorder-input" placeholder="功能描述"
+									class="form-control eorder-input" placeholder="权限描述"
 									value="${functionDesc}" />
 								<input type="text" id="functionPath" name="functionPath"
-									class="form-control eorder-input" placeholder="功能路径"
+									class="form-control eorder-input" placeholder="权限路径"
 									value="${functionPath}" />
 								<input type="text" id="functionParent" name="functionParent"
-									class="form-control eorder-input" placeholder="上级功能"
+									class="form-control eorder-input" placeholder="上级权限"
 									value="${functionParent}" />
 								<input type="text" id="functionOrder" name="functionOrder"
-									class="form-control eorder-input" placeholder="功能排序"
+									class="form-control eorder-input" placeholder="权限排序"
 									value="${functionOrder}" />
 								<a href="#" onclick="update();"
-									class="btn btn-default btn-block eorder-btn-login">修改功能信息</a>
+									class="btn btn-default btn-block eorder-btn-login">修改权限信息</a>
 							</s:form>
 						</s:else>
+						<s:fielderror />
+						<s:if test=" null != message && '' != message">
+							<h4>
+								操作信息
+								<s:property value="message" />
+							</h4>
+						</s:if>
 					</div>
 				</div>
 
 				<br>
 
 				<div class="row">
-					<h3 class="page-header">功能列表</h3>
+					<h3 class="page-header">权限列表</h3>
 				</div>
 
 				<!--列表表格-->
@@ -170,12 +184,12 @@
 								<thead>
 									<tr>
 										<th></th>
-										<th>功能名称</th>
-										<th>功能描述</th>
-										<th>功能路径</th>
-										<th>上级功能ID</th>
-										<th>上级功能名称</th>
-										<th>功能排序</th>
+										<th>权限名称</th>
+										<th>权限描述</th>
+										<th>权限路径</th>
+										<th>上级权限ID</th>
+										<th>上级权限名称</th>
+										<th>权限排序</th>
 										<th>编辑</th>
 										<th>删除</th>
 									</tr>
@@ -204,19 +218,6 @@
 								</tbody>
 							</s:form>
 						</table>
-
-						<!--表格分页-->
-						<nav class="pull-right" style="margin-right: -17px">
-							<ul class="pagination">
-								<li><a href="#">&laquo;</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
-						</nav>
 					</div>
 				</div>
 			</div>

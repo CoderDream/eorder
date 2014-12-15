@@ -41,7 +41,7 @@
 			<message>必须输入手机号码</message>
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[(\d{11,11})]]></param>
+			<param name="expression"><![CDATA[(\d{11})]]></param>
 			<message>手机号码必须是11位的数字</message>
 		</field-validator>
 	</field>

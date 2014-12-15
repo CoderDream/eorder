@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.entity.User;
@@ -16,6 +17,7 @@ import com.innovaee.eorder.module.service.UserRoleService;
 import com.innovaee.eorder.module.service.UserService;
 import com.innovaee.eorder.module.utils.MenuUtil;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
+import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.module.vo.UserVO;
 import com.innovaee.eorder.web.action.BaseAction;
 
@@ -54,27 +56,6 @@ public class UserAction extends BaseAction {
 
 	private String operation;
 
-	public void validate() {
-		// System.out.println("---validate方法进行校验---" + username == null);
-		// // 要求用户名必须包含leegang子串
-		// if (!username.contains("leegang")) {
-		// addFieldError("user", "您的用户名必须包含leegang！");
-		// }
-	}
-
-	public void validateRegist() {
-		System.out.println("======validateRegist======" + username == null);
-		// 要求用户名必须包含yeeku子串
-		if (!username.contains("yeeku")) {
-			addFieldError("user", "您的用户名必须包含yeeku！");
-		}
-	}
-
-	// 增加一个regist方法，对应一个处理逻辑
-	public String regist() {
-		return SUCCESS;
-	}
-
 	public String login() {
 		logger.debug("enter login() method");
 
@@ -91,9 +72,9 @@ public class UserAction extends BaseAction {
 		setSessionMessage("username", "");
 		setSessionMessage("password", "");
 		setSessionMessage("cellphone", "");
-		//setSessionMessage("operation", "new");
+		// setSessionMessage("operation", "new");
 
-		//operation = "new";
+		// operation = "new";
 		userId = "";
 		username = "";
 		password = "";
@@ -156,6 +137,9 @@ public class UserAction extends BaseAction {
 
 		this.setMenulist(MenuUtil.getRoleLinkVOList());
 		uservos = userService.findAllUserVOs();
+		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		this.setLoginName(userDetail.getUser().getUsername());
 	}
 
 	public String doRemove() {

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 	String path = request.getContextPath();
@@ -57,7 +58,7 @@
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("saveForm");
 		//动态修改目标表单的action属性
-		targetForm.action = "doStore.action";
+		targetForm.action = "save.action";
 		//提交表单
 		targetForm.submit();
 	}
@@ -102,7 +103,7 @@
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("updateForm");
 		//动态修改目标表单的action属性
-		targetForm.action = "doUpdate.action";
+		targetForm.action = "update.action";
 		//提交表单
 		targetForm.submit();
 	}
@@ -123,7 +124,13 @@
 			<div class="collapse navbar-collapse navHeaderCollapse">
 				<ul class="nav navbar-nav navbar-right">
 					<!--标题栏里面需要展现的item-->
-					<li><p class=navbar-text>欢迎: 管理员</p></li>
+					<li><p class=navbar-text>
+							当前用户：
+							<s:property value="loginName" />
+							&nbsp;&nbsp; <a href="<c:url value='/j_spring_security_logout' />"
+								target="_parent"> 退出系统</a>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+							&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+						</p></li>
 				</ul>
 			</div>
 		</div>
@@ -171,14 +178,14 @@
 			<div class="col-md-9">
 				<!--导航标题栏-->
 				<div class="row">
-					<h3 class="page-header">用户管理</h3>
+					<h3 class="page-header">角色管理</h3>
 				</div>
 
 				<!--列表表格-->
 				<div class="row">
 					<div class="col-md-3">
 						<s:if test="null == roleId">
-							<h4>新增功能</h4>
+							<h4>新增角色</h4>
 							<s:form class="eorder-form-usr" id="saveForm" action="doStore">
 								<s:hidden id="functionId" name="functionId" />
 								<s:hidden id="myFunctionsArray" name="myFunctionsArray" />
@@ -192,7 +199,7 @@
 							</s:form>
 						</s:if>
 						<s:else>
-							<h4>修改功能</h4>
+							<h4>修改角色</h4>
 							<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
 								<s:hidden id="roleId" name="roleId" value="%{roleId}" />
 								<s:hidden id="functionId" name="functionId" />
@@ -208,6 +215,14 @@
 									class="btn btn-default btn-block eorder-btn-login">修改角色信息</a>
 							</s:form>
 						</s:else>
+
+						<s:fielderror />
+						<s:if test=" null != message && '' != message">
+							<h4>
+								操作信息
+								<s:property value="message" />
+							</h4>
+						</s:if>
 					</div>
 
 					<div class="col-md-3">
@@ -241,7 +256,7 @@
 						</button>
 					</div>
 					<div class="col-md-3">
-						<h4>可分配角色</h4>
+						<h4>可分配功能</h4>
 						<select id="leftFunctions" name="leftFunctions" multiple
 							class="form-control eorder-multi-sel">
 							<s:iterator value="leftFunctions" id="function">
@@ -254,7 +269,7 @@
 				<br>
 
 				<div class="row">
-					<h3 class="page-header">用户列表</h3>
+					<h3 class="page-header">角色列表</h3>
 				</div>
 
 				<!--列表表格-->
@@ -292,19 +307,6 @@
 								</tbody>
 							</s:form>
 						</table>
-
-						<!--表格分页-->
-						<nav class="pull-right" style="margin-right: -17px">
-							<ul class="pagination">
-								<li><a href="#">&laquo;</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
-						</nav>
 					</div>
 				</div>
 

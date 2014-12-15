@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.entity.User;
@@ -17,6 +18,7 @@ import com.innovaee.eorder.module.utils.Constants;
 import com.innovaee.eorder.module.utils.Md5Util;
 import com.innovaee.eorder.module.utils.MenuUtil;
 import com.innovaee.eorder.module.vo.RoleLinkVo;
+import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.module.vo.UserVO;
 import com.innovaee.eorder.web.action.BaseAction;
 
@@ -62,7 +64,7 @@ public class UserOpAction extends BaseAction {
 	public void validateSave() {
 		System.out.println("======validateSave======" + username == null);
 		// 查看用户名是否已存在
-		User user = userService.findUsersByUserName(username);
+		User user = userService.findUserByUserName(username);
 		if (null != user) {
 			addFieldError("username", "用户名已被占用！");
 			// 更新页面数据
@@ -82,7 +84,7 @@ public class UserOpAction extends BaseAction {
 		System.out.println("======validateSave======" + username == null);
 		// 查看用户名是否已存在
 		User user1 = userService.loadUser(Integer.parseInt(userId));
-		User user2 = userService.findUsersByUserName(username);
+		User user2 = userService.findUserByUserName(username);
 		// 可以找到，而且和自己的名字不同，则说明已经被占用
 		if (null != user2 && user1.getUserId() != user2.getUserId()) {
 			addFieldError("username", "用户名已被占用！");
@@ -139,7 +141,8 @@ public class UserOpAction extends BaseAction {
 		userRoleService.saveUserRole(user, new Role(Constants.DEFAULT_ROLE));
 
 		setSessionMessage("message", "用户新增成功！");
-
+		
+		this.setMessage("新增成功！");
 		// 更新页面数据
 		refreshData();
 
@@ -212,6 +215,9 @@ public class UserOpAction extends BaseAction {
 
 		this.setMenulist(MenuUtil.getRoleLinkVOList());
 		uservos = userService.findAllUserVOs();
+		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		this.setLoginName(userDetail.getUser().getUsername());
 	}
 
 	public List<RoleLinkVo> getMenulist() {

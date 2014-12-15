@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 	String path = request.getContextPath();
@@ -127,7 +128,7 @@
 					<!--标题栏里面需要展现的item-->
 					<li><p class=navbar-text>
 							当前用户：
-							<s:property value="username" />
+							<s:property value="loginName" />
 							&nbsp;&nbsp; <a href="<c:url value='/j_spring_security_logout' />"
 								target="_parent"> 退出系统</a>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 							&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
@@ -187,7 +188,7 @@
 					<div class="col-md-3">
 						<s:if test="null == userId || 0 == userId">
 							<h4>新增用户</h4>
-							<s:form class="eorder-form-usr" id="saveForm" action="doStore">
+							<s:form class="eorder-form-usr" id="saveForm">
 								<s:hidden id="roleId" name="roleId" />
 								<s:hidden id="myRolesArray" name="myRolesArray" />
 								<s:hidden id="leftRolesArray" name="leftRolesArray" />
@@ -205,7 +206,7 @@
 						</s:if>
 						<s:else>
 							<h4>修改用户</h4>
-							<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
+							<s:form class="eorder-form-usr" id="updateForm">
 								<s:hidden id="userId" name="userId" value="%{userId}" />
 								<s:hidden id="roleId" name="roleId" />
 								<s:hidden id="myRolesArray" name="myRolesArray" />
@@ -223,11 +224,10 @@
 							</s:form>
 						</s:else>
 						
+						<s:fielderror label="操作信息"/>
 						<s:if test=" null != message && '' != message">
 							<h4>
-								操作信息
 								<s:property value="message" />
-								<s:fielderror />
 							</h4>
 						</s:if>
 					</div>
@@ -317,19 +317,6 @@
 								</tbody>
 							</s:form>
 						</table>
-
-						<!--表格分页-->
-						<nav class="pull-right" style="margin-right: -17px">
-							<ul class="pagination">
-								<li><a href="#">&laquo;</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
-						</nav>
 					</div>
 				</div>
 
