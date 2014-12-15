@@ -57,7 +57,9 @@
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("saveForm");
 		//动态修改目标表单的action属性
-		targetForm.action = "doStore.action";
+		
+		targetForm.action = "save.action";
+		//targetForm.action = "doStore.action";
 		//提交表单
 		targetForm.submit();
 	}
@@ -102,7 +104,7 @@
 		//获取该页面中的第一个表单元素
 		var targetForm = document.getElementById("updateForm");
 		//动态修改目标表单的action属性
-		targetForm.action = "doUpdate.action";
+		targetForm.action = "update.action";
 		//提交表单
 		targetForm.submit();
 	}
@@ -123,7 +125,13 @@
 			<div class="collapse navbar-collapse navHeaderCollapse">
 				<ul class="nav navbar-nav navbar-right">
 					<!--标题栏里面需要展现的item-->
-					<li><p class=navbar-text>欢迎: 管理员</p></li>
+					<li><p class=navbar-text>
+							当前用户：
+							<s:property value="username" />
+							&nbsp;&nbsp; <a href="<c:url value='/j_spring_security_logout' />"
+								target="_parent"> 退出系统</a>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+							&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+						</p></li>
 				</ul>
 			</div>
 		</div>
@@ -177,24 +185,26 @@
 				<!--列表表格-->
 				<div class="row">
 					<div class="col-md-3">
-						<s:if test="null == userId">
-							<h4>新增功能</h4>
+						<s:if test="null == userId || 0 == userId">
+							<h4>新增用户</h4>
 							<s:form class="eorder-form-usr" id="saveForm" action="doStore">
 								<s:hidden id="roleId" name="roleId" />
 								<s:hidden id="myRolesArray" name="myRolesArray" />
 								<s:hidden id="leftRolesArray" name="leftRolesArray" />
-								<input type="text name=" id="username" name="username"
-									class="form-control eorder-input" placeholder="用户名" />
+								<input type="text" id="username" name="username"
+									class="form-control eorder-input" placeholder="用户名" value="${username}" />
 								<input type="password" id="password" name="password"
-									class="form-control eorder-input" placeholder="密  码">
+									class="form-control eorder-input" placeholder="密  码"
+									value="${password}">
 								<input type="text" id="cellphone" name="cellphone"
-									class="form-control eorder-input" placeholder="手机号码">
+									class="form-control eorder-input" placeholder="手机号码"
+									value="${cellphone}">
 								<a href="#" onclick="save();"
 									class="btn btn-default btn-block eorder-btn-login">创建新用户</a>
 							</s:form>
 						</s:if>
 						<s:else>
-							<h4>修改功能</h4>
+							<h4>修改用户</h4>
 							<s:form class="eorder-form-usr" id="updateForm" action="doUpdate">
 								<s:hidden id="userId" name="userId" value="%{userId}" />
 								<s:hidden id="roleId" name="roleId" />
@@ -212,6 +222,14 @@
 									class="btn btn-default btn-block eorder-btn-login">修改用户信息</a>
 							</s:form>
 						</s:else>
+						
+						<s:if test=" null != message && '' != message">
+							<h4>
+								操作信息
+								<s:property value="message" />
+								<s:fielderror />
+							</h4>
+						</s:if>
 					</div>
 
 					<div class="col-md-3">
@@ -322,7 +340,7 @@
 	<!--页面底部footer-->
 	<div class="navbar navbar-default navbar-fixed-bottom">
 		<div class="container">
-			<p class="navbar-text pull-left">Powered by eOrder</p>
+			<p class="navbar-text pull-left">Powered by Bootstrap</p>
 		</div>
 	</div>
 

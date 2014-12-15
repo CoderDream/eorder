@@ -87,7 +87,11 @@ public class UserService extends BaseService {
 	}
 
 	public User findUsersByUserName(String username) {
-		return (User) userDao.findUsersByUserName(username);
+		return (User) userDao.findUserByUserName(username);
+	}
+	
+	public User findUsersByCellphone(String cellphone) {
+		return (User) userDao.findUserByCellphone(cellphone);
 	}
 
 	public User saveUser(User user) {
