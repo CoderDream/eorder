@@ -1,3 +1,9 @@
+/***********************************************
+ * Filename		: FunctionOpAction.java																									: DishService.java
+ * Copyright  	: Copyright (c) 2014
+ * Company    	: Innovaee
+ * Created	    : 11/27/2014
+ ************************************************/
 package com.innovaee.eorder.web.action.admin.function;
 
 import java.util.ArrayList;
@@ -19,6 +25,12 @@ import com.innovaee.eorder.module.vo.RoleLinkVo;
 import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.web.action.BaseAction;
 
+/**   
+* @Title: FunctionOpAction 
+* @Description: 功能操作Action（增加和修改）
+* @author coderdream@gmail.com   
+* @version V1.0   
+*/
 public class FunctionOpAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
@@ -47,7 +59,8 @@ public class FunctionOpAction extends BaseAction {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 		request.setAttribute("menulist", MenuUtil.getRoleLinkVOList());
-		List<RoleLinkVo> sessionMenulist= (List<RoleLinkVo>)session.getAttribute("menulist");
+		List<RoleLinkVo> sessionMenulist = (List<RoleLinkVo>) session
+				.getAttribute("menulist");
 		this.setMenulist(sessionMenulist);
 		this.setMenulist(MenuUtil.getRoleLinkVOList());
 		functionvos = functionService.findAllFunctionVOs();
@@ -104,7 +117,7 @@ public class FunctionOpAction extends BaseAction {
 						"父功能ID应该为“存在的且其父ID为0”的记录对应的ID数字！");
 				// 更新页面数据
 				refreshData();
-				
+
 				return INPUT;
 			}
 			Function function = functionService.loadFunction(parentFunctionId);
@@ -113,11 +126,11 @@ public class FunctionOpAction extends BaseAction {
 						"父功能ID应该为“存在的且其父ID为0”的记录对应的ID数字！");
 				// 更新页面数据
 				refreshData();
-				
+
 				return INPUT;
 			}
 		}
-		
+
 		return INPUT;
 	}
 
@@ -138,22 +151,62 @@ public class FunctionOpAction extends BaseAction {
 		Function function = new Function();
 		if (null != functionName && !"".equals(functionName.trim())) {
 			function.setFunctionName(functionName);
+		} else {
+			addFieldError("functionName", "权限名称不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionDesc && !"".equals(functionDesc.trim())) {
 			function.setFunctionDesc(functionDesc);
+		} else {
+			addFieldError("functionDesc", "权限描述不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionPath && !"".equals(functionPath.trim())) {
 			function.setFunctionPath(functionPath);
+		} else {
+			addFieldError("functionPath", "权限路径不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionParent && !"".equals(functionParent.trim())) {
+			try {
+				function.setFunctionParent(Integer.parseInt(functionParent));
+			} catch (NumberFormatException e) {
+				addFieldError("functionParent",
+						"父功能ID应该为“存在的且其父ID为0”的记录对应的ID数字！");
+				// 更新页面数据
+				refreshData();
+
+				return INPUT;
+			}
 			function.setFunctionParent(Integer.parseInt(functionParent));
+		} else {
+			addFieldError("functionPath", "父权限ID不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionOrder && !"".equals(functionOrder.trim())) {
 			function.setFunctionOrder(functionOrder);
+		} else {
+			addFieldError("functionOrder", "权限排序不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 		function.setFunctionStatus(true);
 		functionService.saveFunction(function);
@@ -175,26 +228,61 @@ public class FunctionOpAction extends BaseAction {
 
 		if (null != functionName && !"".equals(functionName.trim())) {
 			function.setFunctionName(functionName);
+		} else {
+			addFieldError("functionName", "权限名称不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionDesc && !"".equals(functionDesc.trim())) {
 			function.setFunctionDesc(functionDesc);
+		} else {
+			addFieldError("functionDesc", "权限描述不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionPath && !"".equals(functionPath.trim())) {
 			function.setFunctionPath(functionPath);
+		} else {
+			addFieldError("functionPath", "权限路径不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionParent) {
 			try {
 				function.setFunctionParent(Integer.parseInt(functionParent));
 			} catch (NumberFormatException e) {
+				addFieldError("functionParent",
+						"父功能ID应该为“存在的且其父ID为0”的记录对应的ID数字！");
+				// 更新页面数据
+				refreshData();
 
+				return INPUT;
 			}
+		} else {
+			addFieldError("functionPath", "父权限ID不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		if (null != functionOrder && !"".equals(functionOrder.trim())) {
 			function.setFunctionOrder(functionOrder);
+		} else {
+			addFieldError("functionOrder", "权限排序不能为空！");
+			// 更新页面数据
+			refreshData();
+
+			return INPUT;
 		}
 
 		functionService.updateFunction(function);
