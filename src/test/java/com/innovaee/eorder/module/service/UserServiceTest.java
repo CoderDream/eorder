@@ -52,7 +52,7 @@ public class UserServiceTest extends BaseSpringTestCase {
 		User user = userService.findUserByUserName(username);
 		Assert.assertNotNull(user);
 	}
-	
+
 	@Test
 	public void findUsersByUserName_02() {
 		String username = "test00";
@@ -110,7 +110,7 @@ public class UserServiceTest extends BaseSpringTestCase {
 		User userDB = userService.loadUser(userId);
 		Assert.assertNull(userDB);
 	}
-	
+
 	/**
 	 * 02.传入特定的userId后直接删除
 	 */
@@ -122,26 +122,5 @@ public class UserServiceTest extends BaseSpringTestCase {
 		User userDB = userService.loadUser(userId);
 		Assert.assertNull(userDB);
 	}
-
-	// @Test
-	// public void removeUsers() {
-	// String md5Password = Md5Util.getMD5Str(password + "{" + username + "}");
-	// User user1 = new User(username, md5Password, cellphone, levelId,
-	// userStatus, createAt);
-	// User user2 = new User(username, md5Password, cellphone, levelId,
-	// userStatus, createAt);
-	// User userNew1 = userService.saveUser(user1);
-	// User userNew2 = userService.saveUser(user2);
-	//
-	// String[] userIds = new String[] { userNew1.getUserId().toString(),
-	// userNew2.getUserId().toString() };
-	// userService.removeUsers(userIds);
-	//
-	// // 检查
-	// User userDB1 = userService.loadUser(userNew1.getUserId());
-	// Assert.assertNull(userDB1);
-	// User userDB2 = userService.loadUser(userNew2.getUserId());
-	// Assert.assertNull(userDB2);
-	// }
 
 }

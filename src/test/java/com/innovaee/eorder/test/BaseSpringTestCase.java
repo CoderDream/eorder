@@ -1,6 +1,5 @@
 package com.innovaee.eorder.test;
 
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,9 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:applicationContext-security.xml",
 		"classpath:applicationContext-total.xml", })
-// @TransactionConfiguration(transactionManager = "txManager", defaultRollback =
-// true)
-// @Transactional(rollbackFor = { Throwable.class })
 public class BaseSpringTestCase {
 	public static Timestamp createAt = Timestamp
 			.valueOf(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
