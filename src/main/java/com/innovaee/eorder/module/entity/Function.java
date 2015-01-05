@@ -1,13 +1,13 @@
 /***********************************************
- * Filename		: Function.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : Function.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,83 +19,72 @@ import javax.persistence.Table;
 /**
  * @Title: Function
  * @Description: 功能实体
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 @Entity
 @Table(name = "t_function")
 public class Function extends BaseEntity {
 
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public Serializable getPK() {
 		return functionId;
 	}
 
-	/**
-	 * 功能ID
-	 */
+	/** 功能ID */
 	@Id
 	@Column(name = "FUNCTION_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer functionId;
 
-	/**
-	 * 功能名称
-	 */
+	/** 功能名称 */
 	@Column(name = "FUNCTION_NAME")
 	private String functionName;
 
-	/**
-	 * 功能描述
-	 */
+	/** 功能描述 */
 	@Column(name = "FUNCTION_DESC")
 	private String functionDesc;
 
-	/**
-	 * 功能路径
-	 */
+	/** 功能路径 */
 	@Column(name = "FUNCTION_PATH")
 	private String functionPath;
 
-	/**
-	 * 父功能ID
-	 */
+	/** 父功能ID */
 	@Column(name = "FUNCTION_PARENT")
 	private Integer functionParent;
 
-	/**
-	 * 功能排序
-	 */
+	/** 功能排序 */
 	@Column(name = "FUNCTION_ORDER")
 	private String functionOrder;
 
-	/**
-	 * 功能状态
-	 */
+	/** 功能状态 */
 	@Column(name = "FUNCTION_STATUS")
 	private Boolean functionStatus;
 
 	/**
-	 * 创建时间
+	 * 构造函数
 	 */
-	@Column(name = "CREATE_AT")
-	private Timestamp createAt;
-
-	/**
-	 * 更新时间
-	 */
-	@Column(name = "UPDATE_AT")
-	private Timestamp updateAt;
-
 	public Function() {
 	}
 
+	/**
+	 * 构造函数
+	 * 
+	 * @param functionId
+	 *            功能ID
+	 */
 	public Function(Integer functionId) {
 		this.functionId = functionId;
 	}
 
+	/**
+	 * 构造函数
+	 * 
+	 * @param functionId
+	 *            功能ID
+	 * @param functionName
+	 *            功能名称
+	 */
 	public Function(Integer functionId, String functionName) {
 		super();
 		this.functionId = functionId;
@@ -108,22 +97,6 @@ public class Function extends BaseEntity {
 
 	public void setFunctionId(Integer functionId) {
 		this.functionId = functionId;
-	}
-
-	public Timestamp getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(Timestamp createAt) {
-		this.createAt = createAt;
-	}
-
-	public Timestamp getUpdateAt() {
-		return updateAt;
-	}
-
-	public void setUpdateAt(Timestamp updateAt) {
-		this.updateAt = updateAt;
 	}
 
 	public Function(String functionName) {
@@ -141,19 +114,6 @@ public class Function extends BaseEntity {
 		this.functionParent = functionParent;
 		this.functionOrder = functionOrder;
 		this.functionStatus = functionStatus;
-	}
-
-	public Function(String functionName, String functionDesc,
-			String functionPath, Integer functionParent, String functionOrder,
-			Boolean functionStatus, Timestamp createAt) {
-		super();
-		this.functionName = functionName;
-		this.functionDesc = functionDesc;
-		this.functionPath = functionPath;
-		this.functionParent = functionParent;
-		this.functionOrder = functionOrder;
-		this.functionStatus = functionStatus;
-		this.createAt = createAt;
 	}
 
 	public Function(Integer functionId, String functionName,
@@ -224,7 +184,8 @@ public class Function extends BaseEntity {
 				+ ", functionPath=" + functionPath + ", functionParent="
 				+ functionParent + ", functionOrder=" + functionOrder
 				+ ", functionStatus=" + functionStatus + ", createAt="
-				+ createAt + ", updateAt=" + updateAt + "]";
+				+ super.getCreateAt() + ", updateAt=" + super.getUpdateAt()
+				+ "]";
 	}
 
 }

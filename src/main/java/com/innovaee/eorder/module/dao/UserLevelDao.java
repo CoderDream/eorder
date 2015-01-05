@@ -1,22 +1,23 @@
 /***********************************************
- * Filename		: UserLevelDao.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : UserLevelDao.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.dao;
+
+import com.innovaee.eorder.module.entity.UserLevel;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import com.innovaee.eorder.module.entity.UserLevel;
-
 /**
  * @Title: UserLevelDao
  * @Description: 用户等级数据访问对象
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class UserLevelDao extends BaseDao {
@@ -32,14 +33,14 @@ public class UserLevelDao extends BaseDao {
 	 * 
 	 * @param userLevelname
 	 *            用户等级名称
-	 * @return
+	 * @return 用户等级
 	 */
 	@SuppressWarnings("unchecked")
 	public UserLevel findUserLevelsByUserLevelName(String userLevelname) {
 		List<UserLevel> list = (List<UserLevel>) super
 				.getHibernateTemplate()
 				.find("FROM UserLevel u WHERE u.userLevelname=?", userLevelname);
-		if (null != list && 0 < list.size()) {
+		if (null != list && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
@@ -75,6 +76,10 @@ public class UserLevelDao extends BaseDao {
 	 * @return 待保存的用户等级
 	 */
 	public UserLevel saveUserLevel(UserLevel userLevel) {
+		Timestamp createAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		userLevel.setCreateAt(createAt);
 		return (UserLevel) save(userLevel);
 	}
 

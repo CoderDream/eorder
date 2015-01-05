@@ -1,17 +1,11 @@
 /***********************************************
- * Filename		: RoleOpAction.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : RoleOpAction.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.web.action.admin.role;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.entity.Role;
@@ -24,50 +18,69 @@ import com.innovaee.eorder.module.vo.RoleVO;
 import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.web.action.BaseAction;
 
-/**   
-* @Title: RoleOpAction 
-* @Description: 角色操作Action（增加和修改）
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+/**
+ * @Title: RoleOpAction
+ * @Description: 角色操作Action（增加和修改）
+ *
+ * @version V1.0
+ */
 public class RoleOpAction extends BaseAction {
 
-	private static final long serialVersionUID = 1L;
-
-	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
-
-	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
-
+	/** 角色ID */
 	private String roleId;
+
+	/** 角色名称 */
 	private String roleName;
+
+	/** 角色描述 */
 	private String roleDesc;
-	private String[] roleIds;
 
-	private List<RoleVO> rolevos;
+	/** 角色值对象列表 */
+	private List<RoleVO> rolevos = new ArrayList<RoleVO>();
 
+	/** 角色服务类对象 */
 	@Resource
 	private RoleService roleService;
 
+	/** 用户角色服务类 */
 	@Resource
 	private UserRoleService userRoleService;
 
+	/** 角色功能服务类 */
 	@Resource
 	private RoleFunctionService roleFunctionService;
 
+	/** 已有的功能列表 */
 	private List<Function> myFunctions = new ArrayList<Function>();
 
+	/** 剩余的功能列表 */
 	private List<Function> leftFunctions = new ArrayList<Function>();
 
+	/** 已有的功能数组 */
 	private String myFunctionsArray;
 
+	/** 剩余的功能数组 */
 	private String leftFunctionsArray;
 
-	private String contextPath;
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	public void validate() {
 		refreshData();
 	}
 
+	/**
+	 * 保存前的校验
+	 */
 	public void validateSave() {
 		// 查看用户名是否已存在
 		Role role = roleService.findRoleByRoleName(roleName);
@@ -78,12 +91,15 @@ public class RoleOpAction extends BaseAction {
 		}
 	}
 
+	/**
+	 * 更新前的校验
+	 */
 	public void validateUpdate() {
 		// 查看用户名是否已存在
 		Role role1 = roleService.loadRole(Integer.parseInt(roleId));
 		Role role2 = roleService.findRoleByRoleName(roleName);
 		// 可以找到，而且和自己的名字不同，则说明已经被占用
-		if (null != role2 && role1.getRoleId() != role2.getRoleId()) {
+		if (null != role2 && role1.getRoleId().equals(role2.getRoleId())) {
 			addFieldError("roleName", "角色名称已被占用！");
 			// 更新页面数据
 			refreshData();
@@ -100,6 +116,11 @@ public class RoleOpAction extends BaseAction {
 		this.setRoleDesc("");
 	}
 
+	/**
+	 * 保存角色
+	 * 
+	 * @return
+	 */
 	public String save() {
 		Role role = new Role();
 		if (null != roleName && !"".equals(roleName.trim())) {
@@ -134,6 +155,11 @@ public class RoleOpAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	/**
+	 * 更新角色
+	 * 
+	 * @return
+	 */
 	public String update() {
 		Role role = new Role();
 		if (null != roleId) {
@@ -170,28 +196,15 @@ public class RoleOpAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	/**
+	 * 刷新页面数据
+	 */
 	public void refreshData() {
 		this.setMenulist(MenuUtil.getRoleLinkVOList());
 		rolevos = roleService.findAllRoleVOs();
 		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
 		this.setLoginName(userDetail.getUser().getUsername());
-	}
-
-	public List<RoleLinkVo> getList() {
-		return list;
-	}
-
-	public void setList(List<RoleLinkVo> list) {
-		this.list = list;
-	}
-
-	public String getContextPath() {
-		return contextPath;
-	}
-
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
 	}
 
 	public List<RoleVO> getRolevos() {
@@ -232,14 +245,6 @@ public class RoleOpAction extends BaseAction {
 
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
-	}
-
-	public String[] getRoleIds() {
-		return roleIds;
-	}
-
-	public void setRoleIds(String[] roleIds) {
-		this.roleIds = roleIds;
 	}
 
 	public RoleFunctionService getRoleFunctionService() {

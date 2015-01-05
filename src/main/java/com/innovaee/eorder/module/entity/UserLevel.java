@@ -1,9 +1,10 @@
 /***********************************************
- * Filename		: UserLevel.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : UserLevel.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.entity;
 
 import java.io.Serializable;
@@ -16,17 +17,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**   
-* @Title: UserLevel 
-* @Description: 用户等级实体 
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: UserLevel
+ * @Description: 用户等级实体
+ *
+ * @version V1.0
+ */
 @Entity
 @Table(name = "t_user_level")
 public class UserLevel extends BaseEntity {
-
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Serializable getPK() {
@@ -40,31 +39,31 @@ public class UserLevel extends BaseEntity {
 	@Column(name = "LEVEL_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer levelId;
-	
+
 	/**
 	 * 等级名称
 	 */
 	@Column(name = "LEVEL_NAME")
 	private String levelName;
-	
+
 	/**
 	 * 折扣
 	 */
 	@Column(name = "DISCOUNT")
 	private Float discount;
-	
+
 	/**
 	 * 等级积分
 	 */
 	@Column(name = "level_score")
 	private Integer levelScore;
-	
+
 	/**
 	 * 等级状态
 	 */
 	@Column(name = "Level_STATUS")
 	private Boolean levelStatus;
-	
+
 	/**
 	 * 创建时间
 	 */
@@ -138,7 +137,9 @@ public class UserLevel extends BaseEntity {
 		return "Level [levelId=" + levelId + ", levelName=" + levelName
 				+ ", discount=" + discount + ", levelScore=" + levelScore
 				+ ", levelStatus=" + levelStatus + ", createAt=" + createAt
-				+ ", updateAt=" + updateAt + "]";
+				+ ", updateAt=" + updateAt + ", createAt="
+				+ super.getCreateAt() + ", updateAt=" + super.getUpdateAt()
+				+ "]";
 	}
 
 }

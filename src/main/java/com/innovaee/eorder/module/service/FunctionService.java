@@ -1,9 +1,10 @@
 /***********************************************
- * Filename		: FunctionService.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : FunctionService.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.service;
 
 import java.util.ArrayList;
@@ -20,25 +21,18 @@ import com.innovaee.eorder.module.vo.FunctionVO;
 /**
  * @Title: FunctionService
  * @Description: 功能服务
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class FunctionService extends BaseService {
 
+	/** 功能数据访问对象 */
 	@Resource
 	private FunctionDao functionDao;
 
+	/** 功能服务对象 */
 	@Resource
 	private FunctionService functionService;
-
-	/**
-	 * 查找所有功能
-	 * 
-	 * @return 功能列表
-	 */
-	public List<Function> findAllFunctions() {
-		return (List<Function>) functionDao.findAllFunctions();
-	}
 
 	/**
 	 * 返回所有值对象列表
@@ -46,6 +40,9 @@ public class FunctionService extends BaseService {
 	 * @return 功能值对象列表
 	 */
 	public List<FunctionVO> findAllFunctionVOs() {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("返回所有值对象列表");
+		}
 		List<FunctionVO> functionvos = new ArrayList<FunctionVO>();
 		FunctionVO functionVO = null;
 		Function parentFunction = null;
@@ -73,11 +70,13 @@ public class FunctionService extends BaseService {
 	 * 
 	 * @param parentFunctionId
 	 *            父功能节点ID
-	 * 
 	 * @return 功能列表
 	 */
 	public List<Function> findFunctionsByParentFunctionId(
 			Integer parentFunctionId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据父功能节点ID查找功能");
+		}
 		return functionDao.findFunctionsByParentFunctionId(parentFunctionId);
 	}
 
@@ -86,16 +85,13 @@ public class FunctionService extends BaseService {
 	 * 
 	 * @param functionId
 	 *            功能ID
-	 * @return
+	 * @return 功能
 	 */
 	public Function loadFunction(Integer functionId) {
-		Function function = (Function) functionDao.get(functionId);
-
-		if (null == function) {
-			return null;
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据功能ID查找功能");
 		}
-
-		return function;
+		return (Function) functionDao.loadFunction(functionId);
 	}
 
 	/**
@@ -106,6 +102,9 @@ public class FunctionService extends BaseService {
 	 * @return 被保存的功能
 	 */
 	public Function saveFunction(Function function) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("保存功能");
+		}
 		return functionDao.saveFunction(function);
 	}
 
@@ -116,6 +115,9 @@ public class FunctionService extends BaseService {
 	 *            待更新的功能
 	 */
 	public void updateFunction(Function function) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("更新功能");
+		}
 		functionDao.updateFunction(function);
 	}
 
@@ -126,6 +128,9 @@ public class FunctionService extends BaseService {
 	 *            功能ID
 	 */
 	public void removeFunction(Integer functionId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据功能ID移除功能");
+		}
 		functionDao.removeFunction(new Function(functionId));
 	}
 
@@ -137,6 +142,9 @@ public class FunctionService extends BaseService {
 	 * @return 功能
 	 */
 	public Function findFunctionByFunctionName(String functionName) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("通过功能名称查找功能");
+		}
 		return functionDao.findFunctionByFunctionName(functionName);
 	}
 

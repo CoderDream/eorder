@@ -1,19 +1,23 @@
 /***********************************************
- * Filename		: UserLevelDao.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : UserLevelDao.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.dao;
 
-import java.util.List;
-
 import com.innovaee.eorder.module.entity.UserRole;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @Title: UserRoleDao
  * @Description: 用户角色数据访问对象
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class UserRoleDao extends BaseDao {
@@ -54,6 +58,10 @@ public class UserRoleDao extends BaseDao {
 	 * @return 被保存的用户角色
 	 */
 	public UserRole saveUserRole(UserRole userRole) {
+		Timestamp createAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		userRole.setCreateAt(createAt);
 		return (UserRole) save(userRole);
 	}
 
@@ -64,8 +72,12 @@ public class UserRoleDao extends BaseDao {
 	 *            待更新的用户角色
 	 * @return 被更新的用户角色
 	 */
-	public void updateUserRole(UserRole userRole) {
-		update(userRole);
+	public UserRole updateUserRole(UserRole userRole) {
+		Timestamp updateAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		userRole.setUpdateAt(updateAt);
+		return (UserRole) update(userRole);
 	}
 
 	/**
@@ -120,7 +132,7 @@ public class UserRoleDao extends BaseDao {
 		List<UserRole> list = (List<UserRole>) super.getHibernateTemplate()
 				.find("FROM UserRole ur WHERE ur.userId=? and ur.roleId=?",
 						userId, roleId);
-		if (null != list && 0 < list.size()) {
+		if (null != list && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;

@@ -1,59 +1,40 @@
 /***********************************************
- * Filename		: UserVO.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : UserVO.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.vo;
 
-import java.sql.Timestamp;
-
-/**   
-* @Title: UserVO 
-* @Description: 用户值对象
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: UserVO
+ * @Description: 用户值对象
+ *
+ * @version V1.0
+ */
 public class UserVO extends BaseVo {
 
+	/** 用户ID */
 	private Integer userId;
 
+	/** 用户名称 */
 	private String username;
 
+	/** 角色名称 */
 	private String roleName;
 
+	/** 密码 */
 	private String password;
 
+	/** 手机号码 */
 	private String cellphone;
 
+	/** 等级名称 */
 	private String levelName;
 
+	/** 用户状态 */
 	private Boolean userStatus;
-
-	private Timestamp createAt;
-
-	private Timestamp updateAt;
-
-	public UserVO() {
-	}
-
-	public UserVO(String username, String password, String cellphone,
-			Integer levelId, Boolean userStatus, Timestamp createAt) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.cellphone = cellphone;
-		this.userStatus = userStatus;
-		this.createAt = createAt;
-	}
-
-	public UserVO(Integer userId) {
-		this.userId = userId;
-	}
-
-	public UserVO(String username) {
-		this.username = username;
-	}
 
 	public Integer getUserId() {
 		return userId;
@@ -95,22 +76,6 @@ public class UserVO extends BaseVo {
 		this.userStatus = userStatus;
 	}
 
-	public Timestamp getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(Timestamp createAt) {
-		this.createAt = createAt;
-	}
-
-	public Timestamp getUpdateAt() {
-		return updateAt;
-	}
-
-	public void setUpdateAt(Timestamp updateAt) {
-		this.updateAt = updateAt;
-	}
-
 	public String getRoleName() {
 		return roleName;
 	}
@@ -132,8 +97,6 @@ public class UserVO extends BaseVo {
 		return "UserVO [userId=" + userId + ", username=" + username
 				+ ", roleName=" + roleName + ", password=" + password
 				+ ", cellphone=" + cellphone + ", levelName=" + levelName
-				+ ", userStatus=" + userStatus + ", createAt=" + createAt
-				+ ", updateAt=" + updateAt + "]";
+				+ ", userStatus=" + userStatus + "]";
 	}
-
 }

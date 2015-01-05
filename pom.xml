@@ -140,7 +140,7 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- cglib for loggerUtility -->
+		<!-- cglib for LOGGERUtility -->
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
@@ -210,11 +210,6 @@
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.10</version>
 			</plugin>
 		</plugins>
 	</build>

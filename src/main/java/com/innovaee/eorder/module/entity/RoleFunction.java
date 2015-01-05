@@ -1,13 +1,13 @@
 /***********************************************
- * Filename		: RoleFunction.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : RoleFunction.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,12 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**   
-* @Title: RoleFunction 
-* @Description: 角色功能实体
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: RoleFunction
+ * @Description: 角色功能实体
+ *
+ * @version V1.0
+ */
 @Entity
 @Table(name = "t_role_function")
 public class RoleFunction extends BaseEntity {
@@ -40,49 +40,47 @@ public class RoleFunction extends BaseEntity {
 	@Column(name = "ROLE_FUNCTION_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer roleFunctionId;
-	
+
 	/**
 	 * 角色ID
 	 */
 	@Column(name = "role_ID")
 	private Integer roleId;
-	
+
 	/**
 	 * 功能ID
 	 */
 	@Column(name = "function_ID")
 	private Integer functionId;
-	
-	/**
-	 * 创建时间
-	 */
-	@Column(name = "CREATE_AT")
-	private Timestamp createAt;
-	
-	/**
-	 * 更新时间
-	 */
-	@Column(name = "UPDATE_AT")
-	private Timestamp updateAt;
 
+	/**
+	 * 构造函数
+	 */
 	public RoleFunction() {
 	}
 
+	/**
+	 * 构造函数
+	 * 
+	 * @param roleFunctionId
+	 *            角色功能ID
+	 */
 	public RoleFunction(Integer roleFunctionId) {
 		this.roleFunctionId = roleFunctionId;
 	}
 
+	/**
+	 * 构造函数
+	 * 
+	 * @param roleId
+	 *            角色ID
+	 * @param functionId
+	 *            功能ID
+	 */
 	public RoleFunction(Integer roleId, Integer functionId) {
 		super();
 		this.roleId = roleId;
 		this.functionId = functionId;
-	}
-
-	public RoleFunction(Integer roleId, Integer functionId, Timestamp createAt) {
-		super();
-		this.roleId = roleId;
-		this.functionId = functionId;
-		this.createAt = createAt;
 	}
 
 	public Integer getRoleFunctionId() {
@@ -109,27 +107,12 @@ public class RoleFunction extends BaseEntity {
 		this.functionId = functionId;
 	}
 
-	public Timestamp getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(Timestamp createAt) {
-		this.createAt = createAt;
-	}
-
-	public Timestamp getUpdateAt() {
-		return updateAt;
-	}
-
-	public void setUpdateAt(Timestamp updateAt) {
-		this.updateAt = updateAt;
-	}
-
 	@Override
 	public String toString() {
 		return "RoleFunction [roleFunctionId=" + roleFunctionId + ", roleId="
 				+ roleId + ", functionId=" + functionId + ", createAt="
-				+ createAt + ", updateAt=" + updateAt + "]";
+				+ super.getCreateAt() + ", updateAt=" + super.getUpdateAt()
+				+ "]";
 	}
 
 }

@@ -1,22 +1,23 @@
 /***********************************************
- * Filename		: FunctionDao.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : FunctionDao.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.dao;
+
+import com.innovaee.eorder.module.entity.Function;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import com.innovaee.eorder.module.entity.Function;
-
 /**
  * @Title: FunctionDao
  * @Description: 权限数据访问对象
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class FunctionDao extends BaseDao {
@@ -42,9 +43,10 @@ public class FunctionDao extends BaseDao {
 	 * 根据功能ID查找功能
 	 * 
 	 * @param functionId
-	 * @return
+	 *            功能ID
+	 * @return 功能
 	 */
-	public Function loadFunction(Integer functionId) {
+	public Function loadFunction(final Integer functionId) {
 		return (Function) get(functionId);
 	}
 
@@ -56,10 +58,10 @@ public class FunctionDao extends BaseDao {
 	 * @return 功能
 	 */
 	@SuppressWarnings("unchecked")
-	public Function findFunctionByFunctionName(String functionName) {
-		List<Function> list = (List<Function>) super.getHibernateTemplate()
+	public Function findFunctionByFunctionName(final String functionName) {
+		final List<Function> list = (List<Function>) getHibernateTemplate()
 				.find("FROM Function f WHERE f.functionName=?", functionName);
-		if (null != list && 0 < list.size()) {
+		if (null != list && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
@@ -72,7 +74,11 @@ public class FunctionDao extends BaseDao {
 	 *            待保存的功能
 	 * @return 已保存的功能
 	 */
-	public Function saveFunction(Function function) {
+	public Function saveFunction(final Function function) {
+		Timestamp createAt = Timestamp.valueOf(new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
+				.getTime()));
+		function.setCreateAt(createAt);
 		return (Function) save(function);
 	}
 
@@ -82,8 +88,8 @@ public class FunctionDao extends BaseDao {
 	 * @param function
 	 *            待更新的功能
 	 */
-	public void updateFunction(Function function) {
-		Timestamp updateAt = Timestamp.valueOf(new SimpleDateFormat(
+	public void updateFunction(final Function function) {
+		final Timestamp updateAt = Timestamp.valueOf(new SimpleDateFormat(
 				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
 				.getTime()));
 		function.setUpdateAt(updateAt);
@@ -96,7 +102,7 @@ public class FunctionDao extends BaseDao {
 	 * @param function
 	 *            待移除的功能
 	 */
-	public void removeFunction(Function function) {
+	public void removeFunction(final Function function) {
 		super.getHibernateTemplate().delete(function);
 	}
 
@@ -109,7 +115,7 @@ public class FunctionDao extends BaseDao {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Function> findFunctionsByParentFunctionId(
-			Integer parentFunctionId) {
+			final Integer parentFunctionId) {
 		return (List<Function>) super.getHibernateTemplate().find(
 				"FROM Function f WHERE f.functionParent=?", parentFunctionId);
 	}

@@ -1,9 +1,10 @@
 /***********************************************
- * Filename		: UserDao.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+xxxxx * Filename        : UserDao.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.dao;
 
 import java.sql.Timestamp;
@@ -16,7 +17,7 @@ import com.innovaee.eorder.module.entity.User;
 /**
  * @Title: UserDao
  * @Description: 用户数据访问对象
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class UserDao extends BaseDao {
@@ -35,10 +36,10 @@ public class UserDao extends BaseDao {
 	 * @return 用户
 	 */
 	@SuppressWarnings("unchecked")
-	public User findUserByUserName(String username) {
-		List<User> list = (List<User>) super.getHibernateTemplate().find(
+	public User findUserByUserName(final String username) {
+		final List<User> list = (List<User>) super.getHibernateTemplate().find(
 				"FROM User u WHERE u.username=?", username);
-		if (null != list && 0 < list.size()) {
+		if (null != list && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
@@ -55,7 +56,7 @@ public class UserDao extends BaseDao {
 	public User findUserByCellphone(String cellphone) {
 		List<User> list = (List<User>) super.getHibernateTemplate().find(
 				"FROM User u WHERE u.cellphone=?", cellphone);
-		if (null != list && 0 < list.size()) {
+		if (null != list && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
@@ -91,14 +92,16 @@ public class UserDao extends BaseDao {
 	 *            密码
 	 * @return 用户
 	 */
-	public User getUserByPassword(String username, String password) {
-		User user = (User) get(username);
-
-		if (null == user) {
-			return null;
+	@SuppressWarnings("unchecked")
+	public User findUserByUsernameAndPassword(String username, String password) {
+		List<User> list = (List<User>) super.getHibernateTemplate().find(
+				"FROM User u WHERE u.username=? and u.password=?", username,
+				password);
+		if (null != list && list.size() > 0) {
+			return list.get(0);
 		}
 
-		return (0 == password.compareTo(user.getPassword())) ? user : null;
+		return null;
 	}
 
 	/**

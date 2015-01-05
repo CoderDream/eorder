@@ -1,9 +1,10 @@
 /***********************************************
- * Filename		: UserOpAction.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : UserOpAction.java    
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.web.action.admin.user;
 
 import java.util.ArrayList;
@@ -28,51 +29,61 @@ import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.module.vo.UserVO;
 import com.innovaee.eorder.web.action.BaseAction;
 
-/**   
-* @Title: UserOpAction 
-* @Description: 用户操作Action（新增和修改）
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: UserOpAction
+ * @Description: 用户操作Action（新增和修改）
+ *
+ * @version V1.0
+ */
 public class UserOpAction extends BaseAction {
 
-	private static final long serialVersionUID = 1L;
-
-	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
-
+	/** 用户ID */
 	private String userId;
-	private String username;
-	private String password;
-	private String cellphone;
-	private String[] userIds;
 
+	/** 用户名称 */
+	private String username;
+
+	/** 密码 */
+	private String password;
+
+	/** 电话号码 */
+	private String cellphone;
+
+	/** 用户值对象列表 */
 	private List<UserVO> uservos = new ArrayList<UserVO>();
 
-	private String message = "";
-
+	/** 用户服务类对象 */
 	@Resource
 	private UserService userService;
 
+	/** 用户角色服务类对象 */
 	@Resource
 	private UserRoleService userRoleService;
 
+	/** 已有的角色列表 */
 	private List<Role> myRoles = new ArrayList<Role>();
 
+	/** 剩余的角色列表 */
 	private List<Role> leftRoles = new ArrayList<Role>();
 
+	/** 已有的角色数组 */
 	private String myRolesArray;
 
+	/** 剩余的角色数组 */
 	private String leftRolesArray;
 
-	private String contextPath;
-
-	private String operation;
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	public void validate() {
-
 		refreshData();
 	}
 
+	/**
+	 * 保存前校验
+	 */
 	public void validateSave() {
 		// 查看用户名是否已存在
 		User user = userService.findUserByUserName(username);
@@ -83,7 +94,7 @@ public class UserOpAction extends BaseAction {
 		}
 
 		// 查看手机号码是否已存在
-		user = userService.findUsersByCellphone(cellphone);
+		user = userService.findUserByCellphone(cellphone);
 		if (null != user) {
 			addFieldError("cellphone", "手机号码已被占用！");
 			// 更新页面数据
@@ -91,12 +102,17 @@ public class UserOpAction extends BaseAction {
 		}
 	}
 
+	/**
+	 * 更新前校验
+	 */
 	public void validateUpdate() {
 		// 查看用户名是否已存在
 		User user1 = userService.loadUser(Integer.parseInt(userId));
 		User user2 = userService.findUserByUserName(username);
 		// 可以找到，而且和自己的名字不同，则说明已经被占用
-		if (null != user2 && user1.getUserId() != user2.getUserId()) {
+		if (null != user2
+				&& (user1.getUserId().intValue() != user2.getUserId()
+						.intValue())) {
 			addFieldError("username", "用户名已被占用！");
 			// 更新页面数据
 			refreshData();
@@ -104,7 +120,7 @@ public class UserOpAction extends BaseAction {
 
 		// 查看手机号码是否已存在
 		// 可以找到，而且和自己的手机不同，则说明已经被占用
-		User user3 = userService.findUsersByCellphone(cellphone);
+		User user3 = userService.findUserByCellphone(cellphone);
 		if (null != user3 && !cellphone.equals(user1.getCellphone())) {
 			addFieldError("cellphone", "手机号码已被占用！");
 			// 更新页面数据
@@ -122,9 +138,12 @@ public class UserOpAction extends BaseAction {
 		this.setCellphone("");
 	}
 
-	// 增加一个save方法，对应一个处理逻辑
+	/**
+	 * 增加一个save方法，对应一个处理逻辑
+	 * 
+	 * @return
+	 */
 	public String save() {
-		String md5Password = "";
 		User user = new User();
 		if (null != username && !"".equals(username.trim())) {
 			user.setUsername(username);
@@ -137,7 +156,7 @@ public class UserOpAction extends BaseAction {
 		}
 
 		if (null != password && !"".equals(password.trim())) {
-			md5Password = Md5Util.getMD5Str(password + "{" + username + "}");
+			user.setPassword(password);
 		} else {
 			addFieldError("password", "密码不能为空！");
 			// 更新页面数据
@@ -153,11 +172,10 @@ public class UserOpAction extends BaseAction {
 			return INPUT;
 		}
 
-		user.setPassword(md5Password);
 		user.setLevelId(Constants.DEFAULT_LEVEL);
 		user.setUserStatus(true);
-
 		userService.saveUser(user);
+
 		// 默认给用户添加普通用户的角色
 		userRoleService.saveUserRole(user, new Role(Constants.DEFAULT_ROLE));
 
@@ -172,6 +190,11 @@ public class UserOpAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	/**
+	 * 更新
+	 * 
+	 * @return
+	 */
 	public String update() {
 		User user = null;
 		if (null != userId) {
@@ -194,9 +217,7 @@ public class UserOpAction extends BaseAction {
 			// 如果相同，则直接赋值后更新；
 			if (password.equals(user.getPassword())) {
 				user.setPassword(password);
-			}
-			// 如果不相同，则说明修改了密码，则需要加密后再存储
-			else {
+			} else { // 如果不相同，则说明修改了密码，则需要加密后再存储
 				String md5Password = Md5Util.getMD5Str(password + "{"
 						+ username + "}");
 				user.setPassword(md5Password);
@@ -230,6 +251,9 @@ public class UserOpAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	/**
+	 * 刷新页面数据
+	 */
 	@SuppressWarnings("unchecked")
 	public void refreshData() {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -242,22 +266,6 @@ public class UserOpAction extends BaseAction {
 		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
 		this.setLoginName(userDetail.getUser().getUsername());
-	}
-
-	public List<RoleLinkVo> getMenulist() {
-		return menulist;
-	}
-
-	public void setMenulist(List<RoleLinkVo> menulist) {
-		this.menulist = menulist;
-	}
-
-	public String getContextPath() {
-		return contextPath;
-	}
-
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
 	}
 
 	public List<UserVO> getUservos() {
@@ -308,14 +316,6 @@ public class UserOpAction extends BaseAction {
 		this.cellphone = cellphone;
 	}
 
-	public String[] getUserIds() {
-		return userIds;
-	}
-
-	public void setUserIds(String[] userIds) {
-		this.userIds = userIds;
-	}
-
 	public UserRoleService getUserRoleService() {
 		return userRoleService;
 	}
@@ -354,22 +354,6 @@ public class UserOpAction extends BaseAction {
 
 	public void setLeftRolesArray(String leftRolesArray) {
 		this.leftRolesArray = leftRolesArray;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getOperation() {
-		return operation;
-	}
-
-	public void setOperation(String operation) {
-		this.operation = operation;
 	}
 
 }

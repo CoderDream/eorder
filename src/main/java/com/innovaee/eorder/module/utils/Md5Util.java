@@ -1,25 +1,33 @@
 /***********************************************
- * Filename		: Md5Util.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : Md5Util.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.utils;
+
+import org.apache.log4j.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
-
 /**
  * @Title: Md5Util
  * @Description: MD5工具类
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class Md5Util {
-	private static final Logger logger = Logger.getLogger(Md5Util.class);
+
+	/** 日志对象 */
+	private static final Logger LOGGER = Logger.getLogger(Md5Util.class);
+	
+	
+	/** 最大的两位十六进制 */
+	public static final Integer HEX_MAX = 0xFF;
+	
 
 	/**
 	 * 获取MD5编码
@@ -33,27 +41,24 @@ public class Md5Util {
 
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");
-
 			messageDigest.reset();
-
 			messageDigest.update(str.getBytes("UTF-8"));
 		} catch (NoSuchAlgorithmException e) {
-			logger.error("NoSuchAlgorithmException caught!");
-			System.exit(-1);
+			LOGGER.error("NoSuchAlgorithmException caught!");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LOGGER.error("UnsupportedEncodingException caught!");
 		}
 
 		byte[] byteArray = messageDigest.digest();
 
 		StringBuffer md5StrBuff = new StringBuffer();
-
 		for (int i = 0; i < byteArray.length; i++) {
-			if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
+			if (Integer.toHexString(HEX_MAX & byteArray[i]).length() == 1) {
 				md5StrBuff.append("0").append(
-						Integer.toHexString(0xFF & byteArray[i]));
-			else
-				md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+						Integer.toHexString(HEX_MAX & byteArray[i]));
+			} else {
+				md5StrBuff.append(Integer.toHexString(HEX_MAX & byteArray[i]));
+			}
 		}
 
 		return md5StrBuff.toString();

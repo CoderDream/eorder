@@ -11,8 +11,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<!-- support spring annotation -->
 	<context:annotation-config />
-	<!-- 去哪个包扫描生成bean <context:component-scan base-package="com.innovaee.eorder.module.entity.*" 
-		/> -->
 
 	<bean id="databaseConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -115,28 +113,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- format: execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? 
-		name-pattern(param-pattern) throws-pattern?) -->
-
 	<aop:config proxy-target-class="false">
 		<aop:pointcut id="txPointcut"
 			expression="execution(* com.innovaee.eorder.module.service..*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
-	</aop:config>
-
-
-	<bean id="loggerUtility" class="com.innovaee.eorder.module.utils.log.LoggerUtility" />
-
-	<bean id="loggerUtilInterceptor"
-		class="com.innovaee.eorder.module.utils.interceptor.LoggerUtilInterceptor" />
-
-	<aop:config proxy-target-class="true">
-		<aop:aspect id="loggerAspect" ref="loggerUtilInterceptor">
-			<aop:pointcut id="logPointcut"
-				expression="execution(* com.innovaee.eorder.module..*.*(..))" />
-			<aop:before pointcut-ref="logPointcut" method="startInvoke" />
-			<aop:after pointcut-ref="logPointcut" method="endInvoke" />
-		</aop:aspect>
 	</aop:config>
 
 	<bean id="baseDAO" class="com.innovaee.eorder.module.dao.BaseDao"
@@ -178,25 +158,5 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		parent="baseService" />
 	<bean id="userRoleService" class="com.innovaee.eorder.module.service.UserRoleService"
 		parent="baseService" />
-
-	<!-- <bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.Md5PasswordEncoder" 
-		> </bean> -->
-
-	<bean id="authenticationProvider"
-		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-		<property name="hideUserNotFoundExceptions" value="false" />
-		<property name="userDetailsService" ref="authenticationService" />
-		<property name="passwordEncoder" ref="passwordEncode" />
-		<property name="saltSource" ref="saltSource" />
-	</bean>
-
-
-	<!-- 配置密码加密类 -->
-	<bean id="passwordEncode"
-		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
-	<bean id="saltSource"
-		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
-		<property name="userPropertyToUse" value="username" />
-	</bean>
 
 </beans>

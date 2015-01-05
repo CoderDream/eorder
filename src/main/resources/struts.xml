@@ -10,14 +10,9 @@
 	<constant name="struts.custom.i18n.resources" value="globalMessages" />
 
 	<package name="struts-base" namespace="/struts" extends="struts-default">
-		<!-- <result-types> </result-types> -->
 
 		<interceptors>
-			<interceptor name="loggerInterceptor"
-				class="com.innovaee.eorder.web.interceptor.LoggerInterceptor" />
-
 			<interceptor-stack name="eorderStack">
-				<interceptor-ref name="loggerInterceptor" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 

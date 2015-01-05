@@ -1,20 +1,11 @@
 /***********************************************
- * Filename		: RoleAction.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : RoleAction.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.web.action.admin.role;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.innovaee.eorder.module.entity.Function;
 import com.innovaee.eorder.module.entity.Role;
@@ -28,52 +19,70 @@ import com.innovaee.eorder.module.vo.RoleVO;
 import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.web.action.BaseAction;
 
-/**   
-* @Title: RoleAction 
-* @Description: 角色Action（查询和删除）
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+import org.apache.struts2.ServletActionContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/**
+ * @Title: RoleAction
+ * @Description: 角色Action（查询和删除）
+ *
+ * @version V1.0
+ */
 public class RoleAction extends BaseAction {
 
-	private static final long serialVersionUID = 1L;
-
-	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
-
-	private List<RoleLinkVo> list = new ArrayList<RoleLinkVo>();
-
+	/** 角色ID */
 	private String roleId;
-	private String roleName;
-	private String roleDesc;
-	private String[] roleIds;
 
+	/** 角色名称 */
+	private String roleName;
+
+	/** 角色描述 */
+	private String roleDesc;
+
+	/** 角色值对象列表 */
 	private List<RoleVO> rolevos = new ArrayList<RoleVO>();
 
+	/** 角色服务类对象 */
 	@Resource
 	private RoleService roleService;
 
+	/** 用户角色服务类 */
 	@Resource
 	private UserRoleService userRoleService;
 
+	/** 角色功能服务类 */
 	@Resource
 	private RoleFunctionService roleFunctionService;
 
+	/** 已有的功能列表 */
 	private List<Function> myFunctions = new ArrayList<Function>();
 
+	/** 剩余的功能列表 */
 	private List<Function> leftFunctions = new ArrayList<Function>();
 
+	/** 已有的功能数组 */
 	private String myFunctionsArray;
 
+	/** 剩余的功能数组 */
 	private String leftFunctionsArray;
 
-	private String contextPath;
-
+	/**
+	 * 刷新页面数据
+	 */
 	@SuppressWarnings("unchecked")
 	public void refreshData() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 		request.setAttribute("menulist", MenuUtil.getRoleLinkVOList());
-		List<RoleLinkVo> sessionMenulist= (List<RoleLinkVo>)session.getAttribute("menulist");
+		List<RoleLinkVo> sessionMenulist = (List<RoleLinkVo>) session
+				.getAttribute("menulist");
 		this.setMenulist(sessionMenulist);
 		rolevos = roleService.findAllRoleVOs();
 		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
@@ -81,17 +90,22 @@ public class RoleAction extends BaseAction {
 		this.setLoginName(userDetail.getUser().getUsername());
 	}
 
-	public String login() {
-		refreshData();
-		return SUCCESS;
-	}
-
+	/**
+	 * 进入角色页面
+	 * 
+	 * @return
+	 */
 	public String doRole() {
 		this.setMessage("");
 		refreshData();
 		return SUCCESS;
 	}
 
+	/**
+	 * 加载单个角色对象
+	 * 
+	 * @return
+	 */
 	public String doLoad() {
 		if (null != roleId) {
 			Role role = roleService.loadRole(Integer.parseInt(roleId));
@@ -108,28 +122,9 @@ public class RoleAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String doList() {
-		refreshData();
-		return SUCCESS;
-	}
-
-	public String doStore() {
-		Role role = new Role();
-		if (null != roleName && !"".equals(roleName.trim())) {
-			role.setRoleName(roleName);
-		}
-		if (null != roleDesc && !"".equals(roleDesc.trim())) {
-			role.setRoleDesc(roleDesc);
-		}
-
-		role.setRoleStatus(true);
-
-		roleService.saveRole(role);
-
-		refreshData();
-		return SUCCESS;
-	}
-
+	/**
+	 * 删除前的校验
+	 */
 	public void validateRemove() {
 		if (null != roleId) {
 			// 先判断用户角色关联关系，如果此角色已授权给某个用户，则不能删除
@@ -140,14 +135,19 @@ public class RoleAction extends BaseAction {
 
 				// 清空删除时传入的Id，防止返回后页面取到
 				this.setRoleId("");
-				
+
 				// 更新页面数据
 				refreshData();
 			}
 
 		}
 	}
-	
+
+	/**
+	 * 删除角色
+	 * 
+	 * @return
+	 */
 	public String remove() {
 		if (null != roleId) {
 			roleService.removeRole(Integer.parseInt(roleId));
@@ -160,26 +160,6 @@ public class RoleAction extends BaseAction {
 		refreshData();
 
 		return SUCCESS;
-	}
-	public String doRoleInfo() {
-		refreshData();
-		return SUCCESS;
-	}
-
-	public List<RoleLinkVo> getList() {
-		return list;
-	}
-
-	public void setList(List<RoleLinkVo> list) {
-		this.list = list;
-	}
-
-	public String getContextPath() {
-		return contextPath;
-	}
-
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
 	}
 
 	public List<RoleVO> getRolevos() {
@@ -222,14 +202,6 @@ public class RoleAction extends BaseAction {
 		this.roleDesc = roleDesc;
 	}
 
-	public String[] getRoleIds() {
-		return roleIds;
-	}
-
-	public void setRoleIds(String[] roleIds) {
-		this.roleIds = roleIds;
-	}
-
 	public RoleFunctionService getRoleFunctionService() {
 		return roleFunctionService;
 	}
@@ -268,14 +240,6 @@ public class RoleAction extends BaseAction {
 
 	public void setLeftFunctionsArray(String leftFunctionsArray) {
 		this.leftFunctionsArray = leftFunctionsArray;
-	}
-
-	public List<RoleLinkVo> getMenulist() {
-		return menulist;
-	}
-
-	public void setMenulist(List<RoleLinkVo> menulist) {
-		this.menulist = menulist;
 	}
 
 	public UserRoleService getUserRoleService() {

@@ -1,19 +1,18 @@
 /***********************************************
- * Filename		: FunctionAction.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : FunctionAction.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.web.action.admin.function;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -27,41 +26,53 @@ import com.innovaee.eorder.module.vo.RoleLinkVo;
 import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.web.action.BaseAction;
 
-/**   
-* @Title: FunctionAction 
-* @Description: 功能Action（查询和删除）
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: FunctionAction
+ * @Description: 功能Action（查询和删除）
+ *
+ * @version V1.0
+ */
 public class FunctionAction extends BaseAction {
 
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(FunctionAction.class);
-
-	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
-
+	/** 功能ID */
 	private String functionId;
+
+	/** 功能名称 */
 	private String functionName;
+
+	/** 功能描述 */
 	private String functionDesc;
+
+	/** 功能路径 */
 	private String functionPath;
+
+	/** 父功能ID */
 	private Integer functionParent;
+
+	/** 功能排序 */
 	private String functionOrder;
+
+	/** 功能值对象列表 */
 	private List<FunctionVO> functionvos;
 
+	/** 功能服务类对象 */
 	@Resource
 	private FunctionService functionService;
 
+	/** 角色功能服务类对象 */
 	@Resource
 	private RoleFunctionService roleFunctionService;
 
-	private String contextPath;
-
+	/**
+	 * 刷新页面数据
+	 */
 	@SuppressWarnings("unchecked")
 	public void refreshData() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 		request.setAttribute("menulist", MenuUtil.getRoleLinkVOList());
-		List<RoleLinkVo> sessionMenulist= (List<RoleLinkVo>)session.getAttribute("menulist");
+		List<RoleLinkVo> sessionMenulist = (List<RoleLinkVo>) session
+				.getAttribute("menulist");
 		this.setMenulist(sessionMenulist);
 		this.setMenulist(MenuUtil.getRoleLinkVOList());
 		functionvos = functionService.findAllFunctionVOs();
@@ -70,15 +81,23 @@ public class FunctionAction extends BaseAction {
 		this.setLoginName(userDetail.getUser().getUsername());
 	}
 
+	/**
+	 * 进入功能页面
+	 * 
+	 * @return
+	 */
 	public String doFunction() {
-		logger.debug("enter doFunction() method");
-
 		this.setMessage("");
 		// 更新页面数据
 		refreshData();
 		return SUCCESS;
 	}
 
+	/**
+	 * 加载单个功能信息
+	 * 
+	 * @return
+	 */
 	public String doLoad() {
 		if (null != functionId && !"".equals(functionId.trim())) {
 			Function function = functionService.loadFunction(Integer
@@ -96,12 +115,9 @@ public class FunctionAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String doList() {
-		// 更新页面数据
-		refreshData();
-		return SUCCESS;
-	}
-
+	/**
+	 * 删除功能前的校验
+	 */
 	public void validateRemove() {
 		if (null != functionId) {
 			// 先判断角色功能关联关系，如果此功能已授权给某个角色，则不能删除
@@ -112,13 +128,18 @@ public class FunctionAction extends BaseAction {
 
 				// 清空删除时传入的Id，防止返回后页面取到
 				this.setFunctionId("");
-				
+
 				// 更新页面数据
 				refreshData();
 			}
 		}
 	}
 
+	/**
+	 * 删除功能
+	 * 
+	 * @return
+	 */
 	public String remove() {
 		if (null != functionId) {
 			functionService.removeFunction(Integer.parseInt(functionId));
@@ -128,37 +149,11 @@ public class FunctionAction extends BaseAction {
 
 		// 清空删除时传入的Id，防止返回后页面取到
 		this.setFunctionId("");
-		
-		// 更新页面数据
-		refreshData();
-		
-		return SUCCESS;
-	}
-
-	public String doUserInfo() {
-		logger.debug("enter doUserInfo() method");
 
 		// 更新页面数据
 		refreshData();
+
 		return SUCCESS;
-	}
-
-	public String doRight() {
-		logger.debug("enter doRight() method");
-		return SUCCESS;
-	}
-
-	public String doBottom() {
-		logger.debug("enter doBottom() method");
-		return SUCCESS;
-	}
-
-	public List<RoleLinkVo> getMenulist() {
-		return menulist;
-	}
-
-	public void setMenulist(List<RoleLinkVo> menulist) {
-		this.menulist = menulist;
 	}
 
 	public RoleFunctionService getRoleFunctionService() {
@@ -167,14 +162,6 @@ public class FunctionAction extends BaseAction {
 
 	public void setRoleFunctionService(RoleFunctionService roleFunctionService) {
 		this.roleFunctionService = roleFunctionService;
-	}
-
-	public String getContextPath() {
-		return contextPath;
-	}
-
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
 	}
 
 	public List<FunctionVO> getFunctionvos() {

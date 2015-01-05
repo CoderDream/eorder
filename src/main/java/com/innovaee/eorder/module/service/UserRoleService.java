@@ -1,15 +1,13 @@
 /***********************************************
- * Filename		: UserRoleService.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : UserRoleService.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.service;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -26,20 +24,24 @@ import com.innovaee.eorder.module.utils.StringUtil;
 /**
  * @Title: UserRoleService
  * @Description: 用户角色服务
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class UserRoleService extends BaseService {
 
+	/** 用户角色数据访问对象 */
 	@Resource
 	private UserRoleDao userRoleDao;
 
+	/** 角色数据访问对象 */
 	@Resource
 	private RoleDao roleDao;
 
+	/** 用户数据访问对象 */
 	@Resource
 	private UserDao userDao;
 
+	/** 用户角色服务对象 */
 	@Resource
 	private UserRoleService userRoleService;
 
@@ -49,17 +51,23 @@ public class UserRoleService extends BaseService {
 	 * @return 用户角色列表
 	 */
 	public List<UserRole> findAllUserRoles() {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("查找所有用户角色");
+		}
 		return (List<UserRole>) userRoleDao.findAllUserRoles();
 	}
 
 	/**
 	 * 通过用户ID和角色ID查找用户角色
 	 * 
-	 * @param userId
-	 * @param roleId
-	 * @return
+	 * @param userId 用户ID
+	 * @param roleId 角色ID
+	 * @return 用户角色
 	 */
 	public UserRole findUserRoleByIds(Integer userId, Integer roleId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("通过用户ID和角色ID查找用户角色");
+		}
 		return userRoleDao.findUserRoleByIds(userId, roleId);
 	}
 
@@ -71,6 +79,9 @@ public class UserRoleService extends BaseService {
 	 * @return 用户角色列表
 	 */
 	public List<UserRole> findUserRolesByUserId(Integer userId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("通过用户ID查找该用户拥有的用户角色");
+		}
 		return (List<UserRole>) userRoleDao.findUserRolesByUserId(userId);
 	}
 
@@ -82,6 +93,9 @@ public class UserRoleService extends BaseService {
 	 * @return 用户角色列表
 	 */
 	public List<UserRole> findUserRolesByRoleId(Integer roleId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("通过角色ID查找对应的用户角色");
+		}
 		return (List<UserRole>) userRoleDao.findUserRolesByRoleId(roleId);
 	}
 
@@ -93,6 +107,9 @@ public class UserRoleService extends BaseService {
 	 * @return 角色列表
 	 */
 	public List<Role> findRolesByUserId(Integer userId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("通过该用户ID查找角色");
+		}
 		List<Role> roles = new ArrayList<Role>();
 		List<UserRole> userRoles = userRoleDao.findUserRolesByUserId(userId);
 		Role role = null;
@@ -112,6 +129,9 @@ public class UserRoleService extends BaseService {
 	 * @return 角色列表
 	 */
 	public List<Role> findLeftRolesByUserId(Integer roleId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("通过角色ID查找剩余的角色");
+		}
 		List<Role> leftRoles = new ArrayList<Role>();
 		List<Role> roles = new ArrayList<Role>();
 		List<UserRole> userRoles = userRoleDao.findUserRolesByUserId(roleId);
@@ -138,8 +158,11 @@ public class UserRoleService extends BaseService {
 	 *            待保存的用户角色
 	 * @return 被保存的用户角色
 	 */
-	public void saveUserRole(UserRole userRole) {
-		userRoleDao.saveUserRole(userRole);
+	public UserRole saveUserRole(UserRole userRole) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("保存用户角色");
+		}
+		return userRoleDao.saveUserRole(userRole);
 	}
 
 	/**
@@ -152,17 +175,17 @@ public class UserRoleService extends BaseService {
 	 * @return 用户角色
 	 */
 	public UserRole saveUserRole(User user, Role role) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("保存用户角色");
+		}
 		UserRole rtnUserRole = null;
-		User userDB = (User) userDao.get(user.getUserId());
-		Role roleDB = (Role) roleDao.get(role.getRoleId());
+		User userDB = (User) userDao.loadUser(user.getUserId());
+		Role roleDB = (Role) roleDao.loadRole(role.getRoleId());
 		UserRole userRole = null;
 		if (null != userDB && null != roleDB) {
 			Integer userId = userDB.getUserId();
 			Integer roleId = roleDB.getRoleId();
-			Timestamp createAt = Timestamp.valueOf(new SimpleDateFormat(
-					"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
-					.getTime()));
-			userRole = new UserRole(userId, roleId, createAt);
+			userRole = new UserRole(userId, roleId);
 			UserRole userRoleDB = (UserRole) userRoleDao.findUserRoleByIds(
 					userId, roleId);
 			// 如果DB不存在，就添加
@@ -182,9 +205,12 @@ public class UserRoleService extends BaseService {
 	 * @param role
 	 *            角色信息
 	 */
-	public void removeUserRole(User user, Role role) {
-		User userDB = (User) userDao.get(user.getUserId());
-		Role roleDB = (Role) roleDao.get(role.getRoleId());
+	private void removeUserRole(User user, Role role) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("删除用户角色");
+		}
+		User userDB = (User) userDao.loadUser(user.getUserId());
+		Role roleDB = (Role) roleDao.loadRole(role.getRoleId());
 		if (null != userDB && null != roleDB) {
 			Integer userId = userDB.getUserId();
 			Integer roleId = roleDB.getRoleId();
@@ -200,12 +226,15 @@ public class UserRoleService extends BaseService {
 	/**
 	 * 根据用户ID和已存在的角色ID更新用户的角色信息。 先删除已有的，后增加最新的
 	 * 
-	 * @param roleId
+	 * @param userId
 	 *            角色ID
-	 * @param myRoles
+	 * @param myRoleIds
 	 *            已有的角色ID列表字符串
 	 */
 	public void updateUserRole(Integer userId, String myRoleIds) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("更新用户角色");
+		}
 		// 1. 根据roleId获取DB中的roleId列表，然后删除；
 		List<UserRole> dbUserRoles = userRoleDao.findUserRolesByUserId(userId);
 		for (UserRole userRole : dbUserRoles) {
@@ -220,13 +249,4 @@ public class UserRoleService extends BaseService {
 		}
 	}
 
-	/**
-	 * 删除用户角色
-	 * 
-	 * @param userRole
-	 *            待删除的用户角色
-	 */
-	public void removeUserRole(Integer userRoleId) {
-		userRoleDao.removeUserRole(new UserRole(userRoleId));
-	}
 }

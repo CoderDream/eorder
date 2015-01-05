@@ -1,15 +1,13 @@
 /***********************************************
- * Filename		: RoleFunctionService.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : RoleFunctionService.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.service;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -26,56 +24,26 @@ import com.innovaee.eorder.module.utils.StringUtil;
 /**
  * @Title: RoleFunctionService
  * @Description: 角色功能服务
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class RoleFunctionService extends BaseService {
 
+	/** 角色功能数据访问对象 */
 	@Resource
 	private RoleFunctionDao roleFunctionDao;
 
+	/** 角色数据访问对象 */
 	@Resource
 	private RoleDao roleDao;
 
+	/** 功能数据访问对象 */
 	@Resource
 	private FunctionDao functionDao;
 
+	/** 角色功能服务对象 */
 	@Resource
 	private RoleFunctionService roleFunctionService;
-
-	/**
-	 * 查找所有角色功能
-	 * 
-	 * @return 角色功能列表
-	 */
-	public List<RoleFunction> findAllRoleFunctions() {
-		return (List<RoleFunction>) roleFunctionDao.findAllRoleFunctions();
-	}
-
-	/**
-	 * 通过角色ID和功能ID查找角色功能
-	 * 
-	 * @param roleId
-	 *            角色ID
-	 * @param functionId
-	 *            功能ID
-	 * @return 角色功能
-	 */
-	public RoleFunction findRoleFunctionByIds(Integer roleId, Integer functionId) {
-		return roleFunctionDao.findRoleFunctionByIds(roleId, functionId);
-	}
-
-	/**
-	 * 根据角色ID查找角色功能
-	 * 
-	 * @param roleId
-	 *            角色ID
-	 * @return 角色功能
-	 */
-	public List<RoleFunction> findRoleFunctionsByRoleId(Integer roleId) {
-		return (List<RoleFunction>) roleFunctionDao
-				.findRoleFunctionsByRoleId(roleId);
-	}
 
 	/**
 	 * 根据功能ID查找角色功能
@@ -85,6 +53,9 @@ public class RoleFunctionService extends BaseService {
 	 * @return 角色功能
 	 */
 	public List<RoleFunction> findRoleFunctionsByFunctionId(Integer functionId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据功能ID查找角色功能");
+		}
 		return (List<RoleFunction>) roleFunctionDao
 				.findRoleFunctionsByFunctionId(functionId);
 	}
@@ -97,6 +68,9 @@ public class RoleFunctionService extends BaseService {
 	 * @return 功能列表
 	 */
 	public List<Function> findFunctionsByRoleId(Integer roleId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据角色ID查找功能列表");
+		}
 		List<Function> functions = new ArrayList<Function>();
 		List<RoleFunction> roleFunctions = roleFunctionDao
 				.findRoleFunctionsByRoleId(roleId);
@@ -120,6 +94,9 @@ public class RoleFunctionService extends BaseService {
 	 * @return 功能列表
 	 */
 	public List<Function> findLeftFunctionsByRoleId(Integer roleId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据角色ID查找剩余的功能列表");
+		}
 		List<Function> leftFunctions = new ArrayList<Function>();
 		List<Function> functions = new ArrayList<Function>();
 		List<RoleFunction> roleFunctions = roleFunctionDao
@@ -147,16 +124,6 @@ public class RoleFunctionService extends BaseService {
 	}
 
 	/**
-	 * 保存角色功能
-	 * 
-	 * @param roleFunction
-	 *            待保存的角色功能
-	 */
-	public void saveRoleFunction(RoleFunction roleFunction) {
-		roleFunctionDao.saveRoleFunction(roleFunction);
-	}
-
-	/**
 	 * 根据角色对象和功能对象保存角色功能信息
 	 * 
 	 * @param role
@@ -165,19 +132,19 @@ public class RoleFunctionService extends BaseService {
 	 *            待保存的功能信息
 	 * @return 角色功能
 	 */
-	public RoleFunction saveRoleFunction(Role role, Function function) {
+	private RoleFunction saveRoleFunction(Role role, Function function) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据角色对象和功能对象保存角色功能信息");
+		}
 		RoleFunction rtnRoleFunction = null;
-		Role roleDB = (Role) roleDao.get(role.getRoleId());
-		Function functionDB = (Function) functionDao.get(function
+		Role roleDB = (Role) roleDao.loadRole(role.getRoleId());
+		Function functionDB = (Function) functionDao.loadFunction(function
 				.getFunctionId());
 		RoleFunction roleFunction = null;
 		if (null != roleDB && null != functionDB) {
 			Integer roleId = roleDB.getRoleId();
 			Integer functionId = functionDB.getFunctionId();
-			Timestamp createAt = Timestamp.valueOf(new SimpleDateFormat(
-					"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
-					.getTime()));
-			roleFunction = new RoleFunction(roleId, functionId, createAt);
+			roleFunction = new RoleFunction(roleId, functionId);
 			RoleFunction roleFunctionDB = (RoleFunction) roleFunctionDao
 					.findRoleFunctionByIds(roleId, functionId);
 			// 如果DB不存在，就添加
@@ -189,7 +156,7 @@ public class RoleFunctionService extends BaseService {
 				// 如果不存在，就添加该父功能
 				if (null == parentRoleFunctionDB) {
 					parentRoleFunctionDB = new RoleFunction(roleId,
-							parentFunctionId, createAt);
+							parentFunctionId);
 					rtnRoleFunction = roleFunctionDao
 							.saveRoleFunction(parentRoleFunctionDB);
 				}
@@ -210,23 +177,31 @@ public class RoleFunctionService extends BaseService {
 	 * @param function
 	 *            带移除的功能信息
 	 */
-	public void removeRoleFunction(Role role, Function function) {
-		Role roleDB = (Role) roleDao.get(role.getRoleId());
-		Function functionDB = (Function) functionDao.get(function
+	private void removeRoleFunction(Role role, Function function) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("移除功能角色");
+		}
+
+		// 1. 根据角色ID获取角色对象
+		Role roleDB = (Role) roleDao.loadRole(role.getRoleId());
+		// 2. 根据权限ID获取功能对象
+		Function functionDB = (Function) functionDao.loadFunction(function
 				.getFunctionId());
+
 		if (null != roleDB && null != functionDB) {
 			Integer roleId = roleDB.getRoleId();
 			Integer functionId = functionDB.getFunctionId();
+			// 1、根据角色ID和功能ID查找角色功能
 			RoleFunction roleFunctionDB = (RoleFunction) roleFunctionDao
 					.findRoleFunctionByIds(roleId, functionId);
-			// 如果DB不存在，就添加
+			// 2、如果数据库中存在此角色功能信息，就删除
 			if (null != roleFunctionDB) {
 				roleFunctionDao.removeRoleFunction(roleFunctionDB);
 			}
 
 			// 如果某功能组的所有功能都删除了，如果只剩下父功能对应的一条记录，则该父功能记录也要移除
 			// 先得到这个功能的父功能及其子功能在角色功能表中的记录列表
-			// 1、先通过parentFunctionId找到所有该功能的子功能
+			// 3、先通过parentFunctionId找到所有该功能的子功能
 			Integer parentFunctionId = functionDB.getFunctionParent();
 			List<Function> subFunctionList = functionDao
 					.findFunctionsByParentFunctionId(parentFunctionId);
@@ -235,35 +210,37 @@ public class RoleFunctionService extends BaseService {
 				subFunctionIdList.add(subFunction.getFunctionId());
 			}
 
-			List<RoleFunction> subRoleFunctionListDB = roleFunctionDao
-					.findParentRoleFunctionByIds(roleId, parentFunctionId);
-			// 如果不存在子功能，就删除该父功能
-			if (0 == subRoleFunctionListDB.size()) {
-				RoleFunction parentRoleFunction = new RoleFunction(roleId,
-						parentFunctionId);
-				roleFunctionDao.removeRoleFunction(parentRoleFunction);
+			// 4、通过父功能ID列表查找角色功能
+			List<RoleFunction> subRoleFunctionList = roleFunctionDao
+					.findRoleFunctionsByFunctionIds(subFunctionIdList);
+
+			// 5、如果不存在子功能，就删除该父功能
+			if (null == subRoleFunctionList || 0 == subRoleFunctionList.size()) {
+				// 5.1 通过角色ID和父功能ID查找角色功能列表
+				List<RoleFunction> parentRoleFunctionList = roleFunctionDao
+						.findParentRoleFunctionByIds(roleId, parentFunctionId);
+				if (null != parentRoleFunctionList
+						&& 0 < parentRoleFunctionList.size()) {
+					roleFunctionDao.removeRoleFunction(parentRoleFunctionList
+							.get(0));
+				}
+
 			}
 		}
-	}
-
-	/**
-	 * @param roleId
-	 * @param parentFunctionId
-	 * @return
-	 */
-	public List<RoleFunction> findRoleFunctionsByFunctionIds(Integer roleId,
-			final List<Integer> parentFunctionId) {
-		return roleFunctionDao.findRoleFunctionsByFunctionIds(roleId,
-				parentFunctionId);
 	}
 
 	/**
 	 * 先删除已有的，后增加最新的
 	 * 
 	 * @param roleId
-	 * @param myFunctions
+	 *            角色ID
+	 * @param myFunctionIds
+	 *            功能ID列表
 	 */
 	public void updateRoleFunction(Integer roleId, String myFunctionIds) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("更新功能角色");
+		}
 		// 1. 根据roleId获取DB中的functionId列表，然后删除；
 		List<RoleFunction> dbRoleFunctions = roleFunctionDao
 				.findRoleFunctionsByRoleId(roleId);
@@ -280,27 +257,4 @@ public class RoleFunctionService extends BaseService {
 		}
 	}
 
-	/**
-	 * 根据角色功能ID删除角色功能
-	 * 
-	 * @param roleFunctionId
-	 *            角色功能ID
-	 */
-	public void removeRoleFunction(Integer roleFunctionId) {
-		roleFunctionDao.removeRoleFunction(new RoleFunction(roleFunctionId));
-	}
-
-	/**
-	 * 批量删除功能
-	 * 
-	 * @param roleFunctionIds
-	 *            角色功能ID数组
-	 */
-	public void removeRoleFunctions(Integer[] roleFunctionIds) {
-		int length = roleFunctionIds.length;
-		for (int i = 0; i < length; i++) {
-			roleFunctionDao.removeRoleFunction(new RoleFunction(
-					roleFunctionIds[i]));
-		}
-	}
 }

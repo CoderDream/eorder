@@ -1,9 +1,10 @@
 /***********************************************
- * Filename		: StringUtil.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : StringUtil.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.utils;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * @Title: StringUtil
  * @Description: 字符串工具类
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class StringUtil {
@@ -59,5 +60,29 @@ public class StringUtil {
 		}
 
 		return list;
+	}
+
+	/**
+	 * 将整型列表串转成字符串，中间加逗号，末尾不加
+	 * 
+	 * @param list
+	 *            整型列表
+	 * @return 整型字符串
+	 */
+	public static String integerListToString(List<Integer> list) {
+
+		StringBuffer stringBuffer = new StringBuffer();
+		for (Integer integer : list) {
+			stringBuffer.append(integer.toString() + Constants.REGEX);
+		}
+
+		// 去掉末尾的逗号
+		if (null != stringBuffer && !"".equals(stringBuffer.toString().trim())
+				&& 0 < stringBuffer.toString().trim().length()) {
+			return stringBuffer.toString().substring(0,
+					stringBuffer.length() - 1);
+		}
+
+		return "";
 	}
 }

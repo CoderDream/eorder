@@ -1,17 +1,11 @@
 /***********************************************
- * Filename		: RoleService.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : RoleService.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.service;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.beans.BeanUtils;
 
 import com.innovaee.eorder.module.dao.FunctionDao;
 import com.innovaee.eorder.module.dao.RoleDao;
@@ -21,31 +15,32 @@ import com.innovaee.eorder.module.entity.Role;
 import com.innovaee.eorder.module.entity.RoleFunction;
 import com.innovaee.eorder.module.vo.RoleVO;
 
+import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 /**
  * @Title: RoleService
  * @Description: 角色服务
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 public class RoleService extends BaseService {
 
+	/** 角色数据访问对象 */
 	@Resource
 	private RoleDao roleDao;
 
+	/** 功能数据访问对象 */
 	@Resource
 	private FunctionDao functionDao;
 
+	/** 角色功能数据访问对象 */
 	@Resource
 	private RoleFunctionDao roleFunctionDao;
-
-	/**
-	 * 查找所有角色
-	 * 
-	 * @return 角色列表
-	 */
-	public List<Role> findAllRoles() {
-		return (List<Role>) roleDao.findAllRoles();
-	}
 
 	/**
 	 * 返回所有用户值对象
@@ -53,6 +48,9 @@ public class RoleService extends BaseService {
 	 * @return 角色值对象列表
 	 */
 	public List<RoleVO> findAllRoleVOs() {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("返回所有角色值对象");
+		}
 		List<RoleVO> rolevos = new ArrayList<RoleVO>();
 
 		List<RoleFunction> roleFunctions = null;
@@ -91,7 +89,10 @@ public class RoleService extends BaseService {
 	 * @return 角色
 	 */
 	public Role loadRole(Integer roleId) {
-		return (Role) roleDao.get(roleId);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("通过角色ID查找角色");
+		}
+		return (Role) roleDao.loadRole(roleId);
 	}
 
 	/**
@@ -102,6 +103,9 @@ public class RoleService extends BaseService {
 	 * @return 角色
 	 */
 	public Role findRoleByRoleName(String roleName) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据角色名称查找角色");
+		}
 		return (Role) roleDao.findRoleByRoleName(roleName);
 	}
 
@@ -113,6 +117,9 @@ public class RoleService extends BaseService {
 	 * @return 被保存的角色
 	 */
 	public Role saveRole(Role role) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("保存角色");
+		}
 		return roleDao.saveRole(role);
 	}
 
@@ -123,6 +130,9 @@ public class RoleService extends BaseService {
 	 *            待更新的角色
 	 */
 	public void updateRole(Role role) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("更新角色");
+		}
 		roleDao.updateRole(role);
 	}
 
@@ -133,6 +143,9 @@ public class RoleService extends BaseService {
 	 *            角色ID
 	 */
 	public void removeRole(Integer roleId) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("根据角色ID移除角色");
+		}
 		// 1. 先删除功能
 		List<RoleFunction> roleFunctions = roleFunctionDao
 				.findRoleFunctionsByRoleId(roleId);
@@ -144,16 +157,4 @@ public class RoleService extends BaseService {
 		roleDao.removeRole(new Role(roleId));
 	}
 
-	/**
-	 * 根据角色ID数组删除角色
-	 * 
-	 * @param roleIds
-	 *            角色ID数组
-	 */
-	public void removeRoles(String[] roleIds) {
-		int length = roleIds.length;
-		for (int i = 0; i < length; i++) {
-			roleDao.removeRole(new Role(Integer.parseInt(roleIds[i])));
-		}
-	}
 }

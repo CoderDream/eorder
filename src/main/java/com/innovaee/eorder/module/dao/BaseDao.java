@@ -1,36 +1,34 @@
 /***********************************************
- * Filename		: BaseEntity.java																								
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : BaseEntity.java    
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.module.dao;
 
-import java.io.Serializable;
+import com.innovaee.eorder.module.entity.BaseEntity;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.innovaee.eorder.module.entity.BaseEntity;
+import java.io.Serializable;
 
 /**
  * @Title: BaseDao
  * @Description: 所有DAO的基类
- * @author coderdream@gmail.com
+ *
  * @version V1.0
  */
 @SuppressWarnings("unchecked")
 public abstract class BaseDao extends HibernateDaoSupport {
-	@SuppressWarnings("rawtypes")
-	abstract protected Class getEntityClass();
-
 	/**
 	 * 获取实体
 	 * 
 	 * @param pk
 	 *            主键
-	 * @return
+	 * @return 获得的实体
 	 */
-	public BaseEntity get(Serializable pk) {
+	public BaseEntity get(final Serializable pk) {
 		return (BaseEntity) getHibernateTemplate().get(getEntityClass(), pk);
 	}
 
@@ -39,13 +37,14 @@ public abstract class BaseDao extends HibernateDaoSupport {
 	 * 
 	 * @param pk
 	 *            主键
-	 * @return
+	 * @return 被删除的实体
 	 */
-	public BaseEntity remove(Serializable pk) {
-		BaseEntity o = (BaseEntity) getHibernateTemplate().load(
+	public BaseEntity remove(final Serializable pk) {
+		BaseEntity baseEntity = (BaseEntity) getHibernateTemplate().load(
 				getEntityClass(), pk);
-		getHibernateTemplate().delete(o);
-		return o;
+		getHibernateTemplate().delete(baseEntity);
+
+		return baseEntity;
 	}
 
 	/**
@@ -55,8 +54,9 @@ public abstract class BaseDao extends HibernateDaoSupport {
 	 *            实体
 	 * @return 更新后的实体
 	 */
-	public BaseEntity update(BaseEntity entity) {
+	public BaseEntity update(final BaseEntity entity) {
 		getHibernateTemplate().update(entity);
+
 		return entity;
 	}
 
@@ -69,6 +69,15 @@ public abstract class BaseDao extends HibernateDaoSupport {
 	 */
 	public BaseEntity save(BaseEntity entity) {
 		getHibernateTemplate().save(entity);
+
 		return entity;
 	}
+
+	/**
+	 * 返回实体的类对象
+	 * 
+	 * @return 实体的类对象
+	 */
+	@SuppressWarnings("rawtypes")
+	protected abstract Class getEntityClass();
 }

@@ -1,12 +1,12 @@
 /***********************************************
- * Filename		: FunctionOpAction.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : FunctionOpAction.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.web.action.admin.function;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,35 +25,46 @@ import com.innovaee.eorder.module.vo.RoleLinkVo;
 import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.web.action.BaseAction;
 
-/**   
-* @Title: FunctionOpAction 
-* @Description: 功能操作Action（增加和修改）
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: FunctionOpAction
+ * @Description: 功能操作Action（增加和修改）
+ *
+ * @version V1.0
+ */
 public class FunctionOpAction extends BaseAction {
 
-	private static final long serialVersionUID = 1L;
-
-	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
-
+	/** 功能ID */
 	private String functionId;
+
+	/** 功能名称 */
 	private String functionName;
+
+	/** 功能描述 */
 	private String functionDesc;
+
+	/** 功能路径 */
 	private String functionPath;
+
+	/** 父功能ID */
 	private String functionParent;
+
+	/** 功能排序 */
 	private String functionOrder;
-	private String[] functionIds;
+
+	/** 功能值对象列表 */
 	private List<FunctionVO> functionvos;
 
+	/** 功能服务类对象 */
 	@Resource
 	private FunctionService functionService;
 
+	/** 角色功能服务类对象 */
 	@Resource
 	private RoleFunctionService roleFunctionService;
 
-	private String contextPath;
-
+	/**
+	 * 刷新页面数据
+	 */
 	@SuppressWarnings("unchecked")
 	public void refreshData() {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -69,10 +80,18 @@ public class FunctionOpAction extends BaseAction {
 		this.setLoginName(userDetail.getUser().getUsername());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	public void validate() {
 		refreshData();
 	}
 
+	/**
+	 * 保存前的校验
+	 */
 	public void validateSave() {
 		// 查看用户名是否已存在
 		Function function = functionService
@@ -87,6 +106,9 @@ public class FunctionOpAction extends BaseAction {
 		checkFunctionParentId();
 	}
 
+	/**
+	 * 修改前的校验
+	 */
 	public void validateUpdate() {
 		// 查看用户名是否已存在
 		Function function1 = functionService.loadFunction(Integer
@@ -95,7 +117,7 @@ public class FunctionOpAction extends BaseAction {
 				.findFunctionByFunctionName(functionName);
 		// 可以找到，而且和自己的名字不同，则说明已经被占用
 		if (null != function2
-				&& function1.getFunctionId() != function2.getFunctionId()) {
+				&& function1.getFunctionId().equals(function2.getFunctionId())) {
 			addFieldError("functionName", "功能名称已被占用！");
 			// 更新页面数据
 			refreshData();
@@ -105,6 +127,11 @@ public class FunctionOpAction extends BaseAction {
 		checkFunctionParentId();
 	}
 
+	/**
+	 * 检查父功能ID是否有效
+	 * 
+	 * @return
+	 */
 	private String checkFunctionParentId() {
 		if (null != functionParent && !"".equals(functionParent.trim())) {
 			int parentFunctionId = -1;
@@ -145,6 +172,11 @@ public class FunctionOpAction extends BaseAction {
 
 	}
 
+	/**
+	 * 保存功能
+	 * 
+	 * @return
+	 */
 	public String save() {
 		Function function = new Function();
 		if (null != functionName && !"".equals(functionName.trim())) {
@@ -217,6 +249,11 @@ public class FunctionOpAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	/**
+	 * 更新功能
+	 * 
+	 * @return
+	 */
 	public String update() {
 		Function function = null;
 		if (null != functionId) {
@@ -310,14 +347,6 @@ public class FunctionOpAction extends BaseAction {
 		this.roleFunctionService = roleFunctionService;
 	}
 
-	public String getContextPath() {
-		return contextPath;
-	}
-
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
-	}
-
 	public List<FunctionVO> getFunctionvos() {
 		return functionvos;
 	}
@@ -340,14 +369,6 @@ public class FunctionOpAction extends BaseAction {
 
 	public void setFunctionId(String functionId) {
 		this.functionId = functionId;
-	}
-
-	public String[] getFunctionIds() {
-		return functionIds;
-	}
-
-	public void setFunctionIds(String[] functionIds) {
-		this.functionIds = functionIds;
 	}
 
 	public String getFunctionName() {

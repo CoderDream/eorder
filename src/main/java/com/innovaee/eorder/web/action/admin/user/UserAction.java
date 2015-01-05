@@ -1,9 +1,10 @@
 /***********************************************
- * Filename		: UserAction.java																									: DishService.java
- * Copyright  	: Copyright (c) 2014
- * Company    	: Innovaee
- * Created	    : 11/27/2014
+ * Filename        : UserAction.java 
+ * Copyright      : Copyright (c) 2014
+ * Company        : Innovaee
+ * Created        : 11/27/2014
  ************************************************/
+
 package com.innovaee.eorder.web.action.admin.user;
 
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -27,63 +27,65 @@ import com.innovaee.eorder.module.vo.UserDetailsVo;
 import com.innovaee.eorder.module.vo.UserVO;
 import com.innovaee.eorder.web.action.BaseAction;
 
-/**   
-* @Title: UserAction 
-* @Description: 用户Action（查找和删除）
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: UserAction
+ * @Description: 用户Action（查找和删除）
+ *
+ * @version V1.0
+ */
 public class UserAction extends BaseAction {
 
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(UserAction.class);
-
-	private List<RoleLinkVo> menulist = new ArrayList<RoleLinkVo>();
-
+	/** 用户ID */
 	private String userId;
-	private String username;
-	private String password;
-	private String cellphone;
-	private String[] userIds;
 
+	/** 用户名称 */
+	private String username;
+
+	/** 密码 */
+	private String password;
+
+	/** 电话号码 */
+	private String cellphone;
+
+	/** 用户值对象列表 */
 	private List<UserVO> uservos = new ArrayList<UserVO>();
 
-	private String message = "";
-
+	/** 用户服务类对象 */
 	@Resource
 	private UserService userService;
 
+	/** 用户角色服务类对象 */
 	@Resource
 	private UserRoleService userRoleService;
 
+	/** 已有的角色列表 */
 	private List<Role> myRoles = new ArrayList<Role>();
 
+	/** 剩余的角色列表 */
 	private List<Role> leftRoles = new ArrayList<Role>();
 
+	/** 已有的角色数组 */
 	private String myRolesArray;
 
+	/** 剩余的角色数组 */
 	private String leftRolesArray;
 
-	private String contextPath;
-
-	private String operation;
-
-	public String login() {
-		logger.debug("enter login() method");
-
-		// 更新页面数据
-		refreshData();
-		return SUCCESS;
-	}
-
+	/**
+	 * 进入用户管理页面
+	 * 
+	 * @return
+	 */
 	public String doUser() {
-		logger.debug("enter doUser() method");
-
 		// 更新页面数据
 		refreshData();
 		return SUCCESS;
 	}
 
+	/**
+	 * 加载单个用户信息
+	 * 
+	 * @return
+	 */
 	public String doLoad() {
 		if (null != userId) {
 			User user = userService.loadUser(Integer.parseInt(userId));
@@ -103,18 +105,16 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String doList() {
-		// 更新页面数据
-		refreshData();
-		return SUCCESS;
-	}
-
+	/**
+	 * 刷新页面数据
+	 */
 	@SuppressWarnings("unchecked")
 	public void refreshData() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 		request.setAttribute("menulist", MenuUtil.getRoleLinkVOList());
-		List<RoleLinkVo> sessionMenulist= (List<RoleLinkVo>)session.getAttribute("menulist");
+		List<RoleLinkVo> sessionMenulist = (List<RoleLinkVo>) session
+				.getAttribute("menulist");
 		this.setMenulist(sessionMenulist);
 		uservos = userService.findAllUserVOs();
 		UserDetailsVo userDetail = (UserDetailsVo) SecurityContextHolder
@@ -122,52 +122,23 @@ public class UserAction extends BaseAction {
 		this.setLoginName(userDetail.getUser().getUsername());
 	}
 
+	/**
+	 * 删除用户
+	 * 
+	 * @return
+	 */
 	public String doRemove() {
 		if (null != userId) {
 			userService.removeUser(Integer.parseInt(userId));
-		} 
+		}
 
 		this.setMessage("删除成功！");
-		
+
 		// 清空删除时传入的Id，防止返回后页面取到
 		this.setUserId("");
 		// 更新页面数据
 		refreshData();
 		return SUCCESS;
-	}
-
-	public String doUserInfo() {
-		logger.debug("enter doUserInfo() method");
-
-		// 更新页面数据
-		refreshData();
-		return SUCCESS;
-	}
-
-	public String doRight() {
-		logger.debug("enter doRight() method");
-		return SUCCESS;
-	}
-
-	public String doBottom() {
-		logger.debug("enter doBottom() method");
-		return SUCCESS;
-	}
-
-	public List<RoleLinkVo> getMenulist() {
-		return menulist;
-	}
-
-	public void setMenulist(List<RoleLinkVo> menulist) {
-		this.menulist = menulist;
-	}
-
-	public String getContextPath() {
-		return contextPath;
-	}
-
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
 	}
 
 	public List<UserVO> getUservos() {
@@ -218,14 +189,6 @@ public class UserAction extends BaseAction {
 		this.cellphone = cellphone;
 	}
 
-	public String[] getUserIds() {
-		return userIds;
-	}
-
-	public void setUserIds(String[] userIds) {
-		this.userIds = userIds;
-	}
-
 	public UserRoleService getUserRoleService() {
 		return userRoleService;
 	}
@@ -264,22 +227,6 @@ public class UserAction extends BaseAction {
 
 	public void setLeftRolesArray(String leftRolesArray) {
 		this.leftRolesArray = leftRolesArray;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getOperation() {
-		return operation;
-	}
-
-	public void setOperation(String operation) {
-		this.operation = operation;
 	}
 
 }
